@@ -58,6 +58,13 @@ sudo apt install gnome-tweaks -y
 sudo update-alternatives --config gdm-theme.gresource
 }
 
+install_adwgtk3() {
+    wget https://github.com/lassekongo83/adw-gtk3/releases/download/v4.6/adw-gtk3v4-6.tar.xz -O /tmp/adw-gtk3.tar.xz
+    mkdir -p ~/.local/share/themes 
+    tar -xvf /tmp/adw-gtk3.tar.xz -C ~/.local/share/themes
+    gsettings set org.gnome.desktop.interface gtk-theme 'adw-gtk3-dark' && gsettings set org.gnome.desktop.interface color-scheme 'prefer-dark'
+}
+
 msg() {
     echo '[*] '$1
 }
@@ -83,7 +90,11 @@ msg 'Setting up flathub'
 setup_flathub
 msg 'Installing vanilla Gnome session'
 setup_vanilla_gnome
+msg 'Install adw-gtk3 and set dark theme'
+install_adwgtk3
 msg 'Cleaning up'
+cleanup
+msg Reboot now to finish installation
 }
 
 main
