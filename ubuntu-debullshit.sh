@@ -53,7 +53,7 @@ sudo apt install --install-suggests gnome-software -y
 
 setup_vanilla_gnome() {
 sudo apt install gnome-session -y
-sudo apt install fonts-cantarell adwaita-icon-theme-full -y
+sudo apt install fonts-cantarell adwaita-icon-theme-full gnome-backgrounds -y
 sudo apt install gnome-tweaks -y
 sudo update-alternatives --config gdm-theme.gresource
 }
