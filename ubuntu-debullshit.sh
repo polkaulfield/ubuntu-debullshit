@@ -5,7 +5,6 @@ sudo ubuntu-report send no
 sudo apt remove ubuntu-report -y
 }
 
-
 remove_appcrash_popup() {
 sudo apt remove apport apport-gtk -y
 }
@@ -19,12 +18,10 @@ sudo snap remove --purge snap-store
 sudo snap remove --purge core22
 sudo snap remove --purge bare
 sudo snap remove --purge snapd
-sudo apt remove --autoremove snapd
 sudo systemctl stop snapd
 sudo systemctl disable snapd
 sudo systemctl mask snapd
 sudo apt purge snapd -y
-sudo apt-mark hold snapd
 rm -rf ~/snap/
 sudo rm -rf /snap
 sudo rm -rf /var/snap
@@ -55,7 +52,7 @@ setup_vanilla_gnome() {
 sudo apt install gnome-session -y
 sudo apt install fonts-cantarell adwaita-icon-theme-full gnome-backgrounds -y
 sudo apt install gnome-tweaks -y
-sudo update-alternatives --config gdm-theme.gresource
+sudo update-alternatives --set gdm-theme.gresource /usr/share/gnome-shell/gnome-shell-theme.gresource
 }
 
 install_adwgtk3() {
