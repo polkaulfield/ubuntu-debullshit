@@ -1,4 +1,4 @@
-# ubuntu-debullshit
+# ubuntu-debullshit!
 
 ![Screenshot](https://raw.githubusercontent.com/polkaulfield/ubuntu-debullshit/main/screenshot.png)
 
