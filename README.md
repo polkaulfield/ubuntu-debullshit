@@ -1,6 +1,8 @@
 # ubuntu-debullshit
 Purges snaps, installs flatpaks, and restores vanilla GNOME
 
+![Screenshot]([http://url/to/img.png](https://raw.githubusercontent.com/polkaulfield/ubuntu-debullshit/main/screenshot.png))
+
 Clone and run the script in the repo or use this oneliner: 
 
 `bash -c "$(wget -qO- https://raw.githubusercontent.com/polkaulfield/ubuntu-debullshit/main/ubuntu-debullshit.sh)"`
