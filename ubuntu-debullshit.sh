@@ -87,6 +87,27 @@ echo '                           _
  '
 }
 
+reboot_yes_no() {
+  while true; do
+    read -p "Do you want to reboot now? [y/n]: " yn
+    yn=$(echo $yn | tr '[:upper:]' '[:lower:]') # convert input to lowercase
+    case $yn in
+      yes|y)
+        echo "Rebooting, please wait..."
+        sudo shutdown -r
+        break
+        ;;
+      no|n)
+        echo "Enjoy! :)"
+        break
+        ;;
+      *)
+        echo "Please answer yes or no."
+        ;;
+    esac
+  done
+}
+
 main() {
 	print_banner
 	check_normal_user
@@ -109,6 +130,7 @@ main() {
 	msg 'Cleaning up'
 	cleanup
 	msg 'Reboot now to finish installation'
+	reboot_yes_no
 }
 
 main
