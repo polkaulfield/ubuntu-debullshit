@@ -75,8 +75,7 @@ echo '                           _
  |_| |_) |_| | | |_ |_|   |_/ (/_ |_) |_| | | _> | | |  |_ 
  
 
- By @polkaulfield
- '
+ By @polkaulfield'
 }
 
 main() {
@@ -98,7 +97,7 @@ msg 'Install adw-gtk3 and set dark theme'
 install_adwgtk3
 msg 'Cleaning up'
 cleanup
-msg Reboot now to finish installation
+msg 'Reboot now to finish installation'
 }
 
 main
