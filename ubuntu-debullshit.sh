@@ -72,6 +72,7 @@ check_normal_user() {
 		echo It will prompt you for password when necessary
 		exit
 	fi
+	msg 'This script requires elevated privileges to run some commands:'
 	sudo -k
 	sudo true
 }
