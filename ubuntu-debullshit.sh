@@ -53,6 +53,7 @@ sudo apt install gnome-session -y
 sudo apt install fonts-cantarell adwaita-icon-theme-full gnome-backgrounds -y
 sudo apt install gnome-tweaks -y
 sudo update-alternatives --set gdm-theme.gresource /usr/share/gnome-shell/gnome-shell-theme.gresource
+sudo apt remove ubuntu-session -y
 }
 
 install_adwgtk3() {
