@@ -51,7 +51,7 @@ sudo apt remove ubuntu-session -y
 
 install_adwgtk3() {
 wget https://github.com/lassekongo83/adw-gtk3/releases/download/v4.6/adw-gtk3v4-6.tar.xz -O /tmp/adw-gtk3.tar.xz
-sudo tar -xvf /tmp/adw-gtk3.tar.xz -C /usr/share/themes
+sudo tar -xvf /tmp/adw-gtk3.tar.xz -C /usr/local/share/themes
 flatpak install -y runtime/org.gtk.Gtk3theme.adw-gtk3-dark/x86_64/3.22
 flatpak install -y runtime/org.gtk.Gtk3theme.adw-gtk3/x86_64/3.22
 gsettings set org.gnome.desktop.interface gtk-theme 'adw-gtk3-dark'
