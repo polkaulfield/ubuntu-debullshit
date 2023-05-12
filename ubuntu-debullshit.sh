@@ -96,7 +96,7 @@ msg 'Install adw-gtk3 and set dark theme'
 install_adwgtk3
 msg 'Cleaning up'
 cleanup
-msg Reboot now to finish installation
+msg 'Reboot now to finish installation. Dont forget to select the GNOME session when logging in'
 }
 
 main
