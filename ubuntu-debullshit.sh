@@ -46,6 +46,7 @@ sudo apt install --install-suggests gnome-software -y
 setup_vanilla_gnome() {
 sudo apt install gnome-session fonts-cantarell adwaita-icon-theme-full gnome-backgrounds gnome-tweaks -y
 sudo update-alternatives --set gdm-theme.gresource /usr/share/gnome-shell/gnome-shell-theme.gresource
+sudo apt remove ubuntu-session -y
 }
 
 install_adwgtk3() {
@@ -74,7 +75,8 @@ echo '                           _
  |_| |_) |_| | | |_ |_|   |_/ (/_ |_) |_| | | _> | | |  |_ 
  
 
- By @polkaulfield'
+ By @polkaulfield
+ '
 }
 
 main() {
@@ -96,7 +98,7 @@ msg 'Install adw-gtk3 and set dark theme'
 install_adwgtk3
 msg 'Cleaning up'
 cleanup
-msg 'Reboot now to finish installation. Dont forget to select the GNOME session when logging in'
+msg Reboot now to finish installation
 }
 
 main
