@@ -56,6 +56,10 @@ gsettings set org.gnome.desktop.interface gtk-theme 'adw-gtk3-dark'
 gsettings set org.gnome.desktop.interface color-scheme 'prefer-dark'
 }
 
+restore_firefox() {
+flatpak install -y app/org.mozilla.firefox/x86_64/stable
+}
+
 msg() {
 tput setaf 2; echo '[*] '$1; tput sgr0
 }
@@ -75,7 +79,8 @@ echo '                           _
  |_| |_) |_| | | |_ |_|   |_/ (/_ |_) |_| | | _> | | |  |_ 
  
 
- By @polkaulfield'
+ By @polkaulfield
+ '
 }
 
 main() {
@@ -91,6 +96,8 @@ msg 'Deleting everything snap related'
 remove_snaps
 msg 'Setting up flathub'
 setup_flathub
+msg 'Restoring Firefox as a flatpak'
+restore_firefox
 msg 'Installing vanilla Gnome session'
 setup_vanilla_gnome
 msg 'Install adw-gtk3 and set dark theme'
