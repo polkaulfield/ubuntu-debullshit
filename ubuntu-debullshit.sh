@@ -21,7 +21,7 @@ remove_snaps() {
 	sudo systemctl mask snapd
 	sudo apt purge snapd -y
 	sudo rm -rf ~/snap/ /snap /var/lib/snapd
-	sudo cat <<-EOF | sudo tee /etc/apt/preferences.d/nosnap.pref
+	cat <<-EOF | sudo tee /etc/apt/preferences.d/nosnap.pref
 	Package: snapd
 	Pin: release a=*
 	Pin-Priority: -10
@@ -72,6 +72,7 @@ check_normal_user() {
 		echo It will prompt you for password when necessary
 		exit
 	fi
+	sudo -k
 	sudo true
 }
 
