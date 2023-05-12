@@ -10,22 +10,17 @@ sudo apt remove apport apport-gtk -y
 }
 
 remove_snaps() {
-sudo snap remove --purge firefox
-sudo snap remove --purge gtk-common-themes
-sudo snap remove --purge gnome-42-2204
-sudo snap remove --purge snapd-desktop-integration
-sudo snap remove --purge snap-store
-sudo snap remove --purge core22
-sudo snap remove --purge bare
-sudo snap remove --purge snapd
+while [ $(snap list | wc -l) -gt 0 ]; do
+    for snap in $(snap list | tail -n +2 | cut -d ' ' -f 1); do
+        sudo snap remove --purge $snap
+    done
+done
+
 sudo systemctl stop snapd
 sudo systemctl disable snapd
 sudo systemctl mask snapd
 sudo apt purge snapd -y
-rm -rf ~/snap/
-sudo rm -rf /snap
-sudo rm -rf /var/snap
-sudo rm -rf /var/lib/snapd
+sudo rm -rf ~/snap/ /snap /var/lib/snapd
 sudo cat <<EOF | sudo tee /etc/apt/preferences.d/nosnap.pref
 Package: snapd
 Pin: release a=*
@@ -49,33 +44,42 @@ sudo apt install --install-suggests gnome-software -y
 }
 
 setup_vanilla_gnome() {
-sudo apt install gnome-session -y
-sudo apt install fonts-cantarell adwaita-icon-theme-full gnome-backgrounds -y
-sudo apt install gnome-tweaks -y
+sudo apt install gnome-session fonts-cantarell adwaita-icon-theme-full gnome-backgrounds gnome-tweaks -y
 sudo update-alternatives --set gdm-theme.gresource /usr/share/gnome-shell/gnome-shell-theme.gresource
-sudo apt remove ubuntu-session -y
 }
 
 install_adwgtk3() {
-    wget https://github.com/lassekongo83/adw-gtk3/releases/download/v4.6/adw-gtk3v4-6.tar.xz -O /tmp/adw-gtk3.tar.xz
-    mkdir -p ~/.local/share/themes 
-    tar -xvf /tmp/adw-gtk3.tar.xz -C ~/.local/share/themes
-    gsettings set org.gnome.desktop.interface gtk-theme 'adw-gtk3-dark' && gsettings set org.gnome.desktop.interface color-scheme 'prefer-dark'
+wget https://github.com/lassekongo83/adw-gtk3/releases/download/v4.6/adw-gtk3v4-6.tar.xz -O /tmp/adw-gtk3.tar.xz
+sudo tar -xvf /tmp/adw-gtk3.tar.xz -C /usr/share/themes
+gsettings set org.gnome.desktop.interface gtk-theme 'adw-gtk3-dark'
+gsettings set org.gnome.desktop.interface color-scheme 'prefer-dark'
 }
 
 msg() {
-    echo '[*] '$1
+tput setaf 2; echo '[*] '$1; tput sgr0
+}
+
+check_normal_user() {
+if [ $(id -u) -eq 0 ]; then
+    echo Please run the script as you normal user!
+    echo It will prompt you for password when necessary
+    exit
+fi
+sudo true
 }
 
 print_banner() {
-    echo '                           _                               
+echo '                           _                               
  | | |_      ._ _|_       | \  _  |_      | |  _ |_  o _|_ 
  |_| |_) |_| | | |_ |_|   |_/ (/_ |_) |_| | | _> | | |  |_ 
- '
+ 
+
+ By @polkaulfield'
 }
 
 main() {
 print_banner
+check_normal_user
 msg 'Updating system'
 update_system
 msg 'Disabling ubuntu report'
