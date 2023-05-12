@@ -68,8 +68,8 @@ msg() {
 
 check_normal_user() {
 	if [ "$(id -u)" -eq 0 ]; then
-		echo Please run the script as you normal user!
-		echo It will prompt you for password when necessary
+		echo 'Please run the script as your normal user!'
+		echo 'It will prompt you for password when necessary'
 		exit
 	fi
 	sudo -k
