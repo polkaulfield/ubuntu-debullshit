@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
 disable_ubuntu_report() {
 	sudo ubuntu-report send no
@@ -10,9 +10,9 @@ remove_appcrash_popup() {
 }
 
 remove_snaps() {
-	while [ $(snap list | wc -l) -gt 0 ]; do
+	while [ "$(snap list | wc -l)" -gt 0 ]; do
 		for snap in $(snap list | tail -n +2 | cut -d ' ' -f 1); do
-			sudo snap remove --purge $snap
+			sudo snap remove --purge "$snap"
 		done
 	done
 
@@ -63,11 +63,11 @@ restore_firefox() {
 }
 
 msg() {
-	tput setaf 2; echo '[*] '$1; tput sgr0
+	tput setaf 2; echo "[*] $1"; tput sgr0
 }
 
 check_normal_user() {
-	if [ $(id -u) -eq 0 ]; then
+	if [ "$(id -u)" -eq 0 ]; then
 		echo Please run the script as you normal user!
 		echo It will prompt you for password when necessary
 		exit
