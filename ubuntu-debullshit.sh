@@ -58,8 +58,27 @@ install_adwgtk3() {
 	gsettings set org.gnome.desktop.interface color-scheme 'prefer-dark'
 }
 
+install_icons() {
+    wget https://deb.debian.org/debian/pool/main/a/adwaita-icon-theme/adwaita-icon-theme_43-1_all.deb -O /tmp/adwaita-icon-theme.deb
+    sudo apt install /tmp/adwaita-icon-theme.deb -y
+}
+
 restore_firefox() {
 	flatpak install -y app/org.mozilla.firefox/x86_64/stable
+}
+
+ask_reboot() {
+    echo 'Reboot now? (y/n)'
+    while true; do
+        read choice
+        if [[ "$choice" == 'y' || "$choice" == 'Y' ]]; then
+            sudo reboot
+            exit 0
+        fi
+        if [[ "$choice" == 'n' || "$choice" == 'N' ]]; then
+            break
+        fi
+    done
 }
 
 msg() {
@@ -86,9 +105,83 @@ echo '                           _
  '
 }
 
+show_menu() {
+    echo 'Choose what to do: '
+    echo '1 - Apply everything (RECOMMENDED)'
+    echo '2 - Disable Ubuntu report'
+    echo '3 - Remove app crash popup'
+    echo '4 - Remove snaps and snapd'
+    echo '5 - Install flathub and gnome-software'
+    echo '6 - Install firefox flatpak'
+    echo '7 - Install vanilla GNOME session'
+    echo '8 - Install adw-gtk3 and latest adwaita icons'
+    echo 'q - Exit'
+}
+
 main() {
-	print_banner
 	check_normal_user
+    while true; do
+        print_banner
+        show_menu
+        read -p 'Enter your choice: ' choice
+        case $choice in
+            1)
+                auto
+                msg 'Done!'
+                ask_reboot
+            ;;
+            2)
+                disable_ubuntu_report
+                msg 'Done!'
+            ;;
+            3)
+                remove_appcrash_popup
+                msg 'Done!'
+            ;;
+            4)
+                remove_snaps
+                msg 'Done!'
+                ask_reboot
+            ;;
+            5)
+                update_system
+                setup_flathub
+                msg 'Done!'
+                ask_reboot
+            ;;
+            6)
+                restore_firefox
+                msg 'Done!'
+            ;;
+            7)
+                update_system
+                setup_vanilla_gnome
+                msg 'Done!'
+                ask_reboot
+            ;;
+
+            8)
+                update_system
+                install_adwgtk3
+                install_icons
+                msg 'Done!'
+                ask_reboot
+            ;;
+
+
+            q)
+                exit 0
+            ;;
+
+            *)
+                echo 'Wrong input'
+            ;;
+        esac
+    done
+
+}
+
+auto() {
 	msg 'Updating system'
 	update_system
 	msg 'Disabling ubuntu report'
@@ -104,10 +197,11 @@ main() {
 	msg 'Installing vanilla Gnome session'
 	setup_vanilla_gnome
 	msg 'Install adw-gtk3 and set dark theme'
-	install_adwgtk3
+    install_adwgtk3
+    msg 'Installing GNOME 43 icons'
+	install_icons
 	msg 'Cleaning up'
 	cleanup
-	msg 'Reboot now to finish installation'
 }
 
 main
