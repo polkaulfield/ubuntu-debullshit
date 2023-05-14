@@ -1,27 +1,30 @@
 #!/usr/bin/env bash
 
 disable_ubuntu_report() {
-    sudo ubuntu-report send no
-    sudo apt remove ubuntu-report -y
+    ubuntu-report send no
+    apt remove ubuntu-report -y
 }
 
 remove_appcrash_popup() {
-    sudo apt remove apport apport-gtk -y
+    apt remove apport apport-gtk -y
 }
 
 remove_snaps() {
     while [ "$(snap list | wc -l)" -gt 0 ]; do
         for snap in $(snap list | tail -n +2 | cut -d ' ' -f 1); do
-            sudo snap remove --purge "$snap"
+            snap remove --purge "$snap"
         done
     done
 
-    sudo systemctl stop snapd
-    sudo systemctl disable snapd
-    sudo systemctl mask snapd
-    sudo apt purge snapd -y
-    sudo rm -rf ~/snap/ /snap /var/lib/snapd
-    cat <<-EOF | sudo tee /etc/apt/preferences.d/nosnap.pref
+    systemctl stop snapd
+    systemctl disable snapd
+    systemctl mask snapd
+    apt purge snapd -y
+    rm -rf /snap /var/lib/snapd
+    for userpath in /home/*; do
+        rm -rf $userpath/snap
+    done
+    cat <<-EOF | tee /etc/apt/preferences.d/nosnap.pref
 	Package: snapd
 	Pin: release a=*
 	Pin-Priority: -10
@@ -29,37 +32,39 @@ remove_snaps() {
 }
 
 update_system() {
-    sudo apt update && sudo apt upgrade -y
+    apt update && apt upgrade -y
 }
 
 cleanup() {
-    sudo apt autoremove -y
+    apt autoremove -y
 }
 
 setup_flathub() {
-    sudo apt install flatpak -y
-    sudo flatpak remote-add --if-not-exists flathub https://flathub.org/repo/flathub.flatpakrepo
-    sudo apt install --install-suggests gnome-software -y
+    apt install flatpak -y
+    flatpak remote-add --if-not-exists flathub https://flathub.org/repo/flathub.flatpakrepo
+    apt install --install-suggests gnome-software -y
 }
 
 setup_vanilla_gnome() {
-    sudo apt install gnome-session fonts-cantarell adwaita-icon-theme-full gnome-backgrounds gnome-tweaks -y
-    sudo update-alternatives --set gdm-theme.gresource /usr/share/gnome-shell/gnome-shell-theme.gresource
-    sudo apt remove ubuntu-session -y
+    apt install gnome-session fonts-cantarell adwaita-icon-theme-full gnome-backgrounds gnome-tweaks qgnomeplatform-qt5 -y
+    update-alternatives --set gdm-theme.gresource /usr/share/gnome-shell/gnome-shell-theme.gresource
+    apt remove ubuntu-session -y
 }
 
 install_adwgtk3() {
     wget https://github.com/lassekongo83/adw-gtk3/releases/download/v4.6/adw-gtk3v4-6.tar.xz -O /tmp/adw-gtk3.tar.xz
-    sudo tar -xvf /tmp/adw-gtk3.tar.xz -C /usr/share/themes
+    tar -xvf /tmp/adw-gtk3.tar.xz -C /usr/share/themes
     flatpak install -y runtime/org.gtk.Gtk3theme.adw-gtk3-dark/x86_64/3.22
     flatpak install -y runtime/org.gtk.Gtk3theme.adw-gtk3/x86_64/3.22
-    gsettings set org.gnome.desktop.interface gtk-theme 'adw-gtk3-dark'
-    gsettings set org.gnome.desktop.interface color-scheme 'prefer-dark'
+    if [ "$(gsettings get org.gnome.desktop.interface color-scheme)" == ''\''prefer-dark'\''' ]; then
+        gsettings set org.gnome.desktop.interface gtk-theme 'adw-gtk3-dark'
+        gsettings set org.gnome.desktop.interface color-scheme 'prefer-dark'
+    fi
 }
 
 install_icons() {
     wget https://deb.debian.org/debian/pool/main/a/adwaita-icon-theme/adwaita-icon-theme_43-1_all.deb -O /tmp/adwaita-icon-theme.deb
-    sudo apt install /tmp/adwaita-icon-theme.deb -y
+    apt install /tmp/adwaita-icon-theme.deb -y
 }
 
 restore_firefox() {
@@ -71,7 +76,7 @@ ask_reboot() {
     while true; do
         read choice
         if [[ "$choice" == 'y' || "$choice" == 'Y' ]]; then
-            sudo reboot
+            reboot
             exit 0
         fi
         if [[ "$choice" == 'n' || "$choice" == 'N' ]]; then
@@ -86,22 +91,22 @@ msg() {
     tput sgr0
 }
 
-check_normal_user() {
-    if [ "$(id -u)" -eq 0 ]; then
-        echo 'Please run the script as your normal user!'
-        echo 'It will prompt you for password when necessary'
+check_root_user() {
+    if [ "$(id -u)" != 0 ]; then
+        echo 'Please run the script as root!'
+        echo 'We need to do administrative tasks'
         exit
     fi
-    sudo -k
-    sudo true
 }
 
 print_banner() {
-    echo '                           _                               
- | | |_      ._ _|_       | \  _  |_      | |  _ |_  o _|_ 
- |_| |_) |_| | | |_ |_|   |_/ (/_ |_) |_| | | _> | | |  |_ 
- 
-
+    echo '                                                                                                                                   
+    ▐            ▗            ▐     ▐       ▝▜  ▝▜      ▐    ▝   ▗   ▗  
+▗ ▗ ▐▄▖ ▗ ▗ ▗▗▖ ▗▟▄ ▗ ▗      ▄▟  ▄▖ ▐▄▖ ▗ ▗  ▐   ▐   ▄▖ ▐▗▖ ▗▄  ▗▟▄  ▐  
+▐ ▐ ▐▘▜ ▐ ▐ ▐▘▐  ▐  ▐ ▐     ▐▘▜ ▐▘▐ ▐▘▜ ▐ ▐  ▐   ▐  ▐ ▝ ▐▘▐  ▐   ▐   ▐  
+▐ ▐ ▐ ▐ ▐ ▐ ▐ ▐  ▐  ▐ ▐  ▀▘ ▐ ▐ ▐▀▀ ▐ ▐ ▐ ▐  ▐   ▐   ▀▚ ▐ ▐  ▐   ▐   ▝  
+▝▄▜ ▐▙▛ ▝▄▜ ▐ ▐  ▝▄ ▝▄▜     ▝▙█ ▝▙▞ ▐▙▛ ▝▄▜  ▝▄  ▝▄ ▝▄▞ ▐ ▐ ▗▟▄  ▝▄  ▐  
+                                                                                                      
  By @polkaulfield
  '
 }
@@ -120,7 +125,7 @@ show_menu() {
 }
 
 main() {
-    check_normal_user
+    check_root_user
     while true; do
         print_banner
         show_menu
