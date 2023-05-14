@@ -52,14 +52,17 @@ setup_vanilla_gnome() {
 }
 
 install_adwgtk3() {
+    logged_user=$(logname)
+    sudo apt install dbus-x11
     wget https://github.com/lassekongo83/adw-gtk3/releases/download/v4.6/adw-gtk3v4-6.tar.xz -O /tmp/adw-gtk3.tar.xz
     tar -xvf /tmp/adw-gtk3.tar.xz -C /usr/share/themes
     flatpak install -y runtime/org.gtk.Gtk3theme.adw-gtk3-dark/x86_64/3.22
     flatpak install -y runtime/org.gtk.Gtk3theme.adw-gtk3/x86_64/3.22
-    gsettings set org.gnome.desktop.interface gtk-theme 'adw-gtk3'
-    if [ "$(gsettings get org.gnome.desktop.interface color-scheme)" == ''\''prefer-dark'\''' ]; then
-        gsettings set org.gnome.desktop.interface gtk-theme 'adw-gtk3-dark'
-        gsettings set org.gnome.desktop.interface color-scheme 'prefer-dark'
+    if [ "$(sudo -Hu $logged_user gsettings get org.gnome.desktop.interface color-scheme)" == ''\''prefer-dark'\''' ]; then
+        sudo -Hu $logged_user dbus-launch gsettings set org.gnome.desktop.interface gtk-theme 'adw-gtk3-dark'
+        sudo -Hu $logged_user dbus-launch gsettings set org.gnome.desktop.interface color-scheme 'prefer-dark'
+    else
+        sudo -Hu $logged_user dbus-launch gsettings set org.gnome.desktop.interface gtk-theme 'adw-gtk3'
     fi
 }
 
