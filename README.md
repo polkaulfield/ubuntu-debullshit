@@ -18,7 +18,7 @@
 
 TL;DR, you will end up with a clean GNOME desktop with flatpaks, similar to a fresh Fedora install.
 
-### Preview
+#### Preview
 
 <img src="https://raw.githubusercontent.com/polkaulfield/ubuntu-debullshit/main/screenshot.png" width="500" />
 
