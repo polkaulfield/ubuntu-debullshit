@@ -58,7 +58,7 @@ install_adwgtk3() {
     tar -xvf /tmp/adw-gtk3.tar.xz -C /usr/share/themes
     flatpak install -y runtime/org.gtk.Gtk3theme.adw-gtk3-dark/x86_64/3.22
     flatpak install -y runtime/org.gtk.Gtk3theme.adw-gtk3/x86_64/3.22
-    if [ "$(sudo -Hu $logged_user gsettings get org.gnome.desktop.interface color-scheme)" == ''\''prefer-dark'\''' ]; then
+    if [ "$(sudo -Hu $logged_user dbus-launch gsettings get org.gnome.desktop.interface color-scheme)" == ''\''prefer-dark'\''' ]; then
         sudo -Hu $logged_user dbus-launch gsettings set org.gnome.desktop.interface gtk-theme 'adw-gtk3-dark'
         sudo -Hu $logged_user dbus-launch gsettings set org.gnome.desktop.interface color-scheme 'prefer-dark'
     else
