@@ -1,10 +1,8 @@
 # ubuntu-debullshit!
   
 #### An automated script to set-up Ubuntu as it should be. Tested on Ubuntu 22.04 and 23.04
-  
-<img src="https://raw.githubusercontent.com/polkaulfield/ubuntu-debullshit/main/screenshot.png" width="500" />
 
-
+<img src="https://raw.githubusercontent.com/polkaulfield/ubuntu-debullshit/main/menu.png" width="500" />
   
 #### Features:
 
@@ -14,10 +12,15 @@
 * Installs firefox as a flatpak instead of snap
 * Disables the Ubuntu theming
 * Enables the libadwaita theme in gtk3 apps using adw-gtk3
+* Installs the adwaita 43 icon theme
 * Disables the data reporting component
 * Disables the annoying crash popup
 
 TL;DR, you will end up with a clean GNOME desktop with flatpaks, similar to a fresh Fedora install.
+
+### Preview
+
+<img src="https://raw.githubusercontent.com/polkaulfield/ubuntu-debullshit/main/screenshot.png" width="500" />
 
 #### Installation
 
