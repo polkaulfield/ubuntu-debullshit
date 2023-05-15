@@ -17,6 +17,7 @@
 * Installs the adwaita 43 icon theme
 * Disables the data reporting component
 * Disables the annoying crash popup
+* Removes terminal ads
 
 TL;DR, you will end up with a clean GNOME desktop with flatpaks, similar to a fresh Fedora install.
 
