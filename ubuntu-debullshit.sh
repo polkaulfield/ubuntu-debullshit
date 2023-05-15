@@ -31,6 +31,11 @@ remove_snaps() {
 	EOF
 }
 
+disable_terminal_ads() {
+    sed -i 's/ENABLED=1/ENABLED=0/g' /etc/default/motd-news
+    pro config set apt_news=false
+}
+
 update_system() {
     apt update && apt upgrade -y
 }
@@ -45,24 +50,33 @@ setup_flathub() {
     apt install --install-suggests gnome-software -y
 }
 
+gsettings_wrapper() {
+    if ! command -v dbus-launch; then
+        sudo apt install dbus-x11 -y
+    fi
+    sudo -Hu $(logname) dbus-launch gsettings $@
+}
+
 setup_vanilla_gnome() {
-    apt install gnome-session fonts-cantarell adwaita-icon-theme-full gnome-backgrounds gnome-tweaks qgnomeplatform-qt5 -y
+    apt install qgnomeplatform-qt5 -y
+    apt install gnome-session fonts-cantarell adwaita-icon-theme-full gnome-backgrounds gnome-tweaks -y && apt remove ubuntu-session -y
     update-alternatives --set gdm-theme.gresource /usr/share/gnome-shell/gnome-shell-theme.gresource
-    apt remove ubuntu-session -y
+    if command -v flatpak; then
+        flatpak install -y app/com.mattjakeman.ExtensionManager/x86_64/stable
+    fi
 }
 
 install_adwgtk3() {
-    logged_user=$(logname)
-    sudo apt install dbus-x11
     wget https://github.com/lassekongo83/adw-gtk3/releases/download/v4.6/adw-gtk3v4-6.tar.xz -O /tmp/adw-gtk3.tar.xz
     tar -xvf /tmp/adw-gtk3.tar.xz -C /usr/share/themes
-    flatpak install -y runtime/org.gtk.Gtk3theme.adw-gtk3-dark/x86_64/3.22
-    flatpak install -y runtime/org.gtk.Gtk3theme.adw-gtk3/x86_64/3.22
-    if [ "$(sudo -Hu $logged_user dbus-launch gsettings get org.gnome.desktop.interface color-scheme)" == ''\''prefer-dark'\''' ]; then
-        sudo -Hu $logged_user dbus-launch gsettings set org.gnome.desktop.interface gtk-theme 'adw-gtk3-dark'
-        sudo -Hu $logged_user dbus-launch gsettings set org.gnome.desktop.interface color-scheme 'prefer-dark'
+    if command -v flatpak; then
+        flatpak install -y runtime/org.gtk.Gtk3theme.adw-gtk3-dark
+        flatpak install -y runtime/org.gtk.Gtk3theme.adw-gtk3
+    fi
+    if [ "$(gsettings_wrapper get org.gnome.desktop.interface color-scheme)" == ''\''prefer-dark'\''' ]; then
+        gsettings_wrapper set org.gnome.desktop.interface gtk-theme 'adw-gtk3-dark'
     else
-        sudo -Hu $logged_user dbus-launch gsettings set org.gnome.desktop.interface gtk-theme 'adw-gtk3'
+        gsettings_wrapper set org.gnome.desktop.interface gtk-theme 'adw-gtk3'
     fi
 }
 
@@ -95,6 +109,12 @@ msg() {
     tput sgr0
 }
 
+error_msg() {
+    tput setaf 1
+    echo "[!] $1"
+    tput sgr0
+}
+
 check_root_user() {
     if [ "$(id -u)" != 0 ]; then
         echo 'Please run the script as root!'
@@ -121,11 +141,13 @@ show_menu() {
     echo '2 - Disable Ubuntu report'
     echo '3 - Remove app crash popup'
     echo '4 - Remove snaps and snapd'
-    echo '5 - Install flathub and gnome-software'
-    echo '6 - Install firefox flatpak'
-    echo '7 - Install vanilla GNOME session'
-    echo '8 - Install adw-gtk3 and latest adwaita icons'
+    echo '5 - Disable terminal ads (LTS versions)'
+    echo '6 - Install flathub and gnome-software'
+    echo '7 - Install firefox flatpak'
+    echo '8 - Install vanilla GNOME session'
+    echo '9 - Install adw-gtk3 and latest adwaita icons'
     echo 'q - Exit'
+    echo
 }
 
 main() {
@@ -154,23 +176,27 @@ main() {
             ask_reboot
             ;;
         5)
+            disable_terminal_ads
+            msg 'Done!'
+            ;;
+        6)
             update_system
             setup_flathub
             msg 'Done!'
             ask_reboot
             ;;
-        6)
+        7)
             restore_firefox
             msg 'Done!'
             ;;
-        7)
+        8)
             update_system
             setup_vanilla_gnome
             msg 'Done!'
             ask_reboot
             ;;
 
-        8)
+        9)
             update_system
             install_adwgtk3
             install_icons
@@ -178,13 +204,12 @@ main() {
             ask_reboot
             ;;
 
-        \
-            q)
+        q)
             exit 0
             ;;
 
         *)
-            echo 'Wrong input'
+            error_msg 'Wrong input!'
             ;;
         esac
     done
@@ -198,6 +223,8 @@ auto() {
     disable_ubuntu_report
     msg 'Removing annoying appcrash popup'
     remove_appcrash_popup
+    msg 'Removing terminal ads (if they are enabled)'
+    disable_terminal_ads
     msg 'Deleting everything snap related'
     remove_snaps
     msg 'Setting up flathub'
