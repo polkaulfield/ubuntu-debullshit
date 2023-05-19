@@ -54,13 +54,17 @@ gsettings_wrapper() {
     if ! command -v dbus-launch; then
         sudo apt install dbus-x11 -y
     fi
-    sudo -Hu $(logname) dbus-launch gsettings $@
+    sudo -Hu $(logname) dbus-launch gsettings "$@"
+}
+
+set_fonts() {
+	gsettings_wrapper set org.gnome.desktop.interface monospace-font-name "Monospace 10"
 }
 
 setup_vanilla_gnome() {
     apt install qgnomeplatform-qt5 -y
-    apt install gnome-session fonts-cantarell adwaita-icon-theme-full gnome-backgrounds gnome-tweaks -y && apt remove ubuntu-session -y
-    update-alternatives --set gdm-theme.gresource /usr/share/gnome-shell/gnome-shell-theme.gresource
+    apt install gnome-session fonts-cantarell adwaita-icon-theme-full gnome-backgrounds gnome-tweaks vanilla-gnome-default-settings -y && apt remove ubuntu-session yaru-theme-gnome-shell yaru-theme-gtk yaru-theme-icon yaru-theme-sound -y
+    set_fonts
     if command -v flatpak; then
         flatpak install -y app/com.mattjakeman.ExtensionManager/x86_64/stable
     fi
@@ -73,10 +77,11 @@ install_adwgtk3() {
         flatpak install -y runtime/org.gtk.Gtk3theme.adw-gtk3-dark
         flatpak install -y runtime/org.gtk.Gtk3theme.adw-gtk3
     fi
-    if [ "$(gsettings_wrapper get org.gnome.desktop.interface color-scheme)" == ''\''prefer-dark'\''' ]; then
-        gsettings_wrapper set org.gnome.desktop.interface gtk-theme 'adw-gtk3-dark'
+    if [ "$(gsettings_wrapper get org.gnome.desktop.interface color-scheme | tail -n 1)" == ''\''prefer-dark'\''' ]; then
+        gsettings_wrapper set org.gnome.desktop.interface gtk-theme adw-gtk3-dark
+        gsettings_wrapper set org.gnome.desktop.interface color-scheme prefer-dark
     else
-        gsettings_wrapper set org.gnome.desktop.interface gtk-theme 'adw-gtk3'
+        gsettings_wrapper set org.gnome.desktop.interface gtk-theme adw-gtk3
     fi
 }
 
@@ -86,7 +91,18 @@ install_icons() {
 }
 
 restore_firefox() {
-    flatpak install -y app/org.mozilla.firefox/x86_64/stable
+	sudo add-apt-repository ppa:mozillateam/ppa -y
+	cat <<-EOF | tee /etc/apt/preferences.d/99mozillateamppa
+	Package: firefox*
+	Pin: release o=LP-PPA-mozillateam
+	Pin-Priority: 501
+	
+	Package: firefox*
+	Pin: release o=Ubuntu
+	Pin-Priority: -1
+	EOF
+	apt update
+	apt install firefox -y
 }
 
 ask_reboot() {
@@ -143,7 +159,7 @@ show_menu() {
     echo '4 - Remove snaps and snapd'
     echo '5 - Disable terminal ads (LTS versions)'
     echo '6 - Install flathub and gnome-software'
-    echo '7 - Install firefox flatpak'
+    echo '7 - Install firefox from PPA'
     echo '8 - Install vanilla GNOME session'
     echo '9 - Install adw-gtk3 and latest adwaita icons'
     echo 'q - Exit'
@@ -229,7 +245,7 @@ auto() {
     remove_snaps
     msg 'Setting up flathub'
     setup_flathub
-    msg 'Restoring Firefox as a flatpak'
+    msg 'Restoring Firefox from mozilla PPA'
     restore_firefox
     msg 'Installing vanilla Gnome session'
     setup_vanilla_gnome
