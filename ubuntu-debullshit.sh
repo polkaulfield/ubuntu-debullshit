@@ -257,4 +257,4 @@ auto() {
     cleanup
 }
 
-main
+(return 2> /dev/null) || main
