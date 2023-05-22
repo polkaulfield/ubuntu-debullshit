@@ -91,8 +91,8 @@ install_icons() {
 }
 
 restore_firefox() {
-	sudo add-apt-repository ppa:mozillateam/ppa -y
-	cat <<-EOF | tee /etc/apt/preferences.d/99mozillateamppa
+    sudo add-apt-repository ppa:mozillateam/ppa -y
+    cat <<-EOF | tee /etc/apt/preferences.d/99mozillateamppa
 	Package: firefox*
 	Pin: release o=LP-PPA-mozillateam
 	Pin-Priority: 501
@@ -101,8 +101,8 @@ restore_firefox() {
 	Pin: release o=Ubuntu
 	Pin-Priority: -1
 	EOF
-	apt update
-	apt install firefox -y
+    apt update
+    apt install firefox -y
 }
 
 ask_reboot() {
