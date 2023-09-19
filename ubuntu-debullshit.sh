@@ -71,7 +71,7 @@ setup_vanilla_gnome() {
 }
 
 install_adwgtk3() {
-    wget https://github.com/lassekongo83/adw-gtk3/releases/download/v4.6/adw-gtk3v4-6.tar.xz -O /tmp/adw-gtk3.tar.xz
+    wget https://github.com/lassekongo83/adw-gtk3/releases/download/v4.9/adw-gtk3v4-9.tar.xz -O /tmp/adw-gtk3.tar.xz
     tar -xvf /tmp/adw-gtk3.tar.xz -C /usr/share/themes
     if command -v flatpak; then
         flatpak install -y runtime/org.gtk.Gtk3theme.adw-gtk3-dark
