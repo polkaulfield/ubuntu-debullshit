@@ -86,7 +86,7 @@ install_adwgtk3() {
 }
 
 install_icons() {
-    wget https://deb.debian.org/debian/pool/main/a/adwaita-icon-theme/adwaita-icon-theme_43-1_all.deb -O /tmp/adwaita-icon-theme.deb
+    wget https://deb.debian.org/debian/pool/main/a/adwaita-icon-theme/adwaita-icon-theme_45.0-1_all.deb -O /tmp/adwaita-icon-theme.deb
     apt install /tmp/adwaita-icon-theme.deb -y
 }
 
