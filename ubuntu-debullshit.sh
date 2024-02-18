@@ -63,7 +63,7 @@ set_fonts() {
 
 setup_vanilla_gnome() {
     apt install qgnomeplatform-qt5 -y
-    apt install gnome-session fonts-cantarell papirus-icon-theme adwaita-icon-theme-full gnome-backgrounds gnome-shell-extension-manager gnome-tweaks vanilla-gnome-default-settings -y && apt remove ubuntu-session yaru-theme-gnome-shell yaru-theme-gtk yaru-theme-icon yaru-theme-sound -y
+    apt install gnome-session fonts-cantarell papirus-icon-theme gnome-backgrounds gnome-shell-extension-manager gnome-tweaks vanilla-gnome-default-settings vanilla-gnome-desktop -y && apt remove ubuntu-session yaru-theme-gnome-shell yaru-theme-gtk yaru-theme-icon yaru-theme-sound -y
     set_fonts
 }
 
@@ -84,7 +84,7 @@ install_adwgtk3() {
 }
 
 install_icons() {
-    apt install adwaita-icon-theme -y
+    apt install adwaita-icon-theme distrobox podman -y
 }
 
 restore_firefox() {
