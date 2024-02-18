@@ -91,16 +91,15 @@ install_icons() {
 }
 
 restore_firefox() {
-    sudo add-apt-repository ppa:mozillateam/ppa -y
-    cat <<-EOF | tee /etc/apt/preferences.d/99mozillateamppa
-	Package: firefox*
-	Pin: release o=LP-PPA-mozillateam
-	Pin-Priority: 501
-	
-	Package: firefox*
-	Pin: release o=Ubuntu
-	Pin-Priority: -1
-	EOF
+    apt purge firefox -y
+    snap remove --purge firefox
+    wget -q https://packages.mozilla.org/apt/repo-signing-key.gpg -O- > /etc/apt/keyrings/packages.mozilla.org.asc
+    echo "deb [signed-by=/etc/apt/keyrings/packages.mozilla.org.asc] https://packages.mozilla.org/apt mozilla main" > /etc/apt/sources.list.d/mozilla.list 
+    echo '
+Package: *
+Pin: origin packages.mozilla.org
+Pin-Priority: 1000
+' > /etc/apt/preferences.d/mozilla
     apt update
     apt install firefox -y
 }
@@ -159,7 +158,7 @@ show_menu() {
     echo '4 - Remove snaps and snapd'
     echo '5 - Disable terminal ads (LTS versions)'
     echo '6 - Install flathub and gnome-software'
-    echo '7 - Install firefox from PPA'
+    echo '7 - Install firefox from the Mozilla repo'
     echo '8 - Install vanilla GNOME session'
     echo '9 - Install adw-gtk3 and latest adwaita icons'
     echo 'q - Exit'
