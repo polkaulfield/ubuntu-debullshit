@@ -37,7 +37,7 @@ disable_terminal_ads() {
 }
 
 update_system() {
-    apt update && apt upgrade -y
+    apt update && apt upgrade --auto-remove -y
 }
 
 cleanup() {
@@ -47,7 +47,7 @@ cleanup() {
 setup_flathub() {
     apt install flatpak -y
     flatpak remote-add --if-not-exists flathub https://flathub.org/repo/flathub.flatpakrepo
-    apt install --install-suggests gnome-software -y
+    apt install --install-suggests gnome-software gnome-software-plugin-flatpak synaptic -y
 }
 
 gsettings_wrapper() {
@@ -58,16 +58,13 @@ gsettings_wrapper() {
 }
 
 set_fonts() {
-	gsettings_wrapper set org.gnome.desktop.interface monospace-font-name "Monospace 10"
+	gsettings_wrapper set org.gnome.desktop.interface monospace-font-name "Ubuntu Mono 10"
 }
 
 setup_vanilla_gnome() {
     apt install qgnomeplatform-qt5 -y
-    apt install gnome-session fonts-cantarell adwaita-icon-theme-full gnome-backgrounds gnome-tweaks vanilla-gnome-default-settings -y && apt remove ubuntu-session yaru-theme-gnome-shell yaru-theme-gtk yaru-theme-icon yaru-theme-sound -y
+    apt install gnome-session fonts-cantarell papirus-icon-theme adwaita-icon-theme-full gnome-backgrounds gnome-shell-extension-manager gnome-tweaks vanilla-gnome-default-settings -y && apt remove ubuntu-session yaru-theme-gnome-shell yaru-theme-gtk yaru-theme-icon yaru-theme-sound -y
     set_fonts
-    if command -v flatpak; then
-        flatpak install -y app/com.mattjakeman.ExtensionManager/x86_64/stable
-    fi
 }
 
 install_adwgtk3() {
@@ -80,13 +77,14 @@ install_adwgtk3() {
     if [ "$(gsettings_wrapper get org.gnome.desktop.interface color-scheme | tail -n 1)" == ''\''prefer-dark'\''' ]; then
         gsettings_wrapper set org.gnome.desktop.interface gtk-theme adw-gtk3-dark
         gsettings_wrapper set org.gnome.desktop.interface color-scheme prefer-dark
+	gsettings_wrapper set org.gnome.desktop.interface icon-theme Papirus
     else
         gsettings_wrapper set org.gnome.desktop.interface gtk-theme adw-gtk3
     fi
 }
 
 install_icons() {
-    apt install adwaita-icon-theme papirus-icon-theme -y
+    apt install adwaita-icon-theme -y
 }
 
 restore_firefox() {
