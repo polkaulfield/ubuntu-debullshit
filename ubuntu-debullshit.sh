@@ -71,7 +71,7 @@ setup_vanilla_gnome() {
 }
 
 install_adwgtk3() {
-    wget https://github.com/lassekongo83/adw-gtk3/releases/download/v4.9/adw-gtk3v4-9.tar.xz -O /tmp/adw-gtk3.tar.xz
+    wget https://github.com/lassekongo83/adw-gtk3/releases/download/v5.2/adw-gtk3v5-2.tar.xz -O /tmp/adw-gtk3.tar.xz
     tar -xvf /tmp/adw-gtk3.tar.xz -C /usr/share/themes
     if command -v flatpak; then
         flatpak install -y runtime/org.gtk.Gtk3theme.adw-gtk3-dark
@@ -86,7 +86,7 @@ install_adwgtk3() {
 }
 
 install_icons() {
-    wget https://deb.debian.org/debian/pool/main/a/adwaita-icon-theme/adwaita-icon-theme_45.0-1_all.deb -O /tmp/adwaita-icon-theme.deb
+    wget https://deb.debian.org/debian/pool/main/a/adwaita-icon-theme/adwaita-icon-theme_45.0-2_all.deb -O /tmp/adwaita-icon-theme.deb
     apt install /tmp/adwaita-icon-theme.deb -y
 }
 
