@@ -47,7 +47,7 @@ cleanup() {
 setup_flathub() {
     apt install flatpak -y
     flatpak remote-add --if-not-exists flathub https://flathub.org/repo/flathub.flatpakrepo
-    apt install --install-suggests gnome-software gnome-software-plugin-flatpak synaptic -y
+    apt install --no-install-recommends gnome-software gnome-software-plugin-flatpak synaptic gdebi -y
 }
 
 gsettings_wrapper() {
