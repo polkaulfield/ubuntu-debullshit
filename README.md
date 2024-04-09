@@ -13,9 +13,9 @@
 * Installs [Extension Manager](https://github.com/mjakeman/extension-manager)
 * Disables the Ubuntu theming
 * Enables the libadwaita theme in gtk3 apps using [adw-gtk3](https://github.com/lassekongo83/adw-gtk3)
+* Installs the adwaita 46 icon theme and morewaita for extended icon support
 * Enables gnome integration with QT apps
-* Installs Firefox from the Mozilla PPA
-* Installs the adwaita 43 icon theme
+* Installs Firefox from the Mozilla Repository
 * Disables the data reporting component
 * Disables the annoying crash popup
 * Removes terminal ads
