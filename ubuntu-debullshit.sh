@@ -37,7 +37,6 @@ disable_terminal_ads() {
 }
 
 update_system() {
-    # apt update && apt upgrade --auto-remove -y
     apt update
 }
 
