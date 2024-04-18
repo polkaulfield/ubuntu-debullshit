@@ -37,7 +37,7 @@ disable_terminal_ads() {
 }
 
 update_system() {
-    apt update
+    apt update & apt upgrade --auto-remove -y
 }
 
 cleanup() {
@@ -84,7 +84,7 @@ install_adwgtk3() {
 }
 
 install_icons() {
-    apt install adwaita-icon-theme distrobox podman -y
+    apt install adwaita-icon-theme -y
 }
 
 restore_firefox() {
@@ -99,7 +99,7 @@ restore_firefox() {
 	Pin-Priority: -1
 	EOF
     apt update
-    apt install firefox -y
+    apt install firefox
 }
 
 ask_reboot() {
