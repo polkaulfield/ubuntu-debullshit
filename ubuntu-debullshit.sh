@@ -44,10 +44,11 @@ cleanup() {
     apt autoremove -y
 }
 
-setup_flathub() {
+setup_flathub_and_pacstall() {
     apt install flatpak -y
     flatpak remote-add --if-not-exists flathub https://flathub.org/repo/flathub.flatpakrepo
     apt install --no-install-recommends gnome-software gnome-software-plugin-flatpak synaptic gdebi -y
+    sudo bash -c "$(curl -fsSL https://pacstall.dev/q/install || wget -q https://pacstall.dev/q/install -O -)"
 }
 
 gsettings_wrapper() {
@@ -155,7 +156,7 @@ show_menu() {
     echo '3 - Remove app crash popup'
     echo '4 - Remove snaps and snapd'
     echo '5 - Disable terminal ads (LTS versions)'
-    echo '6 - Install flathub and gnome-software'
+    echo '6 - Install flathub and gnome-software (also with Pacstall)'
     echo '7 - Install firefox from PPA'
     echo '8 - Install vanilla GNOME session'
     echo '9 - Install adw-gtk3 and latest adwaita icons'
@@ -194,7 +195,7 @@ main() {
             ;;
         6)
             update_system
-            setup_flathub
+            setup_flathub_and_pacstall
             msg 'Done!'
             ask_reboot
             ;;
@@ -240,7 +241,7 @@ auto() {
     disable_terminal_ads
     msg 'Deleting everything snap related'
     remove_snaps
-    msg 'Setting up flathub'
+    msg 'Setting up flathub and Pacstall
     setup_flathub
     msg 'Restoring Firefox from mozilla PPA'
     restore_firefox
@@ -248,7 +249,7 @@ auto() {
     setup_vanilla_gnome
     msg 'Install adw-gtk3 and set dark theme'
     install_adwgtk3
-    msg 'Installing GNOME 43 icons'
+    msg 'Installing Latest Adwaita icons'
     install_icons
     msg 'Cleaning up'
     cleanup
