@@ -2,20 +2,7 @@
 
 remove_ubuntu_default_apps() {
     ubuntu-report send no
-    apt remove ubuntu-report -y
-    apt remove apport apport-gtk -y
-    apt remove gnome-clocks -y
-    apt remove gnome-calculator -y
-    apt remove gnome-characters -y
-    apt remove gnome-font-viewer -y
-    apt remove gnome-keyring -y
-    apt remove gnome-keyring-pkcs11 -y
-    apt remove gnome-logs -y
-    apt remove gnome-text-editor -y
-    apt remove gnome-power-manager -y
-    apt remove eog -y
-    apt remove baobab -y
-    apt remove evince -y
+    apt remove ubuntu-report apport apport-gtk gnome-clocks gnome-calculator gnome-characters gnome-font-viewer gnome-keyring gnome-keyring-pkcs11 gnome-logs gnome-text-editor gnome-power-manager eog baobab evince -y
 }
 
 remove_snaps() {
@@ -61,7 +48,8 @@ setup_flathub() {
 
 setup_vanilla_gnome() {
     apt install qgnomeplatform-qt5 -y
-    apt install gnome-session fonts-cantarell papirus-icon-theme gnome-backgrounds gnome-shell-extension-manager gnome-tweaks vanilla-gnome-default-settings vanilla-gnome-desktop -y && apt remove ubuntu-session yaru-theme-gnome-shell yaru-theme-gtk yaru-theme-icon yaru-theme-sound -y
+    # Ubuntu 24.04 - vanilla-gnome-desktop will give "pipewire-alsa : Conflicts: pulseaudio" 
+    apt install gnome-session fonts-cantarell papirus-icon-theme gnome-backgrounds gnome-shell-extension-manager gnome-tweaks vanilla-gnome-default-settings -y && apt remove ubuntu-session yaru-theme-gnome-shell yaru-theme-gtk yaru-theme-icon yaru-theme-sound -y
     
 	gsettings_wrapper set org.gnome.desktop.interface monospace-font-name "Monospace 10"
     gsettings_wrapper set org.gnome.desktop.background picture-uri 'file:///usr/share/backgrounds/gnome/blobs-l.svg'
