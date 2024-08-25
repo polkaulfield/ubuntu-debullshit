@@ -39,9 +39,9 @@ The script does the following:
 
 * Removes snaps completely
 * Removes terminal ads
-* Removes the data reporting component
-* Removes the application crash popup
-* Removes the Ubuntu desktop environment
+* Removes the data reporting component & the application crash popup
+* Removes Ubuntu desktop environment
+* Removes many preinstalled deb applications.
 * Installs vanilla Gnome desktop environment
 * Installs gnome-software-center, gnome-tweaks, gnome-backgrounds
 * installs flatpak and gnome-software flatpak plugin

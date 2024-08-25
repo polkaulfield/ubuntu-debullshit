@@ -1,12 +1,20 @@
 #!/usr/bin/env bash
 
-disable_ubuntu_report() {
+remove_ubuntu_default_apps() {
     ubuntu-report send no
     apt remove ubuntu-report -y
-}
-
-remove_appcrash_popup() {
     apt remove apport apport-gtk -y
+    apt remove gnome-clocks -y
+    apt remove gnome-calculator -y
+    apt remove gnome-charactors -y
+    apt remove gnome-font-viewer -y
+    apt remove gnome-keyring -y
+    apt remove gnome-keyring-pkcs11 -y
+    apt remove gnome-logs -y
+    apt remove gnome-text-editor -y
+    apt remove gnome-power-manager -y
+    apt remove eog -y
+    apt remove evince -y
 }
 
 remove_snaps() {
@@ -62,7 +70,9 @@ setup_vanilla_gnome() {
 
 setup_gnome_apps() {
     # Please create a PR with missing gnome apps
-    flatpak install flathub org.gnome.Calculator -y
+    flatpak install flathub org.gnome.TextEditor -y
+    flatpak install flathub org.gnome.clocks -y
+    flatpak install flathub org.gnome.Logs -y
     flatpak install flathub org.gnome.Calculator -y
     flatpak install flathub org.gnome.Calendar -y
     flatpak install flathub org.gnome.Contacts -y
@@ -191,23 +201,12 @@ main() {
     
         q)
             exit 0
-            ;;
-
-        *)
-            error_msg 'Wrong input!'
-            ;;
-        esac
-    done
 
 }
 
 auto() {
-    msg 'Updating system'
-    update_system
-    msg 'Removing Ubuntu report'
-    disable_ubuntu_report
-    msg 'Removing appcrash popup'
-    remove_appcrash_popup
+    msg 'Removing Ubuntu default apps'
+    remove_ubuntu_default_apps
     msg 'Removing terminal ads (if they are enabled)'
     disable_terminal_ads
     msg 'Installing Firefox from mozilla repository'
