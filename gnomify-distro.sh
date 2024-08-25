@@ -88,18 +88,11 @@ setup_julianfairfax_repo() {
 
 install_adwgtk3() {    
     apt install adw-gtk3 -y
-    if command -v flatpak; then
-        flatpak install -y runtime/org.gtk.Gtk3theme.adw-gtk3-dark
-        flatpak install -y runtime/org.gtk.Gtk3theme.adw-gtk3
-    fi
-    if [ "$(gsettings_wrapper get org.gnome.desktop.interface color-scheme | tail -n 1)" == ''\''prefer-dark'\''' ]; then
-        gsettings_wrapper set org.gnome.desktop.interface gtk-theme adw-gtk3-dark
-        gsettings_wrapper set org.gnome.desktop.interface color-scheme prefer-dark
-	    gsettings_wrapper set org.gnome.desktop.interface icon-theme Papirus
-    else
-        gsettings_wrapper set org.gnome.desktop.interface gtk-theme adw-gtk3
-	    gsettings_wrapper set org.gnome.desktop.interface icon-theme Papirus
-    fi
+    flatpak install -y runtime/org.gtk.Gtk3theme.adw-gtk3-dark
+    flatpak install -y runtime/org.gtk.Gtk3theme.adw-gtk3
+    gsettings_wrapper set org.gnome.desktop.interface gtk-theme adw-gtk3-dark
+    gsettings_wrapper set org.gnome.desktop.interface color-scheme prefer-dark
+    gsettings_wrapper set org.gnome.desktop.interface icon-theme Papirus
 }
 
 install_icons() {
