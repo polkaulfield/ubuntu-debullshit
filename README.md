@@ -51,5 +51,6 @@ The script does the following:
 * Installs most of the official Gnome applications (See script for details)
 * Installs [Julian FairFax](https://gitlab.com/julianfairfax/package-repo) package repo.
 * Enables Gnome integration with QT apps
+* Enables dark mode as default
 * Enables the libadwaita theme in gtk3 apps using [adw-gtk3](https://github.com/lassekongo83/adw-gtk3)
 * Enables [flathub](https://flathub.org/) repository
