@@ -201,7 +201,13 @@ main() {
     
         q)
             exit 0
+            ;;
 
+        *)
+            error_msg 'Wrong input!'
+            ;;
+        esac
+    done
 }
 
 auto() {
