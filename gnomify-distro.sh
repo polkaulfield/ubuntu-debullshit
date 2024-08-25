@@ -6,7 +6,7 @@ remove_ubuntu_default_apps() {
     apt remove apport apport-gtk -y
     apt remove gnome-clocks -y
     apt remove gnome-calculator -y
-    apt remove gnome-charactors -y
+    apt remove gnome-characters -y
     apt remove gnome-font-viewer -y
     apt remove gnome-keyring -y
     apt remove gnome-keyring-pkcs11 -y
@@ -14,6 +14,7 @@ remove_ubuntu_default_apps() {
     apt remove gnome-text-editor -y
     apt remove gnome-power-manager -y
     apt remove eog -y
+    apt remove baobab -y
     apt remove evince -y
 }
 
@@ -86,6 +87,14 @@ setup_gnome_apps() {
     flatpak install flathub org.gnome.Weather -y
     flatpak install flathub org.gnome.Maps -y
     flatpak install flathub org.gnome.seahorse.Application -y
+    flatpak install flathub org.gnome.baobab -y
+}
+
+setup_julianfairfax_repo() {
+    command -v curl || apt install curl -y
+    curl -s https://julianfairfax.gitlab.io/package-repo/pub.gpg | gpg --dearmor | sudo dd of=/usr/share/keyrings/julians-package-repo.gpg
+    echo 'deb [ signed-by=/usr/share/keyrings/julians-package-repo.gpg ] https://julianfairfax.gitlab.io/package-repo/debs packages main' | sudo tee /etc/apt/sources.list.d/julians-package-repo.list
+    apt update
 }
 
 install_adwgtk3() {    
@@ -107,7 +116,7 @@ install_adwgtk3() {
 install_icons() {
     apt install adwaita-icon-theme -y 
     # Source: https://github.com/PapirusDevelopmentTeam/papirus-icon-theme
-    add-apt-repository ppa:papirus/papirus
+    add-apt-repository -y ppa:papirus/papirus
     apt-get update
     apt-get install papirus-icon-theme -y  # Papirus, Papirus-Dark, and Papirus-Light
 }
@@ -182,7 +191,7 @@ print_banner() {
 show_menu() {
     echo ' Menu: '
     echo '   1 - Gnomify Distro'
-    echo '   q - Exit'
+    echo '   q - Exit' 
     echo
 }
 
@@ -223,12 +232,14 @@ auto() {
     install_icons
     msg 'Installing vanilla Gnome session'
     setup_vanilla_gnome
-    msg 'Install adw-gtk3 and set dark theme'
-    install_adwgtk3
     msg 'Removing snap'
     remove_snaps
     msg 'Installing flatpak and flathub'
     setup_flathub
+    msg 'Adding julianfairfax repo'
+    setup_julianfairfax_repo
+    msg 'Install adw-gtk3 and set dark theme'
+    install_adwgtk3
     msg 'Installing Gnome apps from flathub'
     setup_gnome_apps
     msg 'Cleaning up'
