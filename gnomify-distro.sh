@@ -57,27 +57,9 @@ setup_vanilla_gnome() {
 }
 
 setup_gnome_apps() {
-    # Please create a PR with missing gnome apps
-    flatpak install flathub org.gnome.TextEditor -y
-    flatpak install flathub org.gnome.clocks -y
-    flatpak install flathub org.gnome.Logs -y
-    flatpak install flathub org.gnome.Calculator -y
-    flatpak install flathub org.gnome.Calendar -y
-    flatpak install flathub org.gnome.Contacts -y
-    flatpak install flathub org.gnome.Epiphany -y
-    flatpak install flathub org.gnome.Loupe -y
-    flatpak install flathub org.gnome.Music -y
-    flatpak install flathub org.gnome.Papers -y
-    flatpak install flathub org.gnome.Photos -y
-    flatpak install flathub org.gnome.Showtime -y
-    flatpak install flathub org.gnome.Snapshot -y
-    flatpak install flathub org.gnome.Weather -y
-    flatpak install flathub org.gnome.Maps -y
-    flatpak install flathub org.gnome.seahorse.Application -y
-    flatpak install flathub org.gnome.baobab -y
-    flatpak install flathub org.gnome.SimpleScan -y
-    flatpak install flathub org.gnome.Contacts -y
-}
+     # Please create a PR with missing gnome apps
+     flatpak install flathub org.gnome.TextEditor org.gnome.clocks org.gnome.Logs org.gnome.Calculator org.gnome.Calendar org.gnome.Contacts org.gnome.Epiphany org.gnome.Loupe org.gnome.Music org.gnome.Papers org.gnome.Photos org.gnome.Showtime org.gnome.Snapshot org.gnome.Weather org.gnome.Maps org.gnome.seahorse.Application org.gnome.baobab org.gnome.SimpleScan org.gnome.Contacts -y
+ }
 
 setup_julianfairfax_repo() {
     command -v curl || apt install curl -y
