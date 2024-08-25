@@ -211,6 +211,8 @@ main() {
 }
 
 auto() {
+    msg 'Updating system'
+    update_system
     msg 'Removing Ubuntu default apps'
     remove_ubuntu_default_apps
     msg 'Removing terminal ads (if they are enabled)'
