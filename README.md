@@ -2,7 +2,7 @@
   
 ## Overview 
 ### A script to change Ubuntu into a clean Gnome experince.
-This script is a fork of [ubuntu-debullshit!]() and is intended to be used on a fresh install of Ubuntu with no additional software.
+This script is a fork of [ubuntu-debullshit!](https://github.com/polkaulfield/ubuntu-debullshit) and is intended to be used on a fresh install of Ubuntu with no additional software.
 It will remove the Ubuntu desktop environment and install the near vanilla Gnome desktop environment with some additional tweaks.
 
 The script will also install many of the official Gnome applications.
@@ -46,9 +46,9 @@ The script does the following:
 * Installs gnome-software-center, gnome-tweaks, gnome-backgrounds
 * installs flatpak and gnome-software flatpak plugin
 * Installs [Extension Manager](https://github.com/mjakeman/extension-manager)
-* Installs Firefox from the Mozilla Repository
+* Installs [Firefox](https://www.mozilla.org/en-US/firefox/new/) from the Mozilla Repository
 * Installs [Papirus icon theme](https://github.com/PapirusDevelopmentTeam/papirus-icon-theme) and enables it
 * Installs most of the official Gnome applications (See script for details)
-* Enables gnome integration with QT apps
+* Enables Gnome integration with QT apps
 * Enables the libadwaita theme in gtk3 apps using [adw-gtk3](https://github.com/lassekongo83/adw-gtk3)
-* Enables flathub repository
+* Enables [flathub](https://flathub.org/) repository
