@@ -61,8 +61,7 @@ setup_flathub() {
 
 setup_vanilla_gnome() {
     apt install qgnomeplatform-qt5 -y
-    apt install gnome-session fonts-cantarell papirus-icon-theme gnome-backgrounds gnome-shell-extension-manager gnome-tweaks vanilla-gnome-default-settings gnome-shell-extension-manager vanilla-gnome-desktop -y 
-    apt remove ubuntu-session yaru-theme-gnome-shell yaru-theme-gtk yaru-theme-icon yaru-theme-sound -y
+    apt install gnome-session fonts-cantarell papirus-icon-theme gnome-backgrounds gnome-shell-extension-manager gnome-tweaks vanilla-gnome-default-settings vanilla-gnome-desktop -y && apt remove ubuntu-session yaru-theme-gnome-shell yaru-theme-gtk yaru-theme-icon yaru-theme-sound -y
     
 	gsettings_wrapper set org.gnome.desktop.interface monospace-font-name "Monospace 10"
     gsettings_wrapper set org.gnome.desktop.background picture-uri 'file:///usr/share/backgrounds/gnome/blobs-l.svg'
@@ -88,6 +87,8 @@ setup_gnome_apps() {
     flatpak install flathub org.gnome.Maps -y
     flatpak install flathub org.gnome.seahorse.Application -y
     flatpak install flathub org.gnome.baobab -y
+    flatpak install flathub org.gnome.SimpleScan -y
+    flatpak install flathub org.gnome.Contacts -y
 }
 
 setup_julianfairfax_repo() {
