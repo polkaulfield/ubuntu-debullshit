@@ -227,7 +227,7 @@ auto() {
     install_adwgtk3
     msg 'Removing snap'
     remove_snaps
-    msg 'SettInstalling flatpak and flathub'
+    msg 'Installing flatpak and flathub'
     setup_flathub
     msg 'Installing Gnome apps from flathub'
     setup_gnome_apps
