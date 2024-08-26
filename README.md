@@ -35,7 +35,7 @@ To use the script, open a terminal and run the following command:
 
 `sudo bash -c "$(wget -qO- https://raw.githubusercontent.com/SirBisgaard/Gnomify-Distro/main/gnomify-distro.sh)"`
 
-Check that the version number is equal to: **0.1.1**
+Check that the version number is equal to: **0.1.2**
 
 After the the script has finished, you will need to reboot your computer.
 
