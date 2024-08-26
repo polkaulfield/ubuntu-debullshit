@@ -163,7 +163,7 @@ print_banner() {
  ██    ██ ██  ██ ██ ██    ██ ██  ██  ██ ██ ██         ██        ██   ██ ██      ██    ██    ██   ██ ██    ██ 
   ██████  ██   ████  ██████  ██      ██ ██ ██         ██        ██████  ██ ███████    ██    ██   ██  ██████  
                                                                                                             
- By: @SirBisgaard | Forked from: @polkaulfield               
+ By: @SirBisgaard | Forked from: @polkaulfield | v 0.1.1         
     '                                                                                                       
 }
 
