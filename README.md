@@ -1,4 +1,4 @@
-# Gnomify Desktop!
+# Gnomify Distro!
   
 ## Overview 
 ### A script to change Ubuntu into a clean Gnome experince.
