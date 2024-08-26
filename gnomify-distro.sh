@@ -77,6 +77,7 @@ install_adwgtk3() {
     gsettings_wrapper set org.gnome.desktop.interface color-scheme prefer-dark
     gsettings_wrapper set org.gnome.desktop.interface icon-theme Papirus
 
+    gnome_extensions_wrapper enable ding@rastersoft.com
     gnome_extensions_wrapper disable ubuntu-appindicators@ubuntu.com 
     gnome_extensions_wrapper disable ubuntu-dock@ubuntu.com
     gnome_extensions_wrapper disable tiling-assistant@ubuntu.com
