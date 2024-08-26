@@ -51,10 +51,6 @@ setup_vanilla_gnome() {
     # Ubuntu 24.04 - vanilla-gnome-desktop will give "pipewire-alsa : Conflicts: pulseaudio" 
     apt install gnome-session fonts-cantarell papirus-icon-theme gnome-backgrounds gnome-tweaks gnome-shell-extension-manager vanilla-gnome-default-settings -y && apt remove ubuntu-session yaru-theme-gnome-shell yaru-theme-gtk yaru-theme-icon yaru-theme-sound -y
 
-    gnome-extensions disable ubuntu-appindicators@ubuntu.com 
-    gnome-extensions disable ubuntu-dock@ubuntu.com
-    gnome-extensions disable tiling-assistant@ubuntu.com
-
 	gsettings_wrapper set org.gnome.desktop.interface monospace-font-name "Monospace 10"
     gsettings_wrapper set org.gnome.desktop.background picture-uri 'file:///usr/share/backgrounds/gnome/blobs-l.svg'
     gsettings_wrapper set org.gnome.desktop.background picture-uri-dark 'file:///usr/share/backgrounds/gnome/blobs-l.svg'
@@ -76,9 +72,14 @@ install_adwgtk3() {
     apt install adw-gtk3 -y
     flatpak install -y runtime/org.gtk.Gtk3theme.adw-gtk3-dark
     flatpak install -y runtime/org.gtk.Gtk3theme.adw-gtk3
+
     gsettings_wrapper set org.gnome.desktop.interface gtk-theme adw-gtk3-dark
     gsettings_wrapper set org.gnome.desktop.interface color-scheme prefer-dark
     gsettings_wrapper set org.gnome.desktop.interface icon-theme Papirus
+
+    gnome_extensions_wrapper disable ubuntu-appindicators@ubuntu.com 
+    gnome_extensions_wrapper disable ubuntu-dock@ubuntu.com
+    gnome_extensions_wrapper disable tiling-assistant@ubuntu.com
 }
 
 install_icons() {
@@ -108,6 +109,13 @@ gsettings_wrapper() {
         sudo apt install dbus-x11 -y
     fi
     sudo -Hu $(logname) dbus-launch gsettings "$@"
+}
+
+gnome_extensions_wrapper() {
+    if ! command -v dbus-launch; then
+        sudo apt install dbus-x11 -y
+    fi
+    sudo -Hu $(logname) dbus-launch gnome-extensions "$@"
 }
 
 ask_reboot() {
