@@ -1,11 +1,11 @@
-# Gnomify Desktop!
+# Gnomify Distro!
   
 ## Overview 
 ### A script to change Ubuntu into a clean Gnome experince.
-Gnomify-Desktop is a script fork of [ubuntu-debullshit!](https://github.com/polkaulfield/ubuntu-debullshit) and is intended to be used on a fresh install of Ubuntu with no additional software.
+Gnomify-Distro is a script fork of [ubuntu-debullshit!](https://github.com/polkaulfield/ubuntu-debullshit) and is intended to be used on a fresh install of Ubuntu with no additional software.
 It will remove the Ubuntu desktop environment and install the near vanilla Gnome desktop environment with some additional tweaks.
 
-The gnomify-desktop script will also install many of the official Gnome applications.
+The gnomify-distro script will also install many of the official Gnome applications.
 
 ### Who is this for?
 This script is for people who want a clean Gnome experience on Ubuntu.
