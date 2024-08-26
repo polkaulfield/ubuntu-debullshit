@@ -49,11 +49,7 @@ setup_flathub() {
 setup_vanilla_gnome() {
     apt install qgnomeplatform-qt5 -y
     # Ubuntu 24.04 - vanilla-gnome-desktop will give "pipewire-alsa : Conflicts: pulseaudio" 
-    apt install gnome-session fonts-cantarell papirus-icon-theme gnome-backgrounds gnome-tweaks gnome-shell-extension-manager vanilla-gnome-default-settings -y && apt remove ubuntu-session yaru-theme-gnome-shell yaru-theme-gtk yaru-theme-icon yaru-theme-sound -y
-
-	gsettings_wrapper set org.gnome.desktop.interface monospace-font-name "Monospace 10"
-    gsettings_wrapper set org.gnome.desktop.background picture-uri 'file:///usr/share/backgrounds/gnome/blobs-l.svg'
-    gsettings_wrapper set org.gnome.desktop.background picture-uri-dark 'file:///usr/share/backgrounds/gnome/blobs-l.svg'
+    apt install gnome-session fonts-cantarell fonts-inter papirus-icon-theme gnome-backgrounds gnome-tweaks gnome-shell-extension-manager vanilla-gnome-default-settings -y && apt remove ubuntu-session yaru-theme-gnome-shell yaru-theme-gtk yaru-theme-icon yaru-theme-sound -y
 }
 
 setup_gnome_apps() {
@@ -72,10 +68,16 @@ install_adwgtk3() {
     apt install adw-gtk3 -y
     flatpak install -y runtime/org.gtk.Gtk3theme.adw-gtk3-dark
     flatpak install -y runtime/org.gtk.Gtk3theme.adw-gtk3
+}
 
+setup_desktop() { 
     gsettings_wrapper set org.gnome.desktop.interface gtk-theme adw-gtk3-dark
     gsettings_wrapper set org.gnome.desktop.interface color-scheme prefer-dark
     gsettings_wrapper set org.gnome.desktop.interface icon-theme Papirus
+
+    gsettings_wrapper set org.gnome.desktop.interface font-name 'Inter Variable 11'
+    gsettings_wrapper set org.gnome.desktop.background picture-uri 'file:///usr/share/backgrounds/gnome/blobs-l.svg'
+    gsettings_wrapper set org.gnome.desktop.background picture-uri-dark 'file:///usr/share/backgrounds/gnome/blobs-l.svg'
 
     gnome_extensions_wrapper enable ding@rastersoft.com
     gnome_extensions_wrapper disable ubuntu-appindicators@ubuntu.com 
@@ -215,8 +217,10 @@ auto() {
     setup_flathub
     msg 'Adding julianfairfax repo'
     setup_julianfairfax_repo
-    msg 'Install adw-gtk3 and set dark theme'
+    msg 'Install adw-gtk3'
     install_adwgtk3
+    msg 'Setting up Gnome desktop'
+    setup_desktop
     msg 'Installing Gnome apps from flathub'
     setup_gnome_apps
     msg 'Cleaning up'
