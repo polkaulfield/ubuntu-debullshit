@@ -49,8 +49,12 @@ setup_flathub() {
 setup_vanilla_gnome() {
     apt install qgnomeplatform-qt5 -y
     # Ubuntu 24.04 - vanilla-gnome-desktop will give "pipewire-alsa : Conflicts: pulseaudio" 
-    apt install gnome-session fonts-cantarell papirus-icon-theme gnome-backgrounds gnome-shell-extension-manager gnome-tweaks vanilla-gnome-default-settings -y && apt remove ubuntu-session yaru-theme-gnome-shell yaru-theme-gtk yaru-theme-icon yaru-theme-sound -y
-    
+    apt install gnome-session fonts-cantarell papirus-icon-theme gnome-backgrounds gnome-tweaks vanilla-gnome-default-settings -y && apt remove ubuntu-session yaru-theme-gnome-shell yaru-theme-gtk yaru-theme-icon yaru-theme-sound -y
+
+    gnome-extensions disable ubuntu-appindicators@ubuntu.com 
+    gnome-extensions disable ubuntu-dock@ubuntu.com
+    gnome-extensions disable tiling-assistant@ubuntu.com
+
 	gsettings_wrapper set org.gnome.desktop.interface monospace-font-name "Monospace 10"
     gsettings_wrapper set org.gnome.desktop.background picture-uri 'file:///usr/share/backgrounds/gnome/blobs-l.svg'
     gsettings_wrapper set org.gnome.desktop.background picture-uri-dark 'file:///usr/share/backgrounds/gnome/blobs-l.svg'
@@ -58,7 +62,7 @@ setup_vanilla_gnome() {
 
 setup_gnome_apps() {
      # Please create a PR with missing gnome apps
-     flatpak install flathub org.gnome.TextEditor org.gnome.clocks org.gnome.Logs org.gnome.Calculator org.gnome.Calendar org.gnome.Contacts org.gnome.Epiphany org.gnome.Loupe org.gnome.Music org.gnome.Papers org.gnome.Photos org.gnome.Showtime org.gnome.Snapshot org.gnome.Weather org.gnome.Maps org.gnome.seahorse.Application org.gnome.baobab org.gnome.SimpleScan org.gnome.Contacts -y
+     flatpak install flathub com.mattjakeman.ExtensionManager org.gnome.TextEditor org.gnome.clocks org.gnome.Logs org.gnome.Calculator org.gnome.Calendar org.gnome.Contacts org.gnome.Epiphany org.gnome.Loupe org.gnome.Music org.gnome.Papers org.gnome.Photos org.gnome.Showtime org.gnome.Snapshot org.gnome.Weather org.gnome.Maps org.gnome.seahorse.Application org.gnome.baobab org.gnome.SimpleScan org.gnome.Contacts -y
  }
 
 setup_julianfairfax_repo() {
