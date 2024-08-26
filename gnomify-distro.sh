@@ -49,7 +49,7 @@ setup_flathub() {
 setup_vanilla_gnome() {
     apt install qgnomeplatform-qt5 -y
     # Ubuntu 24.04 - vanilla-gnome-desktop will give "pipewire-alsa : Conflicts: pulseaudio" 
-    apt install gnome-session fonts-cantarell fonts-inter papirus-icon-theme gnome-backgrounds gnome-tweaks gnome-shell-extension-manager vanilla-gnome-default-settings -y && apt remove ubuntu-session yaru-theme-gnome-shell yaru-theme-gtk yaru-theme-icon yaru-theme-sound -y
+    apt install gnome-session fonts-cantarell fonts-inter papirus-icon-theme gnome-backgrounds gnome-tweaks gnome-sushi gnome-shell-extension-manager vanilla-gnome-default-settings -y && apt remove ubuntu-session yaru-theme-gnome-shell yaru-theme-gtk yaru-theme-icon yaru-theme-sound -y
 }
 
 setup_gnome_apps() {
@@ -163,7 +163,7 @@ print_banner() {
  ██    ██ ██  ██ ██ ██    ██ ██  ██  ██ ██ ██         ██        ██   ██ ██      ██    ██    ██   ██ ██    ██ 
   ██████  ██   ████  ██████  ██      ██ ██ ██         ██        ██████  ██ ███████    ██    ██   ██  ██████  
                                                                                                             
- By: @SirBisgaard | Forked from: @polkaulfield | v 0.1.1         
+ By: @SirBisgaard | Forked from: @polkaulfield | v 0.1.2         
     '                                                                                                       
 }
 
