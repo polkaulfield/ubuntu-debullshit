@@ -1,0 +1,205 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#: ubuntu-debullshit.sh:387
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: ubuntu-debullshit 0.2\n"
+"Report-Msgid-Bugs-To: Fernando Souza \n"
+"POT-Creation-Date: 2025-02-24 17:01-0300\n"
+"PO-Revision-Date: 2025-02-24 17:01-0300\n"
+"Last-Translator: Fernando Souza \n"
+"Language-Team: \n"
+"Language: en_US\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Description: English translation of ubuntu-debullshit.\n"
+
+
+msgid  "Option"
+msgstr ""
+
+msgid  "Help"
+msgstr ""
+
+msgid  "[ERROR] - Your system does not have an internet connection. Check your cables and modem."
+msgstr ""
+
+msgid  "[VERIFIED] - Internet connection working normally."
+msgstr ""
+
+msgid  "Yes"
+msgstr ""
+
+msgid  "No"
+msgstr ""
+
+msgid  "Testing if internet connection is active..."
+msgstr ""
+
+msgid  "Your Linux distribution is NOT Ubuntu."
+msgstr ""
+
+msgid  "The user is using GNOME."
+msgstr ""
+
+msgid  "The user is NOT using GNOME."
+msgstr ""
+
+msgid  "The folder /etc/apt/sources.list.d/ does not exist."
+msgstr ""
+
+msgid  "The /etc/apt/keyrings/ folder does not exist."
+msgstr ""
+
+msgid  "The folder /etc/apt/sources.list.d/ does not exist."
+msgstr ""
+
+msgid  "The /etc/apt/preferences.d/ folder does not exist."
+msgstr ""
+
+msgid  "Disable Telemetry"
+msgstr ""
+
+#: ubuntu-debullshit.sh:45 ubuntu-debullshit.sh:47
+msgid  "Error"
+msgstr ""
+
+#: ubuntu-debullshit.sh:146
+msgid  "The file /etc/default/motd-news exists."
+msgstr ""
+
+#: ubuntu-debullshit.sh:154
+msgid  "The file /etc/default/motd-news does not exist."
+msgstr ""
+
+#: ubuntu-debullshit.sh:312
+msgid  "Reboot"
+msgstr ""
+
+#: ubuntu-debullshit.sh:312
+msgid  "Reboot now?"
+msgstr ""
+
+#: ubuntu-debullshit.sh:359
+msgid  "Please run the script as Root!\\nWe need to do administrative tasks"
+msgstr ""
+
+#: ubuntu-debullshit.sh:386
+msgid  "ubuntu-debullshit!"
+msgstr ""
+
+#: ubuntu-debullshit.sh:387
+msgid  "Choose what to do:"
+msgstr ""
+
+#: ubuntu-debullshit.sh:388
+msgid  "Apply everything (RECOMMENDED)"
+msgstr ""
+
+#: ubuntu-debullshit.sh:389
+msgid  "Disable Ubuntu report"
+msgstr ""
+
+#: ubuntu-debullshit.sh:390
+msgid  "Remove app crash popup"
+msgstr ""
+
+#: ubuntu-debullshit.sh:391
+msgid  "Remove snaps and snapd"
+msgstr ""
+
+#: ubuntu-debullshit.sh:392
+msgid  "Disable terminal ads (LTS versions)"
+msgstr ""
+
+#: ubuntu-debullshit.sh:393
+msgid  "Install flathub and gnome-software"
+msgstr ""
+
+#: ubuntu-debullshit.sh:394
+msgid  "Install firefox from the Mozilla repo"
+msgstr ""
+
+#: ubuntu-debullshit.sh:395
+msgid  "Install vanilla GNOME session"
+msgstr ""
+
+#: ubuntu-debullshit.sh:396
+msgid  "Install adw-gtk3, morewaita and latest adwaita icons"
+msgstr ""
+
+#: ubuntu-debullshit.sh:397
+msgid  "Exit"
+msgstr ""
+
+#: ubuntu-debullshit.sh:398
+msgid  "Cancel"
+msgstr ""
+
+#: ubuntu-debullshit.sh:398
+msgid  "OK"
+msgstr ""
+
+#: ubuntu-debullshit.sh:438 ubuntu-debullshit.sh:446 ubuntu-debullshit.sh:452
+#: ubuntu-debullshit.sh:458 ubuntu-debullshit.sh:466 ubuntu-debullshit.sh:474
+#: ubuntu-debullshit.sh:482 ubuntu-debullshit.sh:490 ubuntu-debullshit.sh:505
+msgid  "Done!"
+msgstr ""
+
+#: ubuntu-debullshit.sh:517
+msgid  "Wrong input!"
+msgstr ""
+
+#: ubuntu-debullshit.sh:533
+msgid  "Updating system"
+msgstr ""
+
+#: ubuntu-debullshit.sh:538
+msgid  "Disabling ubuntu report"
+msgstr ""
+
+#: ubuntu-debullshit.sh:543
+msgid  "Removing annoying appcrash popup"
+msgstr ""
+
+#: ubuntu-debullshit.sh:548
+msgid  "Removing terminal ads (if they are enabled)"
+msgstr ""
+
+#: ubuntu-debullshit.sh:553
+msgid  "Deleting everything snap related"
+msgstr ""
+
+#: ubuntu-debullshit.sh:558
+msgid  "Setting up flathub"
+msgstr ""
+
+#: ubuntu-debullshit.sh:563
+msgid  "Restoring Firefox from mozilla repository"
+msgstr ""
+
+#: ubuntu-debullshit.sh:568
+msgid  "Installing vanilla Gnome session"
+msgstr ""
+
+#: ubuntu-debullshit.sh:573
+msgid  "Adding julianfairfax repo"
+msgstr ""
+
+#: ubuntu-debullshit.sh:578
+msgid  "Install adw-gtk3 and set dark theme"
+msgstr ""
+
+#: ubuntu-debullshit.sh:583
+msgid  "Installing GNOME 46 and morewaita icons"
+msgstr ""
+
+#: ubuntu-debullshit.sh:588
+msgid  "Cleaning up"
+msgstr ""
+
