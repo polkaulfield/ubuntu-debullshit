@@ -24,7 +24,7 @@ TL;DR, you will end up with a clean GNOME desktop with flatpaks, similar to a fr
 
 #### Preview
 
-<img src="https://raw.githubusercontent.com/tuxslack/ubuntu-debullshit/usr/share/doc/ubuntu-debullshit/screenshot.png" width="500" />
+<img src="https://raw.githubusercontent.com/tuxslack/ubuntu-debullshit/00be09325de90e3dfcb3447b108bc44d32c95c6c/usr/share/doc/ubuntu-debullshit/screenshot.png" width="500" />
 
 #### Installation
 
