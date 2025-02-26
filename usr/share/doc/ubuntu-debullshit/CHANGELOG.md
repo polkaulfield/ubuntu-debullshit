@@ -20,7 +20,9 @@
 - Parando o serviço do apport antes de remove o pacote.
 - Desativar a Telemetria.
 - Desativar a coleta de dados de pesquisa da Dash.
-
+- Extrair os nomes dos arquivos que correspondem ao padrão adwaita-icon-theme*all.deb. Ex: adwaita-icon-theme_48~beta-3_all.deb
+- Corrigido o error sed: não é possível ler /etc/default/motd-news: arquivo ou diretório inexistente
+- Adicionado arquivo de log (/tmp/ubuntu-debullshit.log) para erros.
 
 
 ## [1.0.0] - 2024-04-19

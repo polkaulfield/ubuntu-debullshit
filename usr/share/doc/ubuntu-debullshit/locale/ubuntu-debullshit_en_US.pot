@@ -56,13 +56,64 @@ msgstr ""
 msgid  "The /etc/apt/keyrings/ folder does not exist."
 msgstr ""
 
-msgid  "The folder /etc/apt/sources.list.d/ does not exist."
-msgstr ""
-
 msgid  "The /etc/apt/preferences.d/ folder does not exist."
 msgstr ""
 
 msgid  "Disable Telemetry"
+msgstr ""
+
+msgid  "The website %s is down. Response code: %s"
+msgstr ""
+
+msgid  "The website %s is online."
+msgstr ""
+
+msgid  "An error occurred while disabling ubuntu-report telemetry collection."
+msgstr ""
+
+msgid  "Pop-con service stopped and disabled."
+msgstr ""
+
+msgid  "Pop-con service is not running."
+msgstr ""
+
+msgid  "An error occurred while disabling telemetry collection for Snap packages."
+msgstr ""
+
+msgid  "An error occurred while removing whoopsie."
+msgstr ""
+
+msgid  "An error occurred while removing canonical-livepatch."
+msgstr ""
+
+msgid  "An error occurred while disabling online search sources (eBay, Wikipedia, flickr, etc.)"
+msgstr ""
+
+msgid  "An error occurred while disabling Amazon online search in Dash"
+msgstr ""
+
+msgid  "Dash's search data collection has been disabled."
+msgstr ""
+
+msgid  "Downloading the package"
+msgstr ""
+
+msgid  "Download Ubuntu"
+msgstr ""
+
+msgid  "Notice"
+msgstr ""
+
+msgid  "The file %s does not exist."
+msgstr "O arquivo %s não existe."
+
+msgid  "kernel"
+msgstr ""
+
+msgid  "Processor architecture"
+msgstr ""
+
+msgid  "The log file was generated at: %s"
 msgstr ""
 
 #: ubuntu-debullshit.sh:45 ubuntu-debullshit.sh:47

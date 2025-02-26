@@ -1,6 +1,6 @@
 # ubuntu-debullshit!
   
-#### An automated script to set-up Ubuntu as it should be. Tested on Ubuntu 22.04 and 23.04
+#### An automated script to set-up Ubuntu as it should be. Tested on Ubuntu 22.04, 23.04 and 24.04.2 LTS
 
 <img src="https://raw.githubusercontent.com/polkaulfield/ubuntu-debullshit/main/menu.png" width="500" />
   
@@ -28,7 +28,7 @@ TL;DR, you will end up with a clean GNOME desktop with flatpaks, similar to a fr
 
 #### Installation
 
-I recommend a minimal install of Ubuntu 23.04 to run this. 
+I recommend a minimal install of Ubuntu 24.04.2 LTS to run this. 
 
 You can download the script from the repo or use this oneliner command, there are no dependencies required.
 

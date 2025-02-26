@@ -56,15 +56,65 @@ msgstr "A pasta /etc/apt/sources.list.d/ não existe."
 msgid  "The /etc/apt/keyrings/ folder does not exist."
 msgstr "A pasta /etc/apt/keyrings/ não existe."
 
-msgid  "The folder /etc/apt/sources.list.d/ does not exist."
-msgstr "A pasta /etc/apt/sources.list.d/ não existe."
-
 msgid  "The /etc/apt/preferences.d/ folder does not exist."
 msgstr "A pasta /etc/apt/preferences.d/ não existe."
 
 msgid  "Disable Telemetry"
 msgstr "Desativar a Telemetria"
 
+msgid  "The website %s is down. Response code: %s"
+msgstr "O site %s está fora do ar. Código de resposta: %s"
+
+msgid  "The website %s is online."
+msgstr "O site %s está online."
+
+msgid  "An error occurred while disabling ubuntu-report telemetry collection."
+msgstr "Ocorreu um erro ao desativa a coleta de telemetria do ubuntu-report."
+
+msgid  "Pop-con service stopped and disabled."
+msgstr "Serviço pop-con parado e desabilitado."
+
+msgid  "Pop-con service is not running."
+msgstr "Serviço pop-con não está em execução."
+
+msgid  "An error occurred while disabling telemetry collection for Snap packages."
+msgstr "Ocorreu um erro ao desativa a coleta de telemetria para pacotes Snap."
+
+msgid  "An error occurred while removing whoopsie."
+msgstr "Ocorreu um erro ao remover o whoopsie."
+
+msgid  "An error occurred while removing canonical-livepatch."
+msgstr "Ocorreu um erro ao remover o canonical-livepatch."
+
+msgid  "An error occurred while disabling online search sources (eBay, Wikipedia, flickr, etc.)"
+msgstr "Ocorreu um erro ao desabilita as fontes de pesquisa online (eBay, Wikipedia, flickr, etc.)"
+
+msgid  "An error occurred while disabling Amazon online search in Dash"
+msgstr "Ocorreu um erro ao desabilita a pesquisa online da Amazon na Dash"
+
+msgid  "Dash's search data collection has been disabled."
+msgstr "A coleta de dados de pesquisa da Dash foi desativada."
+
+msgid  "Downloading the package"
+msgstr "Baixando o pacote"
+
+msgid  "Download Ubuntu"
+msgstr "Baixar Ubuntu"
+
+msgid  "Notice"
+msgstr "Aviso"
+
+msgid  "The file %s does not exist."
+msgstr "O arquivo %s não existe."
+
+msgid  "kernel"
+msgstr "kernel"
+
+msgid  "Processor architecture"
+msgstr "Arquitetura do processador"
+
+msgid  "The log file was generated at: %s"
+msgstr "O arquivo de log foi gerado em: %s"
 
 #: ubuntu-debullshit.sh:45 ubuntu-debullshit.sh:47
 msgid  "Error"

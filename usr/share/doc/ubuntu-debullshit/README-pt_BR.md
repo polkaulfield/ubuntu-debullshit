@@ -1,6 +1,6 @@
 # ubuntu-debullshit!
 
-#### Um script automatizado para configurar o Ubuntu como ele deve ser. Testado no Ubuntu 22.04 e 23.04
+#### Um script automatizado para configurar o Ubuntu como ele deve ser. Testado no Ubuntu 22.04, 23.04 e 24.04.2 LTS
 
 <img src="https://raw.githubusercontent.com/polkaulfield/ubuntu-debullshit/main/menu.png" width="500" />
 
@@ -28,7 +28,7 @@ Resumo: você terminará com uma área de trabalho GNOME limpa com flatpaks, sem
 
 #### Instalação
 
-Eu recomendo uma instalação mínima do Ubuntu 23.04 para executar isso.
+Eu recomendo uma instalação mínima do Ubuntu 24.04.2 LTS para executar isso.
 
 Você pode baixar o script do repositório ou usar este comando oneliner, não há dependências necessárias.
 
