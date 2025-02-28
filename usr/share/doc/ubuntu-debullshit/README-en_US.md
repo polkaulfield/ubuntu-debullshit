@@ -32,8 +32,21 @@ I recommend a minimal install of Ubuntu 24.04.2 LTS to run this.
 
 You can download the script from the repo or use this oneliner command, there are no dependencies required.
 
-`sudo bash -c "$(wget -qO- https://raw.githubusercontent.com/polkaulfield/ubuntu-debullshit/main/ubuntu-debullshit.sh)"`
+
+`$ git clone https://github.com/tuxslack/ubuntu-debullshit.git
+
+$ cd ubuntu-debullshit
+
+$ sudo ./install.sh instalar`
+
 
 After the install, reboot and enjoy a clean experience :)
 
 <a href='https://ko-fi.com/polkaulfield' target='_blank'><img height='35' style='border:0px;height:46px;' src='https://az743702.vo.msecnd.net/cdn/kofi3.png?v=0' border='0' alt='Buy Me a Coffee at ko-fi.com' />
+
+
+#### Uninstallation
+
+`$ sudo ./install.sh desinstalar`
+
+

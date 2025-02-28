@@ -32,11 +32,21 @@ Eu recomendo uma instalação mínima do Ubuntu 24.04.2 LTS para executar isso.
 
 Você pode baixar o script do repositório ou usar este comando oneliner, não há dependências necessárias.
 
-`sudo bash -c "$(wget -qO- https://raw.githubusercontent.com/polkaulfield/ubuntu-debullshit/main/ubuntu-debullshit.sh)"`
+`$ git clone https://github.com/tuxslack/ubuntu-debullshit.git
+
+$ cd ubuntu-debullshit
+
+$ sudo ./install.sh instalar`
+
 
 Após a instalação, reinicie e aproveite uma experiência limpa :)
 
 <a href='https://ko-fi.com/polkaulfield' target='_blank'><img height='35' style='border:0px;height:46px;' src='https://az743702.vo.msecnd.net/cdn/kofi3.png?v=0' border='0' alt='Compre-me um café em ko-fi.com' />
+
+#### Desinstalação
+
+`$ sudo ./install.sh desinstalar`
+
 
 
 O Ubuntu não é considerado um "spyware" no sentido tradicional, mas há algumas práticas de coleta de dados que podem ser vistas como invasivas, dependendo da sua perspectiva e preocupações com a privacidade. Vamos esclarecer como a coleta de dados funciona no Ubuntu e como você pode controlá-la ou desativá-la, caso tenha preocupações.
