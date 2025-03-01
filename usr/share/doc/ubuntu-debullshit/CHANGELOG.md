@@ -1,5 +1,6 @@
 # Changelog
 
+
 ## [1.0.1] - 2025-02-24
 # 
 # Fernando Souza - https://github.com/tuxslack/
@@ -23,6 +24,17 @@
 - Extrair os nomes dos arquivos que correspondem ao padrão adwaita-icon-theme*all.deb. Ex: adwaita-icon-theme_48~beta-3_all.deb
 - Corrigido o error sed: não é possível ler /etc/default/motd-news: arquivo ou diretório inexistente
 - Adicionado arquivo de log (/tmp/ubuntu-debullshit.log) para erros.
+- Desinstale o GNOME Online Accounts (Integração com contas online Ex: Google Drive, e-mail, calendário)
+- Remove "Lojas de Software" e atualizador (ubuntu-software, gnome-software, software-properties-gtk, update-manager)
+- Remove serviço de localização (Geoclue)
+- Desativa o Histórico de Arquivos (pesquisa do GNOME Shell)
+- Desativa as animações da interface gráfica GNOME [desligar os efeitos visuais]
+- Desativa as atualizações automáticas
+- Desativa todas as extensões do GNOME de uma vez
+- Desativa os espaços de trabalho dinâmico colocando em estáticos no GNOME (fixa somente 2 espaços de trabalho).
+- Desativa programas que iniciam com o sistema (Ex: Bluetooth, serviço de impressão - cups, servidor web - Apache, serviço Snap).
+- Remover PPA (Personal Package Archive) do sistema [EM FACE DE TESTE]
+- Restaurar Interface Gnome (via dconf e removendo pastas)
 
 
 ## [1.0.0] - 2024-04-19

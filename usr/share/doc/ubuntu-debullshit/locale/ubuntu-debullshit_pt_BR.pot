@@ -41,8 +41,11 @@ msgstr "Não"
 msgid  "Testing if internet connection is active..."
 msgstr "Testando se a conexão com a internet está ativa..."
 
-msgid  "Your Linux distribution is NOT Ubuntu."
-msgstr "Sua distribuição Linux NÃO é o Ubuntu."
+msgid  "Your Linux distribution is NOT Ubuntu.\n\nDetected: %s"
+msgstr "Sua distribuição Linux NÃO é o Ubuntu.\n\nFoi detectada: %s"
+
+msgid  "Your Linux distribution is: %s"
+msgstr "A sua distribuição Linux é: %s"
 
 msgid  "The user is using GNOME."
 msgstr "O usuário está utilizando o GNOME."
@@ -115,6 +118,171 @@ msgstr "Arquitetura do processador"
 
 msgid  "The log file was generated at: %s"
 msgstr "O arquivo de log foi gerado em: %s"
+
+msgid  "Uninstall GNOME Online Accounts - Online Accounts Integration"
+msgstr "Desinstale o GNOME Online Accounts - Integração com contas online"
+
+msgid  "Uninstall Software Stores"
+msgstr "Desinstale as Lojas de Software"
+
+msgid  "Disable location service"
+msgstr "Desativar o serviço de localização"
+
+msgid  "Disable File History"
+msgstr "Desativar o Histórico de Arquivos"
+
+msgid  "Disable GNOME GUI animations"
+msgstr "Desativar as animações da interface gráfica GNOME"
+
+msgid  "Disable animations when minimizing and restoring windows."
+msgstr "Desabilitar animações ao minimizar e restaurar janelas."
+
+msgid  "Disable location services\n\nDo this if you don't use programs that rely on location being enabled."
+msgstr "Desative o serviço de localização\n\nFaça isso se você não usa programas que dependam da localização ativada."
+
+msgid  "Stopping service..."
+msgstr "Parando o serviço..."
+
+msgid  "Disabling the service so that it does not start automatically..."
+msgstr "Desabilitando o serviço para que ele não seja iniciado automaticamente..."
+
+msgid  "Uninstalling package..."
+msgstr "Desinstalando o pacote..."
+
+msgid  "Removing residue from packages..."
+msgstr "Removendo os resíduos dos pacotes..."
+
+msgid  "Animations have been successfully disabled."
+msgstr "As animações foram desabilitadas com sucesso."
+
+msgid  "An error occurred while trying to disable animations. Check the log for more details.\n\nError logged in: %s"
+msgstr "Ocorreu um erro ao tentar desabilitar as animações. Verifique o log para mais detalhes.\n\nErro registrado em: %s"
+
+msgid  "Window minimize and restore animations have been successfully disabled."
+msgstr "As animações de minimizar e restaurar janelas foram desabilitadas com sucesso."
+
+msgid  "An error occurred while trying to disable window minimize and restore animations. Check the log for more details.\n\nError logged in: %s"
+msgstr "Ocorreu um erro ao tentar desabilitar as animações de minimizar e restaurar janelas. Verifique o log para mais detalhes.\n\nErro registrado em: %s"
+
+msgid  "Disabling extension: %s"
+msgstr "Desativando a extensão: %s"
+
+msgid  "Extensions that are active on your system:"
+msgstr "Extensões que estão ativas no seu sistema:"
+
+msgid  "Extensions that are active on your system now:"
+msgstr "Extensões que estão ativas no seu sistema agora:"
+
+msgid  "Disable all GNOME extensions at once"
+msgstr "Desativar todas as extensões de uma vez do GNOME"
+
+msgid  "Disable dynamic workspaces (make them static)"
+msgstr "Desabilitar espaços de trabalho dinâmicos (torná-los estáticos)"
+
+msgid  "Set the fixed number of workspaces to two."
+msgstr "Definir o número fixo de espaços de trabalho para dois."
+
+msgid  "This will ensure that the number of workspaces is fixed, and will not change \nautomatically based on the number of open windows."
+msgstr "Isso irão garantir que o número de espaços de trabalho seja fixo, e não será alterado \nautomaticamente com base no número de janelas abertas."
+
+msgid  "Disable programs that start with the system"
+msgstr "Desativar programas que iniciam com o sistema"
+
+msgid  "Programs that start automatically with the system:"
+msgstr "Programas iniciados automaticamente com o sistema:"
+
+msgid  "Disabling service: %s"
+msgstr "Desativando o serviço: %s"
+
+msgid  "Service %s has been stopped successfully."
+msgstr "O serviço %s foi parado com sucesso."
+
+msgid  "An error occurred while trying to stop service %s. Check the log for more details.\n\nError logged: %s"
+msgstr "Ocorreu um erro ao tentar parar o serviço %s. Verifique o log para mais detalhes.\n\nErro registrado: %s"
+
+msgid  "The %s service has been successfully disabled."
+msgstr "O serviço %s foi desabilitado com sucesso."
+
+msgid  "An error occurred while trying to disable service %s. Check the log for more details.\n\nError logged: %s"
+msgstr "Ocorreu um erro ao tentar desabilitar o serviço %s. Verifique o log para mais detalhes.\n\nErro registrado: %s"
+
+msgid  "Files in folder %s: "
+msgstr "Arquivos na pasta %s: "
+
+msgid  "The font %s is installed."
+msgstr "A fonte %s está instalada."
+
+msgid  "The font %s is not installed."
+msgstr "A fonte %s não está instalada."
+
+msgid  "The file %s exists."
+msgstr "O arquivo %s existe."
+
+msgid  "The file %s does not exist."
+msgstr "O arquivo %s não existe."
+
+msgid  "Package %s is already installed."
+msgstr "O pacote %s já está instalado."
+
+msgid  "Package %s is not installed. Installing..."
+msgstr "O pacote %s não está instalado. Instalando..."
+
+msgid  "Package %s installed successfully."
+msgstr "Pacote %s instalado com sucesso."
+
+msgid  "Failed to install package %s."
+msgstr "Falha ao instalar o pacote %s."
+
+msgid  "Updating package list..."
+msgstr "Atualizando a lista de pacotes..."
+
+
+# PPAs
+
+msgid  "Starting to clean up packages installed via PPAs..."
+msgstr "Iniciando a limpeza de pacotes instalados via PPAs..."
+
+msgid  "Removing PPA: %s"
+msgstr "Removendo o PPA: %s"
+
+msgid  "Removing .list files from PPAs..."
+msgstr "Removendo arquivos .list dos PPAs..."
+
+msgid  "Checking packages installed via PPAs..."
+msgstr "Verificando pacotes instalados via PPAs..."
+
+msgid  "Removing package: %s"
+msgstr "Removendo o pacote: %s"
+
+msgid  "Removal of packages installed by PPAs has been completed."
+msgstr "A remoção de pacotes instalados por PPAs foi concluída."
+
+msgid  "Remove PPA (Personal Package Archive) from the system"
+msgstr "Remover PPA (Personal Package Archive) do sistema"
+
+
+
+
+msgid  "Menu"
+msgstr "Menu"
+
+
+msgid  "Restore Gnome Interface"
+msgstr "Restaurar Interface Gnome"
+
+msgid  "Restart GNOME (or reboot your system) for the changes to take effect. You can restart GNOME with the command:\n\n# killall -3 gnome-shell"
+msgstr "Reinicie o GNOME (ou reinicie o sistema) para que as mudanças tenham efeito. Você pode reiniciar o GNOME com o comando:\n\n# killall -3 gnome-shell"
+
+
+msgid  "The user has sudo permissions."
+msgstr "O usuário tem permissões de sudo."
+
+msgid  "The user is common and does not have Root or sudo permissions."
+msgstr "O usuário é comum e não tem permissões de Root nem sudo."
+
+msgid  "The user is Root."
+msgstr "O usuário é o Root."
+
 
 #: ubuntu-debullshit.sh:45 ubuntu-debullshit.sh:47
 msgid  "Error"
