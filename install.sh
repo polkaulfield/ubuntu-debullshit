@@ -130,6 +130,7 @@ echo "
 Para mais informações verifique o arquivo de log $log
 "
 
+cat "$log"
 
 }
 
@@ -142,7 +143,10 @@ Para mais informações verifique o arquivo de log $log
 desinstalar(){
 
 clear
-  echo "Iniciando a desinstalação..." | tee -a "$log"
+
+rm "$log"
+
+echo "Iniciando a desinstalação..." | tee -a "$log"
   
 # Para remover todos os arquivos listados no arquivo desinstalar_ubuntu-debullshit.log, você pode usar o comando rm em conjunto com o comando xargs.
 
@@ -162,6 +166,8 @@ cat desinstalar_ubuntu-debullshit.log | xargs rm -f
 echo "
 Para mais informações verifique o arquivo de log $log
 "
+
+cat "$log"
 
 }
 

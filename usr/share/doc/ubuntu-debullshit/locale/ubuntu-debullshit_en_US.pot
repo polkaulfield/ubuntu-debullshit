@@ -20,6 +20,39 @@ msgstr ""
 "Description: English translation of ubuntu-debullshit.\n"
 
 
+
+# ----------------------------------------------------------------------------------------
+
+# Introdução ao Shell Script 
+
+
+msgid  "Hardware where the optimization was performed:"
+msgstr ""
+
+msgid  "Processor: Celeron 847 1.1GHz (2 cores)"
+msgstr ""
+
+msgid  "RAM: 2GB DDR3"
+msgstr ""
+
+msgid  "SSD: 128GB"
+msgstr ""
+
+msgid  "Note: You don't need to do all the steps, choose the ones you think will help you with your needs."
+msgstr ""
+
+msgid  "Slightly improved, but losing resources."
+msgstr ""
+
+msgid  "The changes are intended to make the system more responsive, but may sacrifice some of the features that \nGNOME Shell brings by default. Use it if your machine really needs it, or if you don't really use the resources."
+msgstr ""
+
+msgid  "The log file will be in %s at the end of the processes for checking errors or bugs."
+msgstr ""
+
+# ----------------------------------------------------------------------------------------
+
+
 msgid  "Option"
 msgstr ""
 
@@ -106,9 +139,6 @@ msgstr ""
 
 msgid  "Notice"
 msgstr ""
-
-msgid  "The file %s does not exist."
-msgstr "O arquivo %s não existe."
 
 msgid  "kernel"
 msgstr ""
@@ -233,9 +263,8 @@ msgstr ""
 msgid  "Failed to install package %s."
 msgstr ""
 
-msgid  "Updating package list..."
-msgstr ""
 
+# ----------------------------------------------------------------------------------------
 
 # PPAs
 
@@ -261,6 +290,9 @@ msgid  "Remove PPA (Personal Package Archive) from the system"
 msgstr ""
 
 
+# ----------------------------------------------------------------------------------------
+
+
 msgid  "Menu"
 msgstr ""
 
@@ -278,6 +310,151 @@ msgstr ""
 
 msgid  "The user is Root."
 msgstr ""
+
+
+
+msgid  "Disables Canonical partner repositories"
+msgstr ""
+
+msgid  "What is the best repository?"
+msgstr ""
+
+
+# ----------------------------------------------------------------------------------------
+
+# Firewall
+
+msgid  "Configure the Firewall"
+msgstr ""
+
+msgid  "Activating UFW..."
+msgstr ""
+
+msgid  "Cleaning up existing rules..."
+msgstr ""
+
+msgid  "Setting default policies: block inbound, allow outbound..."
+msgstr ""
+
+msgid  "Blocking ad servers and tracking..."
+msgstr ""
+
+msgid  "Blocking incoming connections, allowing only the local interface (loopback)..."
+msgstr ""
+
+msgid  "Enabling essential system services..."
+msgstr ""
+
+msgid  "Checking Firewall status..."
+msgstr ""
+
+msgid  "Firewall configured for maximum privacy!"
+msgstr ""
+
+msgid  "Firewall for Total Privacy Protection"
+msgstr ""
+
+msgid  "iptables is already installed."
+msgstr ""
+
+msgid  "iptables is not installed. Installing now..."
+msgstr ""
+
+msgid  "iptables installed successfully!"
+msgstr ""
+
+msgid  "Setting up basic iptables rules to protect your privacy..."
+msgstr ""
+
+msgid  "Setting default policies: block all and allow local connections..."
+msgstr ""
+
+msgid  "Allow local traffic (loopback)..."
+msgstr ""
+
+msgid  "Allow essential outbound traffic..."
+msgstr ""
+
+msgid  "Saving rules..."
+msgstr ""
+
+msgid  "Iptables rules configured successfully!"
+msgstr ""
+
+msgid  "Blocking tracking IP: %s"
+msgstr ""
+
+msgid  "UFW is not installed. Installing now..."
+msgstr ""
+
+msgid  "UFW installed successfully!"
+msgstr ""
+
+msgid  "UFW is already installed."
+msgstr ""
+
+
+# ----------------------------------------------------------------------------------------
+
+#  Desmarcar Parceiros da Canonical (Código fonte) do repositório
+
+msgid  "Updating repositories..."
+msgstr ""
+
+msgid  "Canonical Partners Repository"
+msgstr ""
+
+msgid  "Canonical repositories successfully unchecked."
+msgstr ""
+
+# ----------------------------------------------------------------------------------------
+
+# Verificar qual o servidor de repositório mais rápido
+
+msgid  "Testing server latency..."
+msgstr ""
+
+msgid  "Testing latency of %s..."
+msgstr ""
+
+msgid  "The fastest repository server is: %s with latency of %s ms."
+msgstr ""
+
+msgid  "Repositories configured in the system:"
+msgstr ""
+
+msgid  "The fastest repository server for your connection is:\n\n%s\n\nWith latency of: %s ms."
+msgstr ""
+
+msgid  "Best repository server"
+msgstr ""
+
+# ----------------------------------------------------------------------------------------
+
+# Atualizar o sistema
+
+
+msgid  "Update the system"
+msgstr ""
+
+msgid  "Updating package list..."
+msgstr ""
+
+msgid  "Updating installed packages..."
+msgstr ""
+
+msgid  "Cleaning up unnecessary packages..."
+msgstr ""
+
+msgid  "Cleaning up downloaded packages..."
+msgstr ""
+
+# ----------------------------------------------------------------------------------------
+
+
+msgid  "RAM consumption"
+msgstr ""
+
 
 
 #: ubuntu-debullshit.sh:45 ubuntu-debullshit.sh:47

@@ -20,6 +20,67 @@ msgstr ""
 "Description: Tradução para o português brasileiro do ubuntu-debullshit.\n"
 
 
+
+# Introdução ao Shell Script
+
+
+# msgid  ""
+# "Hardware where the optimization was performed:"
+# "Processor: Celeron 847 1.1GHz (2 cores)"
+# "RAM: 2GB DDR3"
+# "SSD: 128GB"
+# "Note: You don't need to do all the steps, choose the ones you think will help you with your needs."
+# "Slightly improved, but losing resources."
+# "The changes are intended to make the system more responsive, but may sacrifice some of the features that \nGNOME Shell brings by default. Use it if your machine really needs it, or if you don't really use the resources."
+# "The log file will be in %s at the end of the processes for checking errors or bugs."
+
+
+
+# msgstr ""
+# "Hardware onde foi feita a otimização:"
+# "Processador: Celeron 847 1.1GHz (2 núcleos)"
+# "RAM: 2GB DDR3"
+# "SSD: 128GB"
+# "Atenção: Você não precisa fazer todos os passos, escolha os que achar que ajudarão na sua necessidade."
+# "Melhorando um pouco, mas perdendo recursos."
+# "As mudanças servem para que o sistema fique mais responsivo, mas pode sacrificar algumas comodidades que o \nGNOME Shell traz por padrão. Use se sua máquina realmente precisar, ou se você realmente não usa os recursos."
+# "O arquivo de log ficará em %s ao final dos processos para consulta de erros ou bugs."
+
+
+# ----------------------------------------------------------------------------------------
+
+# Introdução ao Shell Script 
+
+
+msgid  "Hardware where the optimization was performed:"
+msgstr "Hardware onde foi feita a otimização:"
+
+msgid  "Processor: Celeron 847 1.1GHz (2 cores)"
+msgstr "Processador: Celeron 847 1.1GHz (2 núcleos)"
+
+msgid  "RAM: 2GB DDR3"
+msgstr "RAM: 2GB DDR3"
+
+msgid  "SSD: 128GB"
+msgstr "SSD: 128GB"
+
+msgid  "Note: You don't need to do all the steps, choose the ones you think will help you with your needs."
+msgstr "Atenção: Você não precisa fazer todos os passos, escolha os que achar que ajudarão na sua necessidade."
+
+msgid  "Slightly improved, but losing resources."
+msgstr "Melhorando um pouco, mas perdendo recursos."
+
+msgid  "The changes are intended to make the system more responsive, but may sacrifice some of the features that \nGNOME Shell brings by default. Use it if your machine really needs it, or if you don't really use the resources."
+msgstr "As mudanças servem para que o sistema fique mais responsivo, mas pode sacrificar algumas comodidades que o \nGNOME Shell traz por padrão. Use se sua máquina realmente precisar, ou se você realmente não usa os recursos."
+
+msgid  "The log file will be in %s at the end of the processes for checking errors or bugs."
+msgstr "O arquivo de log ficará em %s ao final dos processos para consulta de erros ou bugs."
+
+
+# ----------------------------------------------------------------------------------------
+
+
+
 msgid  "Option"
 msgstr "Opção"
 
@@ -41,8 +102,8 @@ msgstr "Não"
 msgid  "Testing if internet connection is active..."
 msgstr "Testando se a conexão com a internet está ativa..."
 
-msgid  "Your Linux distribution is NOT Ubuntu.\n\nDetected: %s"
-msgstr "Sua distribuição Linux NÃO é o Ubuntu.\n\nFoi detectada: %s"
+msgid  "Your Linux distribution is NOT Ubuntu."
+msgstr "Sua distribuição Linux NÃO é o Ubuntu."
 
 msgid  "Your Linux distribution is: %s"
 msgstr "A sua distribuição Linux é: %s"
@@ -218,9 +279,6 @@ msgstr "A fonte %s não está instalada."
 msgid  "The file %s exists."
 msgstr "O arquivo %s existe."
 
-msgid  "The file %s does not exist."
-msgstr "O arquivo %s não existe."
-
 msgid  "Package %s is already installed."
 msgstr "O pacote %s já está instalado."
 
@@ -233,9 +291,7 @@ msgstr "Pacote %s instalado com sucesso."
 msgid  "Failed to install package %s."
 msgstr "Falha ao instalar o pacote %s."
 
-msgid  "Updating package list..."
-msgstr "Atualizando a lista de pacotes..."
-
+# ----------------------------------------------------------------------------------------
 
 # PPAs
 
@@ -260,7 +316,7 @@ msgstr "A remoção de pacotes instalados por PPAs foi concluída."
 msgid  "Remove PPA (Personal Package Archive) from the system"
 msgstr "Remover PPA (Personal Package Archive) do sistema"
 
-
+# ----------------------------------------------------------------------------------------
 
 
 msgid  "Menu"
@@ -282,6 +338,151 @@ msgstr "O usuário é comum e não tem permissões de Root nem sudo."
 
 msgid  "The user is Root."
 msgstr "O usuário é o Root."
+
+
+
+msgid  "Disables Canonical partner repositories"
+msgstr "Desabilita repositórios de parceiros da Canonical"
+
+msgid  "What is the best repository?"
+msgstr "Qual o melhor repositorio?"
+
+# ----------------------------------------------------------------------------------------
+
+# Firewall
+
+
+msgid  "Configure the Firewall"
+msgstr "Configura o Firewall"
+
+msgid  "Activating UFW..."
+msgstr "Ativando o UFW..."
+
+msgid  "Cleaning up existing rules..."
+msgstr "Limpando as regras existentes..."
+
+msgid  "Setting default policies: block inbound, allow outbound..."
+msgstr "Definindo políticas padrão: bloquear entrada, permitir saída..."
+
+msgid  "Blocking ad servers and tracking..."
+msgstr "Bloqueando servidores de anúncios e rastreamento..."
+
+msgid  "Blocking incoming connections, allowing only the local interface (loopback)..."
+msgstr "Bloqueando conexões de entrada, permitindo apenas a interface local (loopback)..."
+
+msgid  "Enabling essential system services..."
+msgstr "Permitindo serviços essenciais para o sistema..."
+
+msgid  "Checking Firewall status..."
+msgstr "Verificando status do Firewall..."
+
+msgid  "Firewall configured for maximum privacy!"
+msgstr "Firewall configurado para máxima privacidade!"
+
+msgid  "Firewall for Total Privacy Protection"
+msgstr "Firewall para Proteção Total de Privacidade"
+
+msgid  "iptables is already installed."
+msgstr "O iptables já está instalado."
+
+msgid  "iptables is not installed. Installing now..."
+msgstr "O iptables não está instalado. Instalando agora..."
+
+msgid  "iptables installed successfully!"
+msgstr "iptables instalado com sucesso!"
+
+msgid  "Setting up basic iptables rules to protect your privacy..."
+msgstr "Configurando regras básicas do iptables para proteger sua privacidade..."
+
+msgid  "Setting default policies: block all and allow local connections..."
+msgstr "Definindo políticas padrão: bloquear tudo e permitir conexões locais..."
+
+msgid  "Allow local traffic (loopback)..."
+msgstr "Permitir tráfego local (loopback)..."
+
+msgid  "Allow essential outbound traffic..."
+msgstr "Permitir tráfego de saída essencial..."
+
+msgid  "Saving rules..."
+msgstr "Salvando regras..."
+
+msgid  "Iptables rules configured successfully!"
+msgstr "Regras do iptables configuradas com sucesso!"
+
+msgid  "Blocking tracking IP: %s"
+msgstr "Bloqueando IP de rastreamento: %s"
+
+msgid  "UFW is not installed. Installing now..."
+msgstr "O UFW não está instalado. Instalando agora..."
+
+msgid  "UFW installed successfully!"
+msgstr "UFW instalado com sucesso!"
+
+msgid  "UFW is already installed."
+msgstr "UFW já está instalado."
+
+
+# ----------------------------------------------------------------------------------------
+
+#  Desmarcar Parceiros da Canonical (Código fonte) do repositório
+
+msgid  "Updating repositories..."
+msgstr "Atualizando os repositórios..."
+
+msgid  "Canonical Partners Repository"
+msgstr "Repositório Parceiros da Canonical"
+
+msgid  "Canonical repositories successfully unchecked."
+msgstr "Repositórios da Canonical desmarcados com sucesso."
+
+# ----------------------------------------------------------------------------------------
+
+# Verificar qual o servidor de repositório mais rápido
+
+msgid  "Testing server latency..."
+msgstr "Testando latência dos servidores..."
+
+msgid  "Testing latency of %s..."
+msgstr "Testando latência de %s..."
+
+msgid  "The fastest repository server is: %s with latency of %s ms."
+msgstr "O servidor de repositório mais rápido é: %s com latência de %s ms."
+
+msgid  "Repositories configured in the system:"
+msgstr "Repositórios configurados no sistema:"
+
+msgid  "The fastest repository server for your connection is:\n\n%s\n\nWith latency of: %s ms."
+msgstr "O servidor de repositório mais rápido para sua conexão é:\n\n%s\n\nCom latência de: %s ms."
+
+msgid  "Best repository server"
+msgstr "Melhor servidor de repositório"
+
+# ----------------------------------------------------------------------------------------
+
+# Atualizar o sistema
+
+
+msgid  "Update the system"
+msgstr "Atualizar o sistema"
+
+msgid  "Updating package list..."
+msgstr "Atualizando a lista de pacotes..."
+
+msgid  "Updating installed packages..."
+msgstr "Atualizando os pacotes instalados..."
+
+msgid  "Cleaning up unnecessary packages..."
+msgstr "Limpando pacotes desnecessários..."
+
+msgid  "Cleaning up downloaded packages..."
+msgstr "Limpando pacotes baixados..."
+
+
+# ----------------------------------------------------------------------------------------
+
+
+msgid  "RAM consumption"
+msgstr "Consumo de memória RAM"
 
 
 #: ubuntu-debullshit.sh:45 ubuntu-debullshit.sh:47

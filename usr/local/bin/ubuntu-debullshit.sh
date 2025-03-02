@@ -13,8 +13,21 @@
 # Melhorando a performance do Ubuntu em computadores fracos e pode ser útil também para máquinas mais potentes.
 
 
-# Changelog: /usr/share/doc/ubuntu-debullshit/CHANGELOG.md
+# Dê permissão para executar o script:
+# 
+# chmod +x ubuntu-debullshit.sh
+# 
+# Execute o script:
+# 
+# ./ubuntu-debullshit.sh
+# 
+# ou
+# 
+# mv -i ~/Downloads/ubuntu-debullshit.sh  /usr/local/bin/
 
+
+
+# Changelog: /usr/share/doc/ubuntu-debullshit/CHANGELOG.md
 
 
 # License: GPL - https://www.gnu.org/
@@ -105,27 +118,55 @@ intro(){
 
 # Salva o texto em um arquivo temporário
 
-echo "Hardware fraco para fazer a otimização:
+echo "$(gettext "Hardware where the optimization was performed:
 
-Processador: Celeron 847 1.1GHz (2 núcleos)
+Processor: Celeron 847 1.1GHz (2 cores)
 RAM: 2GB DDR3
 SSD: 128GB
 
-Atenção: Você não precisa fazer todos os passos, escolha os que achar que ajudarão na sua necessidade.
+Note: You don't need to do all the steps, choose the ones you think will help you with your needs.
 
-Melhorando um pouco, mas perdendo recursos.
+Slightly improved, but losing resources.
 
-As mudanças servem para que o sistema fique mais responsivo, mas pode sacrificar algumas comodidades que o 
-GNOME Shell traz por padrão. Use se sua máquina realmente precisar, ou se você realmente não usa os recursos.
+The changes are intended to make the system more responsive, but may sacrifice some of the features that \nGNOME Shell brings by default. Use it if your machine really needs it, or if you don't really use the resources.
 
-O arquivo de log ficará em $log ao final dos processos para consulta de erros ou bugs." > /tmp/introducao.txt
+The log file will be in $log at the end of the processes for checking errors or bugs.")"
+
+
+
+
+
+
+
+message=$(gettext 'The log file will be in %s at the end of the processes for checking errors or bugs.')
+
+
+
+echo -e "$(gettext "Hardware where the optimization was performed:")
+
+" > /tmp/introducao.txt
+
+echo "$(gettext "Processor: Celeron 847 1.1GHz (2 cores)")" >> /tmp/introducao.txt
+
+echo "$(gettext "RAM: 2GB DDR3")" >> /tmp/introducao.txt
+
+echo -e "$(gettext "SSD: 128GB")
+" >> /tmp/introducao.txt
+
+echo -e "$(gettext "Note: You don't need to do all the steps, choose the ones you think will help you with your needs.")
+" >> /tmp/introducao.txt
+
+echo -e "$(gettext "Slightly improved, but losing resources.")
+" >> /tmp/introducao.txt
+
+echo -e "$(gettext "The changes are intended to make the system more responsive, but may sacrifice some of the features that 
+GNOME Shell brings by default. Use it if your machine really needs it, or if you don't really use the resources.")
+" >> /tmp/introducao.txt
+
+echo "$(printf "$message"  "$log")" >> /tmp/introducao.txt
 
 
 introducao=$(cat /tmp/introducao.txt)
-
-
-
-
 
 
 
@@ -253,8 +294,11 @@ if ! ping -c 1 www.google.com.br -q &> /dev/null; then
               # Internet está PARADA !!!
 
               echo -e "${RED}$(gettext '[ERROR] - Your system does not have an internet connection. Check your cables and modem.') \n ${NC}"
-              
+ 
+              sudo -u $SUDO_USER DISPLAY=$DISPLAY XAUTHORITY=$XAUTHORITY \
               notify-send -i "/usr/share/icons/gnome/32x32/status/network-error.png" -t "$((DELAY * 1000))" "$(gettext 'Error')" "$(gettext '[ERROR] - Your system does not have an internet connection. Check your cables and modem.') \n"
+              
+              # Big Linux: Erro ao chamar a linha de comandos “dbus-launch --autolaunch=f662f1a5f2682f2556553c8d67c319f5 --binary-syntax --close-stderr”: Processo filho concluiu com código 1
               
               sleep 1
 
@@ -286,6 +330,9 @@ fi
 
 check_programs(){
 
+
+
+# apt install -y preload
 
 
 # ----------------------------------------------------------------------------------------
@@ -335,8 +382,8 @@ for cmd in yad dialog rm fc-list gettext gsettings notify-send gpg sed sudo curl
 
         echo -e "\n$(gettext 'Error'): $(gettext 'Command '$cmd' not found.') \n\n# apt install -y $cmd"
 
-
-        notify-send -i "/usr/share/icons/gnome/32x32/status/software-update-urgent.png" -t "$((DELAY * 1000))" "$(gettext 'Error')" "\n$(gettext 'Command '$cmd' not found.') \n\n# apt install -y $cmd"
+        sudo -u $SUDO_USER DISPLAY=$DISPLAY XAUTHORITY=$XAUTHORITY \
+notify-send -i "/usr/share/icons/gnome/32x32/status/software-update-urgent.png" -t "$((DELAY * 1000))" "$(gettext 'Error')" "\n$(gettext 'Command '$cmd' not found.') \n\n# apt install -y $cmd"
 
 
         sleep 1
@@ -515,12 +562,15 @@ systemctl disable apport  2>> "$log"
 
 echo -e "\n$(gettext 'Uninstalling package...')\n"
 
-apt purge -y  apport* apport-gtk  2>> "$log"
+apt purge -y  apport* apport-gtk apport-symptoms 2>> "$log"
 
 
 # Remova os resíduos.
 
 cleanup
+
+
+# https://launchpad.net/ubuntu/+source/apport-symptoms
 
 
 }
@@ -561,12 +611,19 @@ remove_snaps() {
     apt purge -y snapd*  2>> "$log"
 
 
+    apt remove --purge -y gnome-software-plugin-snap  2>> "$log"
+
+
+
    # Remova os resíduos.
 
    cleanup
 
 
     rm -rf /snap /var/lib/snapd  2>> "$log"
+
+
+    rm -rf /var/cache/snapd      2>> "$log"
 
 
 
@@ -793,7 +850,11 @@ setup_vanilla_gnome() {
     apt install -y qgnomeplatform-qt5  2>> "$log"
 
 
+# Ajustes com o GNOME Tweaks
+
+
     apt install -y gnome-session fonts-cantarell adwaita-icon-theme gnome-backgrounds gnome-tweaks vanilla-gnome-default-settings gnome-shell-extension-manager -y && apt purge -y ubuntu-session yaru-theme-gnome-shell yaru-theme-gtk yaru-theme-icon yaru-theme-sound       2>> "$log"
+
 
 
 # Remova os resíduos.
@@ -801,7 +862,8 @@ setup_vanilla_gnome() {
 cleanup
 
 
-    set_fonts 2>> "$log"
+
+    set_fonts            2>> "$log"
 
     restore_background   2>> "$log"
 
@@ -1603,6 +1665,7 @@ quebrar.
 
 "
 
+sleep 10
 
 
 echo -e "${GREEN}\n$(gettext 'Starting to clean up packages installed via PPAs...')  \n${NC}"
@@ -1610,7 +1673,7 @@ echo -e "${GREEN}\n$(gettext 'Starting to clean up packages installed via PPAs..
 
 # Passo 1: Remover todos os PPAs adicionados
 
-echo "$(gettext 'Removing .list files from PPAs...')"
+echo -e "$(gettext 'Removing .list files from PPAs...')"
 
 for ppa in /etc/apt/sources.list.d/*; do
 
@@ -1957,7 +2020,7 @@ O GNOME Shell armazena o histórico dos arquivos utilizados para colocar nos ite
 
 # Desabilitar o Histórico de Arquivos no GNOME (tracker3 e gnome-shell): No Ubuntu, o GNOME usa o tracker3 para indexar arquivos e criar o histórico de arquivos acessados.
 
-echo "Desabilitando o serviço de rastreamento de arquivos (tracker3)..."
+echo "$(gettext 'Desabilitando o serviço de rastreamento de arquivos (tracker3)...')"
 
 # Para parar o serviço de rastreamento de arquivos:
 
@@ -2004,7 +2067,7 @@ systemctl --user mask tracker3-miner-text.service 2>> "$log"
 
 
 
-echo "Desabilitar o Histórico de Arquivos no GNOME"
+echo "$(gettext 'Desabilitar o Histórico de Arquivos no GNOME')"
 
 # Se você também quiser desabilitar o histórico de arquivos do GNOME, que armazena informações sobre arquivos abertos recentemente:
 
@@ -2015,7 +2078,7 @@ gsettings set org.gnome.nautilus.history enabled false 2>> "$log"
 # Isso irá desabilitar o registro de arquivos acessados no Nautilus e também os itens recentes mostrados no menu "Recentes".
 
 
-echo "Limpar o histórico de arquivos recentes"
+echo "$(gettext 'Limpar o histórico de arquivos recentes')"
 
 # (Opcional) Apagar o histórico de arquivos armazenado:
 
@@ -2269,6 +2332,10 @@ fi
 }
 
 
+
+# https://www.youtube.com/watch?v=wA1BIJYZbXI
+
+
 # ----------------------------------------------------------------------------------------
 
 
@@ -2284,6 +2351,38 @@ disable_GNOME_extensions() {
 # gnome-extensions disable, você está desabilitando uma extensão específica sem removê-la 
 # do sistema. Isso pode ser útil quando você deseja temporariamente desativar uma extensão 
 # para testar ou resolver problemas sem precisar desinstalá-la.
+
+
+
+
+# Para ativar o "Não me perturbe" no Ubuntu, você pode usar a ferramenta 
+# gnome-shell-extension-dnd (Do Not Disturb) do GNOME. Ela é responsável pela função de 
+# "não perturbe" no GNOME Shell, o ambiente de desktop do Ubuntu.
+# 
+#     Instale a ferramenta necessária, caso não tenha instalado:
+# 
+# apt install -y gnome-shell-extension-dnd
+# 
+# Ative o "Não me perturbe": Para ativar a função, use o seguinte comando:
+# 
+# gnome-extensions enable [ID_da_extensão]
+# 
+# Normalmente, o ID da extensão de "Não Perturbe" será algo como 
+# do-not-disturb@gnome-shell-extensions.gcampax.github.com. Porém, se você não souber o 
+# ID exato, pode verificar com o comando:
+# 
+# gnome-extensions list
+# 
+# Ele irá listar as extensões instaladas. Procure pela extensão relacionada ao 
+# "Do Not Disturb" e use o ID correto no comando acima.
+# 
+# Desative o "Não me perturbe" (se precisar reverter depois): Para desativá-lo, basta usar:
+# 
+#     gnome-extensions disable [ID_da_extensão]
+# 
+# Após isso, a função "Não me perturbe" deve estar ativada e você não receberá notificações.
+
+
 
 
 echo -e "${GREEN}$(gettext "Disable all GNOME extensions at once") ${NC}"
@@ -2313,7 +2412,7 @@ for ext in $(gnome-extensions list); do
     echo -e "${RED}\n$(printf "$message" "$ext") ${NC}"
 
 
-    gnome-extensions disable $ext  2>> "$log"
+    gnome-extensions disable "$ext"  2>> "$log"
 
 
 done
@@ -2331,7 +2430,12 @@ echo -e "\n$(gettext 'Extensions that are active on your system now:')\n" | tee 
 gnome-extensions list | tee -a "$log"
 
 
+
+# 5:43 - https://www.youtube.com/watch?v=wA1BIJYZbXI
+
 }
+
+
 
 # ----------------------------------------------------------------------------------------
 
@@ -2646,8 +2750,55 @@ fi
 done
 
 
+
+
 # O tee é um comando que lê a entrada e a escreve tanto na saída padrão (no terminal) quanto em um arquivo especificado.
 # A opção -a (append) faz com que o tee adicione a mensagem ao final de um arquivo de log existente (especificado pela variável $log), em vez de sobrescrevê-lo.
+
+
+
+
+
+
+# sudo sed -i "s/NoDisplay=true/NoDisplay=false/g" /etc/xdg/autostart/*.desktop
+
+
+# sudo: Executa o comando com permissões de superusuário, ou seja, ele concede permissões 
+# administrativas para modificar arquivos do sistema.
+# 
+# sed: O sed é uma ferramenta de manipulação de texto usada para realizar substituições 
+# em arquivos de texto ou na entrada fornecida.
+# 
+# -i: Esse parâmetro diz ao sed para editar os arquivos no local, ou seja, a modificação 
+# é feita diretamente no arquivo, sem necessidade de criar um arquivo temporário ou de saída.
+# 
+# "s/NoDisplay=true/NoDisplay=false/g": Esta é a expressão de substituição do sed. Ela 
+# busca por todas as ocorrências de NoDisplay=true e as substitui por NoDisplay=false no 
+# conteúdo dos arquivos. O g no final significa "global", ou seja, todas as ocorrências 
+# na linha serão substituídas.
+# 
+# /etc/xdg/autostart/*.desktop: O caminho especifica todos os arquivos .desktop na pasta 
+# /etc/xdg/autostart/. Arquivos .desktop são usados para definir como aplicativos são 
+# lançados, com suas propriedades e configurações de execução, geralmente no ambiente 
+# gráfico. Esses arquivos de configuração de inicialização contêm várias propriedades, 
+# incluindo NoDisplay, que controla se o aplicativo será ou não exibido nas configurações 
+# de inicialização automática.
+
+
+# O que o comando faz?
+# 
+# Ele altera todos os arquivos .desktop dentro do diretório /etc/xdg/autostart/, 
+# substituindo a linha NoDisplay=true por NoDisplay=false.
+# 
+#     Antes: Se NoDisplay=true, o aplicativo não será mostrado na interface gráfica de 
+# configurações de inicialização.
+# 
+#     Depois: A mudança para NoDisplay=false faz com que o aplicativo passe a ser visível 
+# nas configurações de inicialização automática.
+
+# Isso pode ser útil quando você deseja tornar visíveis na interface gráfica aplicativos 
+# que normalmente são ocultos nas configurações de inicialização automática.
+ 
 
 
 # Services disabled successfully!
@@ -2728,7 +2879,7 @@ fi
 # O GNOME armazena a maioria das configurações no banco de dados dconf. Redefinir o dconf 
 # para os padrões pode corrigir configurações problemáticas.
 
-dconf reset -f /org/gnome/
+dconf reset -f /org/gnome/   2>> "$log" 
 
 # Isso irá resetar as configurações do GNOME para o estado padrão.
 
@@ -2746,7 +2897,10 @@ notify-send -i "/usr/share/icons/gnome/32x32/status/dialog-warning.png" -t "$((D
 #     Abra GNOME Tweaks (Você pode procurar por "Ajustes" ou "Tweaks" no menu de aplicativos).
 #     Vá para a aba que você deseja resetar (por exemplo, "Extensões", "Aparência" ou "Comportamento").
 #     Dependendo da configuração, você pode manualmente voltar às configurações padrão.
-
+#
+#
+# apt install -y gnome-tweak-tool
+#
 
 
 # Método 3: Remover e reinstalar o GNOME (mais drástico)
@@ -2777,8 +2931,886 @@ notify-send -i "/usr/share/icons/gnome/32x32/status/dialog-warning.png" -t "$((D
 
 }
 
+# ----------------------------------------------------------------------------------------
+
+
+#  Desmarcar Parceiros da Canonical (Código fonte) do repositório
+
+
+# Em Parceiros da Canonical não há necessidade de marcar a opção 
+# "Parceiros da Canonical (Código fonte)" se o usuário não for programador 
+# e precisar acessar o código de alguns softwares. Geralmente o usuário comum/médio 
+# não se beneficiará dessa opção.
+
+
+# Para desmarcar "Parceiros da Canonical" (ou qualquer repositório adicional) do 
+# repositório do Ubuntu, podemos modificar os arquivos de repositórios encontrados 
+# em /etc/apt/sources.list ou nos arquivos dentro do diretório /etc/apt/sources.list.d/.
+# 
+# O repositório "Parceiros da Canonical" geralmente é definido por uma linha como:
+# 
+# deb http://archive.canonical.com/ubuntu focal partner
+# 
+# Para desmarcar o repositório, basta comentar essa linha (adicionando # no início) ou removê-la.
+
+
+desmarcar_repositorio_canonical() {
+
+
+# Caminho para o arquivo de repositórios principal
+
+SOURCE_LIST="/etc/apt/sources.list"
+
+# Caminho para o diretório de arquivos de repositórios adicionais
+
+SOURCE_LIST_DIR="/etc/apt/sources.list.d/"
+
+
+# Função para comentar a linha do repositório "parceiros"
+
+desmarcar_repositorio() {
+
+    # Comentar a linha do repositório "Parceiros da Canonical"
+
+    sed -i '/canonical.com\/ubuntu/s/^\(deb .*\)$/#\1/' "$SOURCE_LIST"  2>> "$log" 
+    
+    # Comentar em arquivos do diretório sources.list.d
+
+    for file in "$SOURCE_LIST_DIR"*.list; do
+
+        sed -i '/canonical.com\/ubuntu/s/^\(deb .*\)$/#\1/' "$file"     2>> "$log" 
+
+    done
+
+}
+
+
+# Explicação do Script:
+# 
+#  /etc/apt/sources.list: É o arquivo principal que contém as configurações dos repositórios.
+# 
+#  /etc/apt/sources.list.d/: Contém arquivos adicionais com repositórios específicos.
+# 
+#  sed -i '/canonical.com\/ubuntu/s/^\(deb .*\)$/#\1/': Usamos o comando sed para procurar 
+#  qualquer linha que contenha canonical.com/ubuntu e comentar essa linha. O # no início 
+#  da linha transforma o repositório em um comentário.
+# 
+#  apt update: Atualiza a lista de pacotes após a modificação dos repositórios.
+
+
+# Executa a função
+desmarcar_repositorio
+
+
+    echo -e "${GREEN}\n$(gettext 'Updating repositories...') \n${NC}"
+
+    apt update 2>> "$log" 
+
+    sleep 1
+
+
+sudo -u $SUDO_USER DISPLAY=$DISPLAY XAUTHORITY=$XAUTHORITY \
+notify-send -i "/usr/share/icons/gnome/32x32/status/dialog-information.png" -t "$((DELAY * 1000))" "$(gettext '"Canonical Partners Repository')" "\n$(gettext 'Canonical repositories successfully unchecked.')\n"
+
+
+# Essa função desmarcará os repositórios de "Parceiros da Canonical" e atualizará a lista de pacotes.
+
+
+}
+
+
+# https://www.vivaolinux.com.br/dica/O-que-fazer-apos-instalar-o-Ubuntu-1404
+
 
 # ----------------------------------------------------------------------------------------
+
+
+#  Buscar a menor latência para repositorio
+# 
+# Em aplicativos Ubuntu (Dentro de programas e atualizações) recomendo usar o servidor - principal em vez do Servidor - Brasil, pois o Principal é mais rápido e estável.
+# 
+# O Principal na verdade é mais lento, pois vem da Grã-Bretanha até o Brasil (a latência é alta, mesmo com banda larga). Nisto recomendo deixar default (Brasil) mesmo.
+
+
+
+# Busca a menor latência para os repositórios e informa ao usuário qual é o melhor servidor 
+# para baixar pacotes:
+# 
+#     Obter uma lista de servidores de repositórios da distro.
+#     Medir a latência de cada servidor.
+#     Escolher o servidor com a menor latência.
+#     Mostrar essa informação ao usuário utilizando yad ou notify-send .
+
+
+test_latency(){
+
+
+# Função para medir a latência de um servidor
+
+test_latency() {
+
+    server=$1
+
+    # Usando ping para medir a latência (4 pacotes e tempo máximo de resposta)
+
+    latency=$(ping -c 4 -q $server | awk -F'/' 'END {print $5}')
+    echo "$latency"
+}
+
+
+# Função para listar os servidores configurados nos arquivos sources.list e sources.list.d
+
+get_repositories() {
+
+    # Usando grep para procurar todas as URLs dos repositórios
+
+    grep -oP 'http[s]?://\S+' /etc/apt/sources.list /etc/apt/sources.list.d/*.list 2>/dev/null | sort -u | sed 's|https\?://||' | cut -d/ -f1
+}
+
+
+# Obter os servidores dos repositórios configurados
+
+servers=($(get_repositories))
+
+# Inicializa as variáveis para armazenar o melhor servidor e sua latência
+
+best_server=""
+best_latency=9999
+
+
+# Loop para testar a latência de cada servidor na lista
+
+echo -e "$(gettext 'Testing server latency...')"
+
+for server in "${servers[@]}"; do
+
+
+    message=$(gettext "Testing latency of %s...")
+
+    echo -e "$(printf "$message" "$server")"
+
+    latency=$(test_latency $server)
+
+
+    # Verifica se a latência atual é menor que a melhor latência encontrada
+
+    if (( $(echo "$latency < $best_latency" | bc -l) )); then
+
+        best_latency=$latency
+
+        best_server=$server
+    fi
+
+done
+
+
+# Exibe o servidor com a menor latência e as URLs de repositórios configurados
+
+message=$(gettext "The fastest repository server is: %s with latency of %s ms.")
+
+echo -e "$(printf "$message" "$best_server" "$best_latency")"
+
+echo -e "\n$(gettext 'Repositories configured in the system:')\n"
+
+get_repositories
+
+
+# Exibe o servidor de menor latência usando o yad
+
+    message=$(gettext "The fastest repository server for your connection is:\n\n%s\n\nWith latency of: %s ms.")
+
+yad --center --info --title="$(gettext 'Best repository server')" \
+    --text="$(printf "$message" "$best_server" "$best_latency")" \
+    --button="$(gettext 'OK'):0"
+
+
+# Explicação do que foi feito:
+# 
+# 
+#  Função get_repositories:
+# 
+#   O get_repositories agora extrai todas as URLs de repositórios a partir dos arquivos 
+# /etc/apt/sources.list e /etc/apt/sources.list.d/*.list.
+# 
+#   A expressão sed 's|https\?://||' remove o prefixo http:// ou https:// das URLs.
+#   O cut -d/ -f1 pega apenas o domínio (ex.: archive.ubuntu.com).
+# 
+#
+#  Uso da Função para Preencher a Lista de Servidores:
+#
+#    Agora a variável servers=() é preenchida diretamente com o resultado da função 
+# get_repositories. Isso significa que a lista de servidores será obtida dinamicamente 
+# com base nos repositórios configurados no sistema.
+# 
+# 
+#  Medir Latência:
+# 
+#    O script percorre a lista de servidores e testa a latência de cada um usando o ping. 
+# O servidor com a menor latência é selecionado.
+# 
+#  Resultado:
+# 
+#    Essa função exibe o servidor com a menor latência e também lista todos os servidores 
+# de repositório configurados no sistema.
+# 
+# 
+# Resultado Esperado:
+# 
+#     Essa função vai obter automaticamente os servidores de repositórios configurados no sistema.
+#     Vai medir a latência de cada servidor.
+#     Exibirá o servidor de repositório com a menor latência.
+#     Exibirá a lista completa de servidores configurados no sistema.
+# 
+# É completamente dinâmico, adaptando-se automaticamente aos repositórios configurados no sistema.
+
+
+}
+
+
+# ----------------------------------------------------------------------------------------
+
+
+# Configura o Firewall
+
+
+conf_firewall() {
+
+
+
+# ----------------------------------------------------------------------------------------
+
+
+# Firewall para Proteção Total de Privacidade
+
+
+Firewall_UFW() {
+
+
+# Para configurar o firewall do Ubuntu com uma proteção total de privacidade via script, 
+# podemos usar o ufw (Uncomplicated Firewall), que é a ferramenta de firewall mais simples 
+# e amplamente utilizada no Ubuntu. A ideia é bloquear conexões indesejadas e limitar o 
+# tráfego para proteger a privacidade do sistema. Vamos criar um script que bloqueie 
+# conexões de entrada e saída desnecessárias, proteja serviços e IPs específicos, além de 
+# garantir uma configuração mais segura.
+# 
+# 
+# O que esse script faz:
+# 
+#     Ativa o UFW (Uncomplicated Firewall): Se o firewall não estiver ativo, o script o 
+# ativa.
+# 
+#     Limpeza das regras existentes: Caso haja regras antigas, elas são removidas para 
+# começar a configuração do zero.
+# 
+# 
+#     Definir políticas padrão:
+# 
+#         Bloquear todas as conexões de entrada: Impede qualquer tráfego de entrada não 
+# solicitado, protegendo o sistema de possíveis ataques externos.
+# 
+#         Permitir todas as conexões de saída: Permite que o sistema se conecte à internet 
+# para atualizações e serviços, mas depois vamos bloquear tráfego específico para proteger 
+# a privacidade.
+# 
+#     Bloqueio de IPs específicos: O script bloqueia conexões de saída para alguns IPs 
+# conhecidos por fornecer anúncios ou fazer rastreamento de dados (como os servidores da 
+# Canonical e Amazon). Você pode adicionar mais IPs a essa lista conforme necessário.
+# 
+#     Permitir apenas tráfego local: O tráfego de entrada é restrito a 127.0.0.1 (loopback), 
+# garantindo que somente serviços locais possam interagir com o sistema.
+# 
+#     Permitir serviços essenciais: O script deixa espaço para permitir serviços essenciais 
+# como SSH (para acesso remoto) ou VPN, caso você queira configurar algum desses serviços.
+# 
+#     Verificar o status do firewall: O script imprime o status do firewall para garantir 
+# que as regras estão ativas e funcionando corretamente.
+# 
+# 
+# Observações:
+# 
+#     O script deve ser executado com privilégios de superusuário (sudo) para poder 
+# configurar o firewall corretamente.
+# 
+#     Este script é um ponto de partida. Você pode precisar ajustar alguns detalhes 
+# dependendo dos serviços que você usa (por exemplo, habilitar ou desabilitar o SSH ou VPN) 
+# ou adicionar mais IPs que você deseja bloquear.
+# 
+#     O ufw é uma ferramenta de firewall simples, mas poderosa. Se você precisar de 
+# configurações mais avançadas, como regras específicas de portas e protocolos, é possível 
+# expandir esse script para incluir essas configurações.
+# 
+# Esse script ajuda a aumentar a privacidade, controlando o tráfego de entrada e saída e 
+# bloqueando serviços que podem estar coletando dados sobre você.
+
+
+
+# Ativa o UFW (Uncomplicated Firewall)
+
+echo -e "$(gettext 'Activating UFW...')"
+
+ufw enable  2>> "$log" 
+
+
+# Limpa as regras existentes, se houver
+
+echo -e "$(gettext 'Cleaning up existing rules...')"
+
+ufw reset 2>> "$log" 
+
+
+# Define a política padrão para bloquear todas as conexões de entrada e permitir todas as de saída
+
+echo -e "$(gettext 'Setting default policies: block inbound, allow outbound...')"
+
+ufw default deny incoming    2>> "$log"
+
+ufw default allow outgoing   2>> "$log"
+
+
+# Bloqueia conexões de saída para servidores de anúncios conhecidos (IP da Canonical, Amazon, e outros servidores de rastreamento)
+# Aqui, vamos bloquear os servidores conhecidos por fazer rastreamento de dados.
+
+echo -e "$(gettext 'Blocking ad servers and tracking...')"
+
+
+# Exemplo de servidores conhecidos da Canonical (substitua ou adicione mais conforme necessário)
+
+BLOCKED_IPS=(
+  "91.189.92.11"  # IP do servidor de anúncios da Canonical
+  "54.239.28.85"  # Amazon, por exemplo (ajustar conforme necessário)
+  "127.0.0.1"     # Bloquear chamadas locais de loopback que possam ser indesejadas
+)
+
+
+# Adicionando regras para bloquear os IPs listados
+
+for ip in "${BLOCKED_IPS[@]}"; do
+
+  echo "$ip" | tee -a "$log"
+
+  ufw deny out to $ip   2>> "$log" 
+
+done
+
+
+
+# Bloquear todas as conexões de entrada de qualquer IP que não seja local
+
+echo -e "$(gettext 'Blocking incoming connections, allowing only the local interface (loopback)...')"
+
+ufw allow from 127.0.0.1  2>> "$log"
+
+ufw deny from any         2>> "$log"
+
+
+# Configuração de serviços específicos que queremos permitir
+
+echo -e "$(gettext 'Enabling essential system services...')"
+
+
+# Permitir SSH para acesso remoto (ajuste se necessário)
+# sudo ufw allow ssh
+
+# Permitir o tráfego para conexões VPN ou outras ferramentas que você queira permitir
+# Por exemplo, para OpenVPN (ajuste a porta conforme necessário)
+# sudo ufw allow 1194/udp
+
+
+# Verifica o status do firewall para garantir que as regras estão ativas
+
+echo -e "$(gettext 'Checking Firewall status...')"
+
+ufw status verbose   2>> "$log" 
+
+
+echo -e "${GREEN}\n$(gettext 'Firewall configured for maximum privacy!') \n${NC}"
+
+
+sudo -u $SUDO_USER DISPLAY=$DISPLAY XAUTHORITY=$XAUTHORITY \
+notify-send -i "/usr/share/icons/gnome/32x32/status/security-medium.png" -t "$((DELAY * 1000))" "$(gettext 'Firewall for Total Privacy Protection')" "\n$(gettext 'Firewall configured for maximum privacy!')\n"
+
+
+}
+
+
+# ----------------------------------------------------------------------------------------
+
+
+Firewall_iptables() {
+
+
+# Função para verificar se o iptables está instalado
+
+check_iptables() {
+
+    # Verifica se o comando iptables está disponível
+
+    if command -v iptables > /dev/null 2>&1; then
+
+        echo -e "$(gettext 'iptables is already installed.')"
+
+    else
+
+        echo -e "$(gettext 'iptables is not installed. Installing now...')"
+
+        # Atualiza o repositório de pacotes e instala o iptables
+
+        apt update
+
+        apt install -y iptables
+
+        echo -e "$(gettext 'iptables installed successfully!')"
+    fi
+}
+
+
+# Função para configurar as regras básicas do iptables (Firewall)
+
+configure_iptables() {
+
+    echo -e "$(gettext 'Setting up basic iptables rules to protect your privacy...')"
+
+    # Definindo a política padrão
+
+    echo -e "$(gettext 'Setting default policies: block all and allow local connections...')"
+
+
+    iptables -P INPUT DROP
+    iptables -P FORWARD DROP
+    iptables -P OUTPUT ACCEPT
+
+    # Permitir conexões de loopback (localhost)
+
+    echo -e "$(gettext 'Allow local traffic (loopback)...')"
+
+    iptables -A INPUT -i lo -j ACCEPT
+    iptables -A OUTPUT -o lo -j ACCEPT
+
+
+    # Permitir SSH (ajuste se necessário)
+
+    # echo "Permitir SSH..."
+
+    # iptables -A INPUT -p tcp --dport 22 -j ACCEPT
+
+
+    # Permitir tráfego de saída para conexões essenciais
+
+    echo -e "$(gettext 'Allow essential outbound traffic...')"
+
+    iptables -A OUTPUT -p tcp --dport 80 -j ACCEPT  # HTTP
+    iptables -A OUTPUT -p tcp --dport 443 -j ACCEPT # HTTPS
+
+
+    # Bloquear conexões para servidores de rastreamento (exemplo de IPs conhecidos)
+
+    BLOCKED_IPS=("91.189.92.11" "54.239.28.85")
+
+    for ip in "${BLOCKED_IPS[@]}"; do
+
+
+        message=$(gettext 'Blocking tracking IP: %s')
+
+        echo -e "$(printf "$message" "$ip")" | tee -a "$log"
+
+        iptables -A OUTPUT -d $ip -j DROP
+
+    done
+
+
+
+
+
+    # Salvar as regras do iptables
+
+    echo -e "$(gettext 'Saving rules...')"
+
+    sudo sh -c 'iptables-save > /etc/iptables/rules.v4'
+
+
+
+    echo -e "${GREEN}\n$(gettext 'Iptables rules configured successfully!') \n${NC}"
+
+
+sudo -u $SUDO_USER DISPLAY=$DISPLAY XAUTHORITY=$XAUTHORITY \
+notify-send -i "/usr/share/icons/gnome/32x32/status/security-medium.png" -t "$((DELAY * 1000))" "$(gettext 'Firewall for Total Privacy Protection')" "\n$(gettext 'Firewall configured for maximum privacy!')\n"
+
+
+
+# Observações:
+# 
+#     SSH: O script comentado permite conexões SSH na porta 22. Se você precisar acessar 
+# sua máquina via SSH, descomente a linha correspondente. Caso contrário, remova-a para 
+# aumentar a segurança.
+# 
+#     Persistência: Em distribuições baseadas no Debian (como o Ubuntu), as regras do 
+# iptables não são persistentes por padrão após reinicializações. O script resolve isso 
+# salvando as regras no arquivo /etc/iptables/rules.v4, mas você também pode usar ferramentas 
+# como iptables-persistent para garantir que as regras sejam carregadas automaticamente 
+# após a reinicialização.
+# 
+#     Para instalar o iptables-persistent:
+# 
+#     apt install iptables-persistent
+# 
+#     IP de rastreamento: Você pode adicionar mais IPs à lista BLOCKED_IPS caso queira 
+# bloquear outros servidores ou serviços específicos que considerem uma ameaça à privacidade.
+# 
+# Esse script fornece uma solução de firewall robusta e privada, utilizando o iptables, 
+# permitindo que você tenha controle total sobre o tráfego de entrada e saída no seu sistema.
+
+
+}
+
+
+# Chama a função para verificar e instalar o iptables
+
+check_iptables
+
+
+# Chama a função para configurar as regras de firewall
+
+configure_iptables
+
+
+}
+
+
+# ----------------------------------------------------------------------------------------
+
+
+# Função para verificar se o ufw está instalado
+
+check_ufw() {
+
+
+    # Verifica se o ufw está instalado
+
+    dpkg -l | grep -q ufw
+
+
+    # Se o ufw não estiver instalado
+
+    if [ $? -ne 0 ]; then
+
+
+        # echo -e "${RED}\n$(gettext 'UFW is not installed. Installing now...') \n${NC}"
+
+
+        # Atualiza o repositório de pacotes e instala o ufw
+
+        # apt update
+
+        # apt install -y ufw
+
+
+        # echo -e "${GREEN}\n$(gettext 'UFW installed successfully!') \n${NC}"
+
+
+        Firewall_iptables
+
+
+    else
+
+
+        echo -e "${GREEN}\n$(gettext 'UFW is already installed.') \n${NC}"
+
+        Firewall_UFW
+
+
+    fi
+
+
+}
+
+
+# ----------------------------------------------------------------------------------------
+
+
+# Chama a função para verificar e instalar o ufw
+
+check_ufw
+
+
+
+# https://github.com/tuxslack/fixubuntu
+
+
+}
+
+# ----------------------------------------------------------------------------------------
+
+
+# Manter o Sistema Atualizado
+
+
+# Dica: Nunca atualizar entre versões e sempre instalar de forma limpa!
+
+
+# PC de produção, que precisa estar funcionando, não dá para ficar com essas ideias de 
+# instalar/atualizar o sistema no primeiro mês.
+
+
+
+deb_upgrades() {
+
+
+# Verificação Manual de Atualizações
+
+
+echo -e "${GREEN}\n$(gettext 'Update the system') \n${NC}"
+
+
+# Para garantir que você tenha a lista mais recente de pacotes disponíveis para o sistema.
+
+echo -e "$(gettext 'Updating package list...')"
+
+sleep 1
+
+apt update 
+
+
+# Depois de atualizar a lista de pacotes, você pode atualizar todos os pacotes do sistema.
+
+echo -e "$(gettext 'Updating installed packages...')"
+
+sleep 1
+
+apt upgrade -y
+
+
+# Isso irá atualizar todos os pacotes para as versões mais recentes disponíveis.
+
+
+
+# Para atualizar todos os pacotes do sistema, incluindo a instalação de novos pacotes ou 
+# a remoção de pacotes antigos, quando necessário.
+# 
+# full-upgrade: Atualiza todos os pacotes do sistema para suas versões mais recentes. Ao 
+# contrário de apt upgrade, que tenta apenas atualizar pacotes já instalados sem remover 
+# nada, o full-upgrade pode também remover pacotes desnecessários ou que causam conflitos, 
+# para garantir que o sistema esteja completamente atualizado e funcional.
+#
+#
+# Realiza uma atualização completa do sistema, atualizando, instalando e removendo pacotes 
+# conforme necessário, sem pedir confirmação ao usuário.
+
+apt full-upgrade -y
+
+
+
+# Atualizar a distribuição (opcional)
+
+# Se você deseja atualizar para uma nova versão do Ubuntu (por exemplo, de uma versão LTS 
+# para outra LTS), pode usar o comando:
+
+# sudo do-release-upgrade
+
+
+# Este comando verifica se há uma nova versão do Ubuntu disponível e, se houver, vai 
+# permitir que você faça a atualização para essa versão.
+
+
+
+echo -e "$(gettext 'Cleaning up unnecessary packages...')"
+
+# Após atualizar, você pode limpar pacotes antigos ou não necessários usando:
+
+apt autoremove -y
+
+# Isso remove pacotes que foram instalados automaticamente, mas que já não são mais necessários.
+
+
+
+echo -e "$(gettext 'Cleaning up downloaded packages...')"
+
+
+# Você também pode limpar os pacotes baixados durante a atualização, para liberar espaço 
+# no disco, com o comando:
+
+apt clean
+
+# Esses passos devem garantir que seu Ubuntu esteja atualizado corretamente! Se precisar 
+# de mais alguma coisa, é só avisar.
+
+
+
+}
+
+
+# ----------------------------------------------------------------------------------------
+
+
+
+reduza_uso_de_swap() {
+
+
+# Diminuir a taxa de uso de swap
+
+echo -e "\nReduza o acesso ao swap (o padrão do Ubuntu é 60.)\n"
+
+
+# O sistema usa bastante swap quando tem pouca memória RAM (é o meu caso), ou quando você 
+# tem mais RAM e o sistema está configurado para usar swap com mais frequência. O sistema 
+# armazena algumas coisas numa área de cache da RAM para acessar mais rapidamente, e 
+# esvazia essa área se a RAM for necessária para alguma coisa mais importante. 
+
+
+# Vou fazer duas coisas:
+
+#     Diminuir a taxa de uso de swap para que o sistema use mais RAM antes de recorrer ao 
+# disco (onde, nos casos padrão, fica a swap). Se seu disco for mecânico, o desempenho 
+# piora muito quando o sistema usa swap com muita frequência. No meu caso, com SSD, eu não 
+# noto tanta perda.
+
+#     Diminuir o uso do cache da memória para que ela fique mais disponível aos programas. 
+# Se você for fazer uma operação demorada, como uma descompactação, o sistema deixa parte 
+# dos dados no cache da RAM e outras coisas acabam indo para a área de troca (e isso pode 
+# ser parte de um programa que você está usando) e você sente a perda de performance.
+
+# Reduza o acesso ao swap (o padrão do Ubuntu é 60. Quanto menor o número, menor o acesso):
+
+sysctl vm.swappiness=10
+
+# Reduza o uso do cache (o padrão do Ubuntu é 100):
+
+sysctl vm.vfs_cache_pressure=50
+
+
+# Torne as mudanças permanentes editando o arquivo /etc/sysctl.d/99-sysctl.conf
+
+# nano /etc/sysctl.d/99-sysctl.conf ou nano /etc/sysctl.conf
+
+# Adicione o conteúdo abaixo ao final do arquivo
+
+# vm.swappiness=10
+# vm.vfs_cache_pressure=50
+
+
+# 10:52 https://www.youtube.com/watch?v=wA1BIJYZbXI
+
+
+}
+
+
+# ----------------------------------------------------------------------------------------
+
+
+# Fortalecer a Autenticação
+# 
+#  Configuração de senhas fortes: Implemente políticas de senhas fortes (exigindo uma 
+# combinação de letras maiúsculas, minúsculas, números e caracteres especiais).
+# 
+#  Modifique as configurações no /etc/login.defs ou utilize o pam_pwquality.so para 
+# reforçar as regras de senhas.
+
+# ----------------------------------------------------------------------------------------
+
+
+# Segurança no SSH
+# 
+# Desabilitar login root: No arquivo /etc/ssh/sshd_config, desabilite o login de root e 
+# use autenticação baseada em chave.
+# 
+# PermitRootLogin no
+# PasswordAuthentication no
+# 
+# Usar chaves SSH: Em vez de usar senhas, gere chaves SSH para acessar o servidor de forma 
+# mais segura.
+# 
+# ssh-keygen -t rsa -b 4096
+# 
+# Alterar a porta SSH: Mude a porta padrão (22) para uma porta não padrão.
+# 
+# Port 2222
+# 
+# Limitar acesso SSH por IP: Configure o firewall ou o sshd_config para permitir acesso 
+# apenas a determinados IPs.
+
+# ----------------------------------------------------------------------------------------
+
+# Instalar o Fail2ban: Protege o sistema contra tentativas de acesso via SSH e outros 
+# serviços, bloqueando IPs após múltiplas tentativas falhas.
+# 
+# apt install -y fail2ban
+# 
+# systemctl enable fail2ban
+# systemctl start fail2ban
+
+# ----------------------------------------------------------------------------------------
+
+# Auditoria e Monitoramento
+# 
+# Instalar o auditd: O auditd permite auditar e registrar todas as atividades do sistema.
+# 
+# apt install -y auditd
+# 
+# systemctl enable auditd
+# systemctl start auditd
+
+# ----------------------------------------------------------------------------------------
+
+# Criptografia
+# 
+#  Criptografia de disco: Use criptografia de disco completo (LUKS) para proteger dados 
+# em caso de roubo ou acesso não autorizado.
+# 
+#  Configure a criptografia no momento da instalação ou use ferramentas como cryptsetup.
+# 
+#  Criptografia de arquivos sensíveis: Utilize ferramentas como GnuPG para criptografar 
+# arquivos sensíveis.
+# 
+# gpg -c arquivo.txt
+
+# ----------------------------------------------------------------------------------------
+
+# Backup e Recuperação
+
+#  Criação de backups regulares: Realize backups regulares dos seus dados críticos e 
+# configure scripts automáticos de backup.
+# 
+#  Verificação de integridade dos backups: Teste periodicamente a integridade dos backups 
+# para garantir que podem ser restaurados corretamente.
+
+
+# ----------------------------------------------------------------------------------------
+
+# Considerar a Segurança de Aplicações Web
+# 
+# Se estiver executando servidores web, como o Apache ou Nginx:
+# 
+# Configurar HTTPS: Utilize certificados SSL/TLS para criptografar o tráfego web (pode ser 
+# feito facilmente com o Let's Encrypt).
+# 
+# Configurar cabeçalhos de segurança HTTP:
+# 
+#  Exemplo: X-Content-Type-Options: nosniff, Strict-Transport-Security.
+
+
+# ----------------------------------------------------------------------------------------
+
+# Considerações Finais
+
+# Revisar regularmente logs de segurança: Monitore os logs do sistema, especialmente os 
+# logs de autenticação e eventos do kernel.
+
+# tail -f /var/log/auth.log
+
+# Implementar um plano de resposta a incidentes: Esteja preparado para agir caso ocorra 
+# uma violação de segurança.
+
+
+
+# Conclusão
+
+# A segurança de um sistema é uma combinação de práticas, ferramentas e políticas. Adotar 
+# várias dessas recomendações e revisar frequentemente a configuração do sistema ajudará a 
+# garantir que o Ubuntu esteja o mais seguro possível. Além disso, sempre fique atento às 
+# vulnerabilidades e patches de segurança que surgem para os pacotes que você utiliza.
+
+
+# ----------------------------------------------------------------------------------------
+
 
 print_banner() {
 
@@ -2799,6 +3831,7 @@ $(gettext 'kernel'): `uname -r`
 
 $(gettext 'Processor architecture'): `uname -m`
 
+$(gettext 'RAM consumption'): `free -h | grep Mem | awk '{print $3}'`
 
  "
 
@@ -2807,6 +3840,7 @@ $(gettext 'Processor architecture'): `uname -m`
 # ----------------------------------------------------------------------------------------
 
 show_menu() {
+
 
 
 
@@ -2835,6 +3869,11 @@ echo -e "\n$(gettext 'Choose what to do:') \n"
     echo "20 - $(gettext 'Disable programs that start with the system')"
     echo "21 - $(gettext 'Remove PPA (Personal Package Archive) from the system')"
     echo "22 - $(gettext 'Restore Gnome Interface')"
+    echo "23 - $(gettext 'Disables Canonical partner repositories')"
+    echo "24 - $(gettext 'What is the best repository?')"
+    echo "25 - $(gettext 'Configure the Firewall')"
+    echo "26 - $(gettext 'Update the system')"
+    echo "27 - $(gettext 'Reduza o acesso ao swap')"
     echo "50 - $(gettext 'Exit')"
     echo
 
@@ -2871,6 +3910,11 @@ choice=$(dialog \
 20 "$(gettext 'Disable programs that start with the system')" \
 21 "$(gettext 'Remove PPA (Personal Package Archive) from the system')" \
 22 "$(gettext 'Restore Gnome Interface')" \
+23 "$(gettext 'Disables Canonical partner repositories')" \
+24 "$(gettext 'What is the best repository?')" \
+25 "$(gettext 'Configure the Firewall')" \
+26 "$(gettext 'Update the system')" \
+27 "$(gettext 'Reduza o acesso ao swap')" \
 50 "$(gettext 'Exit')" --stdout)
 
 }
@@ -2901,9 +3945,14 @@ false 19 "$(gettext 'Disable dynamic workspaces (make them static)')" \
 false 20 "$(gettext 'Disable programs that start with the system')" \
 false 21 "$(gettext 'Remove PPA (Personal Package Archive) from the system')" \
 false 22 "$(gettext 'Restore Gnome Interface')" \
+false 23 "$(gettext 'Disables Canonical partner repositories')" \
+false 24 "$(gettext 'What is the best repository?')" \
+false 25 "$(gettext 'Configure the Firewall')" \
+false 26 "$(gettext 'Update the system')" \
+false 27 "$(gettext 'Reduza o acesso ao swap')" \
 true  50 "$(gettext 'Exit')" \
 --buttons-layout=center  --button="$(gettext 'OK')":0 \
---width="700" --height="700")
+--width="700" --height="767")
 
 
 
@@ -2952,6 +4001,8 @@ fi
 
 
 # https://www.bosontreinamentos.com.br/shell-script/shell-scripting-criando-caixas-de-dialogo-tui-com-dialog/
+# https://aurelio.net/shell/dialog/
+
 
 }
 
@@ -3245,10 +4296,56 @@ fi
 
         23)
 
-            # 
-       
+            # Desabilita repositórios de parceiros da Canonical
+
+            desmarcar_repositorio_canonical       
 
             msg "$(gettext 'Done!')"
+
+            ;;
+
+        24)
+
+            # Busca a menor latência para os repositórios
+       
+            test_latency
+
+            msg "$(gettext 'Done!')"
+
+            ;;
+
+
+        25)
+
+            # Configura o Firewall
+
+            conf_firewall
+
+            msg "$(gettext 'Done!')"
+
+
+            ;;
+
+
+        26)
+
+            # Atualizar o sistema
+
+            deb_upgrades
+
+            msg "$(gettext 'Done!')"
+
+
+            ;;
+
+        27)
+
+            # Reduza o acesso ao swap 
+
+            reduza_uso_de_swap 
+
+            msg "$(gettext 'Done!')"
+
 
             ;;
 
@@ -3376,6 +4473,43 @@ auto() {
     msg $(gettext 'Restore Gnome Interface')
 
     reset_GNOME
+
+
+
+    # Desabilita repositórios de parceiros da Canonical
+
+    msg $(gettext 'Disables Canonical partner repositories')
+
+    desmarcar_repositorio_canonical       
+
+
+
+    # Busca a menor latência para os repositórios
+
+    msg  "$(gettext 'What is the best repository?')"
+  
+    test_latency
+
+
+    # Configura o Firewall
+
+    msg $(gettext 'Configure the Firewall')
+
+    conf_firewall
+
+
+    # Atualizar o sistema
+
+    msg $(gettext 'Update the system')
+
+    deb_upgrades
+
+
+    # Reduza o acesso ao swap 
+
+    msg "$(gettext 'Reduza o acesso ao swap')"
+
+    reduza_uso_de_swap 
 
 
 

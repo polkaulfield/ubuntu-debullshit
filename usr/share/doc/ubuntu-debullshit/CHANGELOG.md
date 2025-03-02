@@ -35,6 +35,9 @@
 - Desativa programas que iniciam com o sistema (Ex: Bluetooth, serviço de impressão - cups, servidor web - Apache, serviço Snap).
 - Remover PPA (Personal Package Archive) do sistema [EM FACE DE TESTE]
 - Restaurar Interface Gnome (via dconf e removendo pastas)
+- Verificar qual o servidor de repositório mais rápido
+- Configura o Firewall - ufw (Uncomplicated Firewall) ou iptables
+- Atualiza o sistema de forma manual
 
 
 ## [1.0.0] - 2024-04-19
