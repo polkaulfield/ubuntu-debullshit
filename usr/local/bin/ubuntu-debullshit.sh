@@ -10,7 +10,23 @@
 # Script:  ubuntu-debullshit.sh
 # Version: 1.0.1
 
-# Melhorando a performance do Ubuntu em computadores fracos e pode ser útil também para máquinas mais potentes.
+# Melhorando a performance do Ubuntu em computadores fracos e pode ser útil também para 
+# máquinas mais potentes.
+
+
+# Desativar extensões desnecessárias
+# Desativar animações
+# Desativar o tracker (índices de arquivos)
+# Desabilitar o pré-carregamento de programas
+# Desabilitar a verificação de atualizações automáticas
+# Usar o modo de sessão "GNOME Classic"
+# Usar o "LightDM" em vez do "GDM"
+# Certifique-se de que você está usando os drivers gráficos mais recentes para o seu hardware
+# 
+# ...
+# 
+
+
 
 
 # Dê permissão para executar o script:
@@ -38,6 +54,23 @@
 # https://www.youtube.com/watch?v=psOrRNt8jKw
 
 
+
+
+# Remover o pacote e as configurações:
+
+# apt purge -y pacote
+
+# O purge vai garantir que todos os arquivos de configuração do pacote também sejam removidos.
+
+
+
+# ----------------------------------------------------------------------------------------
+
+
+# Declaração de variáveis:
+
+
+
 # Arquivo de log
 
 log="/tmp/ubuntu-debullshit.log"
@@ -54,8 +87,18 @@ ICON="/usr/share/icons/ubuntu-debullshit.png"
 wallpaper="/usr/share/backgrounds/gnome/blobs-l.svg"
 
 
+# ----------------------------------------------------------------------------------------
 
-# export DISPLAY=:0
+# Sessão do DBus: Quando você executa o comando como root (sudo), a variável 
+# DBUS_SESSION_BUS_ADDRESS geralmente não é configurada corretamente. O DBus é usado para 
+# comunicação entre processos no ambiente gráfico, e ele é crítico para a exibição de 
+# notificações.
+# 
+# 
+# Permissões X11 (XAUTHORITY): Você está tentando definir a variável XAUTHORITY, mas a 
+# forma como está configurada pode não ser suficiente ou válida no contexto do sudo. O 
+# usuário root precisa de permissões adequadas para interagir com o servidor X11 do 
+# usuário comum.
 
 
 
@@ -66,7 +109,63 @@ wallpaper="/usr/share/backgrounds/gnome/blobs-l.svg"
 # Se o script não está sendo executado com sudo, mas você ainda deseja capturar o nome do 
 # usuário comum (o usuário que fez login na sessão), você pode usar o comando logname
 
-SUDO_USER=$(logname)
+# SUDO_USER=$(logname)
+
+
+# export DISPLAY=:0
+# export DISPLAY=:0.0
+
+# ----------------------------------------------------------------------------------------
+
+# No Void Linux / SystemRescue 11.00
+
+# sudo: usuário desconhecido DISPLAY=:0.0
+# sudo: erro ao inicializar o plug-in de auditoria sudoers_audit
+
+# notify_users="sudo -u $(who | awk '{print $1}' | head -n 1) DISPLAY=$DISPLAY "
+
+# notify_users=$(sudo -u $(logname) DISPLAY=$DISPLAY XAUTHORITY=$XAUTHORITY)
+
+# Exemplo:
+
+# sudo -u $(logname) DISPLAY=$DISPLAY XAUTHORITY=$XAUTHORITY \
+# notify-send -i "/usr/share/icons/gnome/32x32/status/security-medium.png" -t "$((DELAY * 1000))" "$(gettext 'Firewall for Total Privacy Protection')" "\n$(gettext 'Firewall configured for maximum privacy!')\n"
+
+
+# Funciona no Void Linux (Parece que o problema esta relacionado a variavel $DBUS_SESSION_BUS_ADDRESS no BigLinux em modo live usando o Root)
+
+# notify_users="sudo -u $(logname) DISPLAY=$DISPLAY $DBUS_SESSION_BUS_ADDRESS"
+
+
+# Problema no BigLinux
+
+# A opção acima no BigLinux gera o erro:
+
+# Erro ao chamar a linha de comandos “dbus-launch --autolaunch=26a6e81a4245d54d88fd143067c6b17d --binary-syntax --close-stderr”: Processo filho concluiu com código 1
+
+
+# Funciona no BigLinux
+
+# notify_users="sudo -u $(who | grep '('$DISPLAY')' | awk '{print $1}' | head -n 1) DISPLAY=$DISPLAY DBUS_SESSION_BUS_ADDRESS=unix:path=/run/user/$(id -u $(who | grep '('$DISPLAY')' | awk '{print $1}' | head -n 1))/bus"
+
+
+# Funciona no SystemRescue 11.00
+
+notify_users="sudo -u $(who | awk '{print $1}' | head -n 1) DISPLAY=$DISPLAY DBUS_SESSION_BUS_ADDRESS=unix:path=/run/user/$(id -u $(who | grep '('$DISPLAY')' | awk '{print $1}' | head -n 1))/bus"
+
+
+
+
+
+# sudo: usuário desconhecido DISPLAY=:0.0:
+
+#     Isso indica que o comando sudo não consegue encontrar o usuário associado ao display gráfico. O DISPLAY=:0.0 é uma variável de ambiente usada em sistemas gráficos Linux (geralmente relacionados a ambientes X11 ou Wayland) para especificar a tela onde o gráfico deve ser exibido. Quando você tenta rodar um comando gráfico com sudo, ele pode não estar configurado corretamente para passar esse display.
+
+# sudo: erro ao inicializar o plug-in de auditoria sudoers_audit:
+
+#     Isso significa que há um problema relacionado ao plugin de auditoria no sudo, que é responsável por registrar os comandos executados com privilégios de superusuário. O erro pode ser causado por uma configuração incorreta ou um problema de permissões.
+
+# ----------------------------------------------------------------------------------------
 
 
 
@@ -76,9 +175,25 @@ FONT_NAME="Monospace"
 
 
 
+# Cores para formatação da saída dos comandos
+
+RED='\e[1;31m'
+GREEN='\e[1;32m'
+YELLOW='\e[1;33m'
+NC='\e[0m' # sem cor
+
+
+# ----------------------------------------------------------------------------------------
+
+
+
+
+
 export TEXTDOMAINDIR="/usr/share/locale"
 
 export TEXTDOMAIN="ubuntu-debullshit"
+
+
 
 
 # Remove o arquivo de log
@@ -87,25 +202,18 @@ rm "$log"
 
 
 
-# Remover o pacote e as configurações:
-
-# apt purge -y pacote
-
-# O purge vai garantir que todos os arquivos de configuração do pacote também sejam removidos.
-
 
 clear
 
-
 # ----------------------------------------------------------------------------------------
 
-# Cores para formatação da saída dos comandos
 
-RED='\e[1;31m'
-GREEN='\e[1;32m'
-YELLOW='\e[1;33m'
-NC='\e[0m' # sem cor
+# Verifique se os programas estao instalados no sistema.
 
+# which yad                 1> /dev/null 2> /dev/null || { echo "Programa Yad não esta instalado."           ; exit ; }
+# which dialog              1> /dev/null 2> /dev/null || { echo "Programa dialog não esta instalado."        ; exit ; }
+which gettext             1> /dev/null 2> /dev/null || { echo "Programa gettext não esta instalado."       ; exit ; }
+which notify-send         1> /dev/null 2> /dev/null || { echo "Programa notify-send não esta instalado."   ; exit ; }
 
 
 # ----------------------------------------------------------------------------------------
@@ -118,19 +226,19 @@ intro(){
 
 # Salva o texto em um arquivo temporário
 
-echo "$(gettext "Hardware where the optimization was performed:
+# echo "$(gettext "Hardware where the optimization was performed:
 
-Processor: Celeron 847 1.1GHz (2 cores)
-RAM: 2GB DDR3
-SSD: 128GB
+# Processor: Celeron 847 1.1GHz (2 cores)
+# RAM: 2GB DDR3
+# SSD: 128GB
 
-Note: You don't need to do all the steps, choose the ones you think will help you with your needs.
+# Note: You don't need to do all the steps, choose the ones you think will help you with your needs.
 
-Slightly improved, but losing resources.
+# Slightly improved, but losing resources.
 
-The changes are intended to make the system more responsive, but may sacrifice some of the features that \nGNOME Shell brings by default. Use it if your machine really needs it, or if you don't really use the resources.
+# The changes are intended to make the system more responsive, but may sacrifice some of the features that \nGNOME Shell brings by default. Use it if your machine really needs it, or if you don't really use the resources.
 
-The log file will be in $log at the end of the processes for checking errors or bugs.")"
+# The log file will be in $log at the end of the processes for checking errors or bugs.")"
 
 
 
@@ -295,7 +403,7 @@ if ! ping -c 1 www.google.com.br -q &> /dev/null; then
 
               echo -e "${RED}$(gettext '[ERROR] - Your system does not have an internet connection. Check your cables and modem.') \n ${NC}"
  
-              sudo -u $SUDO_USER DISPLAY=$DISPLAY XAUTHORITY=$XAUTHORITY \
+              $notify_users  \
               notify-send -i "/usr/share/icons/gnome/32x32/status/network-error.png" -t "$((DELAY * 1000))" "$(gettext 'Error')" "$(gettext '[ERROR] - Your system does not have an internet connection. Check your cables and modem.') \n"
               
               # Big Linux: Erro ao chamar a linha de comandos “dbus-launch --autolaunch=f662f1a5f2682f2556553c8d67c319f5 --binary-syntax --close-stderr”: Processo filho concluiu com código 1
@@ -318,8 +426,6 @@ fi
 
 
 }
-
-
 
 
 # ----------------------------------------------------------------------------------------
@@ -346,16 +452,19 @@ for cmd in snap apt dpkg systemctl ; do
 
     if [ $? -ne 0 ]; then
 
+        message=$(gettext 'Command %s not found.')
 
-        echo -e "${RED}\n$(gettext 'Error'): $(gettext 'Command '$cmd' not found.') \n ${NC}"
+        echo -e "${RED}\n$(printf "$message" "$cmd") \n ${NC}"
+        
 
-
-sudo -u $SUDO_USER DISPLAY=$DISPLAY XAUTHORITY=$XAUTHORITY \
-notify-send -i "/usr/share/icons/gnome/32x32/status/software-update-urgent.png" -t "$((DELAY * 1000))" "$(gettext 'Error')" "\n$(gettext 'Command '$cmd' not found.')\n"
+        $notify_users  \
+        notify-send -i "/usr/share/icons/gnome/32x32/status/software-update-urgent.png" -t "$((DELAY * 1000))" "$(gettext 'Error')" "\n$(printf "$message"  "$cmd") \n"
 
         sleep 1
 
         continue
+
+#       exit
 
     fi
 
@@ -366,7 +475,10 @@ done
 # ----------------------------------------------------------------------------------------
 
 
-for cmd in yad dialog rm fc-list gettext gsettings notify-send gpg sed sudo curl dd tee wget reboot break flatpak dbus-launch ; do
+# yad dialog
+
+
+for cmd in  sysctl pgrep rm fc-list gettext gsettings notify-send gpg sed sudo curl dd tee wget reboot break flatpak dbus-launch ; do
 
 
     # O comando which pode falhar em alguns sistemas ou não estar presente por padrão.
@@ -379,11 +491,16 @@ for cmd in yad dialog rm fc-list gettext gsettings notify-send gpg sed sudo curl
 
     if [ $? -ne 0 ]; then
 
+        message=$(gettext 'Command %s not found.
 
-        echo -e "\n$(gettext 'Error'): $(gettext 'Command '$cmd' not found.') \n\n# apt install -y $cmd"
 
-        sudo -u $SUDO_USER DISPLAY=$DISPLAY XAUTHORITY=$XAUTHORITY \
-notify-send -i "/usr/share/icons/gnome/32x32/status/software-update-urgent.png" -t "$((DELAY * 1000))" "$(gettext 'Error')" "\n$(gettext 'Command '$cmd' not found.') \n\n# apt install -y $cmd"
+# apt install -y %s')
+
+        echo -e "${RED}\n$(printf "$message" "$cmd" "$cmd") \n ${NC}"
+  
+
+        $notify_users  \
+        notify-send -i "/usr/share/icons/gnome/32x32/status/software-update-urgent.png" -t "$((DELAY * 1000))" "$(gettext 'Error')" "\n$(printf "$message" "$cmd" "$cmd") \n"
 
 
         sleep 1
@@ -745,6 +862,8 @@ fi
 
 update_system() {
 
+    check_internet
+
     apt update 2>> "$log" && apt upgrade -y   2>> "$log"
 }
 
@@ -753,6 +872,7 @@ update_system() {
 
 setup_flathub() {
 
+    check_internet
 
 # Para verificar se um site está fora do ar
 
@@ -789,6 +909,8 @@ fi
 # ----------------------------------------------------------------------------------------
 
 gsettings_wrapper() {
+
+    check_internet
 
     if ! command -v dbus-launch; then
 
@@ -846,6 +968,7 @@ fi
 
 setup_vanilla_gnome() {
 
+    check_internet
 
     apt install -y qgnomeplatform-qt5  2>> "$log"
 
@@ -950,6 +1073,9 @@ if [ $? -eq 0 ]; then
 
 else
 
+    check_internet
+
+
     message=$(gettext 'Package %s is not installed. Installing...')
 
     echo -e "${RED}\n$(printf "$message" "$PACKAGE") ${NC}"
@@ -992,6 +1118,8 @@ fi
 # ----------------------------------------------------------------------------------------
 
 setup_julianfairfax_repo() {
+
+    check_internet
 
     command -v curl || apt install -y curl 2>> "$log"
 
@@ -1058,6 +1186,9 @@ fi
 
 install_adwgtk3() {  
   
+    check_internet
+
+
     apt install -y adw-gtk3 2>> "$log"
 
     if command -v flatpak; then
@@ -1084,6 +1215,8 @@ install_adwgtk3() {
 # ----------------------------------------------------------------------------------------
 
 install_icons() {
+
+    check_internet
 
 
 # Para verificar se um site está fora do ar
@@ -1154,6 +1287,7 @@ fi
 
 restore_firefox() {
 
+    check_internet
 
 # Atualizar repositório Mozilla
 
@@ -1402,7 +1536,7 @@ if [ $? -ne 0 ]; then  # Verifica se o código de saída é diferente de 0 (erro
 
 echo -e "${RED}\n$(gettext 'An error occurred while disabling ubuntu-report telemetry collection.') \n${NC}"
 
-sudo -u $SUDO_USER DISPLAY=$DISPLAY XAUTHORITY=$XAUTHORITY \
+$notify_users  \
 notify-send -i "/usr/share/icons/gnome/32x32/status/network-error.png" -t "$((DELAY * 1000))" "$(gettext 'Error')" "$(gettext 'An error occurred while disabling ubuntu-report telemetry collection.')"
 
 fi
@@ -1439,7 +1573,7 @@ if systemctl is-active --quiet pop-con; then
 
     echo -e "\n$(gettext 'Pop-con service stopped and disabled.')\n"
 
-sudo -u $SUDO_USER DISPLAY=$DISPLAY XAUTHORITY=$XAUTHORITY \
+$notify_users  \
 notify-send -i "/usr/share/icons/gnome/32x32/status/dialog-information.png" -t "$((DELAY * 1000))" "$(gettext 'pop-con')" "$(gettext 'Pop-con service stopped and disabled.')"
 
 else
@@ -1465,7 +1599,7 @@ if [ $? -ne 0 ]; then  # Verifica se o código de saída é diferente de 0 (erro
 
 echo -e "${RED}\n$(gettext 'An error occurred while disabling telemetry collection for Snap packages.') \n${NC}"
 
-sudo -u $SUDO_USER DISPLAY=$DISPLAY XAUTHORITY=$XAUTHORITY \
+$notify_users  \
 notify-send -i "/usr/share/icons/gnome/32x32/status/network-error.png" -t "$((DELAY * 1000))" "$(gettext 'Error')" "$(gettext 'An error occurred while disabling telemetry collection for Snap packages.')"
 
 
@@ -1509,7 +1643,7 @@ if [ $? -ne 0 ]; then  # Verifica se o código de saída é diferente de 0 (erro
 
 echo -e "${RED}\n$(gettext 'An error occurred while removing whoopsie.') ${NC}"
 
-sudo -u $SUDO_USER DISPLAY=$DISPLAY XAUTHORITY=$XAUTHORITY \
+$notify_users  \
 notify-send -i "/usr/share/icons/gnome/32x32/status/network-error.png" -t "$((DELAY * 1000))" "$(gettext 'Error')" "$(gettext 'An error occurred while removing whoopsie.')"
 
 fi
@@ -1546,13 +1680,277 @@ if [ $? -ne 0 ]; then  # Verifica se o código de saída é diferente de 0 (erro
 
 echo -e "${RED}\n$(gettext 'An error occurred while removing canonical-livepatch.') \n${NC}"
 
-sudo -u $SUDO_USER DISPLAY=$DISPLAY XAUTHORITY=$XAUTHORITY \
+$notify_users  \
 notify-send -i "/usr/share/icons/gnome/32x32/status/network-error.png" -t "$((DELAY * 1000))" "$(gettext 'Error')" "$(gettext 'An error occurred while removing canonical-livepatch.')"
 
 fi
 
 
 # Desativar a coleta de dados de pesquisa da Dash:
+
+
+
+# ----------------------------------------------------------------------------------------
+
+
+# Irá mostrar se o pacote está ou não presente na versão específica do Ubuntu.
+
+
+# O pacote unity-lens-shopping foi introduzido no Ubuntu 12.10 (Quantal Quetzal) e tinha 
+# a função de integrar a busca de produtos da Amazon diretamente no Dash do Unity, o 
+# ambiente gráfico padrão do Ubuntu na época. O que ele fazia basicamente era:
+# 
+#  Buscar produtos online: Quando você realizava uma busca no Dash (a interface de 
+# pesquisa do Unity), o unity-lens-shopping enviava os termos de busca para a Amazon e 
+# exibia resultados relacionados a produtos à venda, como livros, eletrônicos, roupas e 
+# outros itens disponíveis no site da Amazon.
+# 
+# Exibição no Dash: Os resultados da Amazon eram apresentados junto com os resultados 
+# locais, como aplicativos e arquivos do sistema. O Dash, portanto, não apenas retornava 
+# resultados de arquivos locais e aplicativos, mas também produtos de e-commerce.
+# 
+# Integração direta com a Amazon: O pacote era integrado diretamente à Amazon, o que 
+# significava que, ao procurar por algo no Dash, o usuário podia ver produtos disponíveis 
+# para compra sem precisar acessar o site da Amazon.
+# 
+# 
+# Razões para a remoção do pacote:
+# 
+#     Preocupações com privacidade: Muitas pessoas ficaram preocupadas com o fato de o 
+# Ubuntu estar enviando dados de busca dos usuários para a Amazon, o que poderia ser 
+# considerado uma violação de privacidade.
+# 
+#     Críticas dos usuários: Houve uma reação negativa por parte de muitos usuários, que 
+# não queriam ver anúncios ou resultados de e-commerce diretamente na interface de busca 
+# do sistema operacional.
+# 
+#     Descontinuação: Devido ao feedback negativo e preocupações com privacidade, a 
+# Canonical (a empresa por trás do Ubuntu) decidiu remover essa funcionalidade nas versões 
+# posteriores, começando com o Ubuntu 16.04 LTS.
+# 
+# Em versões mais recentes do Ubuntu, o Dash foi modificado para não incluir mais 
+# resultados de compras online, e o pacote unity-lens-shopping foi removido dos 
+# repositórios padrão.
+
+
+
+# Verifica a versão do Ubuntu instalada
+
+# Usa o comando lsb_release -r para obter a versão do Ubuntu instalada.
+
+ubuntu_version=$(lsb_release -r | awk '{print $2}')
+
+
+# Função para verificar a presença do pacote
+
+check_package() {
+
+    local version=$1
+
+    # verifica se o pacote unity-lens-shopping está instalado
+
+    if dpkg -l | grep -q "unity-lens-shopping"; then
+
+
+        message=$(gettext 'The unity-lens-shopping package is installed on Ubuntu %s.')
+
+        echo -e "\n$(printf "$message" "$version")\n"
+
+
+        # Remoção do unity-lens-shopping
+
+        apt-get remove -y unity-lens-shopping
+
+
+    else
+
+    message=$(gettext 'The unity-lens-shopping package is NOT installed on Ubuntu %s.')
+
+    echo -e "\n$(printf "$message" "$version")\n"
+
+
+
+    fi
+
+}
+
+
+# Verifica se a versão do Ubuntu é uma das versões que possui o pacote
+
+# Se a versão do Ubuntu for entre 12.10 e 16.04, realiza a verificação; caso contrário, 
+# ele informa que é para essas versões específicas.
+
+if [[ "$ubuntu_version" == "12.10" ]] || [[ "$ubuntu_version" == "13.04" ]] || [[ "$ubuntu_version" == "13.10" ]] || \
+   [[ "$ubuntu_version" == "14.04" ]] || [[ "$ubuntu_version" == "14.10" ]] || [[ "$ubuntu_version" == "15.04" ]] || \
+   [[ "$ubuntu_version" == "15.10" ]] || [[ "$ubuntu_version" == "16.04" ]]; then
+
+    check_package "$ubuntu_version"
+
+else
+
+    echo -e "$(gettext 'This part of the script is designed to check for the unity-lens-shopping package on Ubuntu versions 12.10 through 16.04.')"
+
+fi
+
+
+# ----------------------------------------------------------------------------------------
+
+
+# Para verificar se o Unity (ambiente de desktop) está em execução
+
+
+if pgrep -l unity > /dev/null
+then
+
+    # echo "A interface gráfica do Unity está em execução."
+
+
+
+
+# Desative os escopos remotos nas versões do Ubuntu que usam o Unity
+#
+#
+# Para desativar os escopos remotos nas versões do Ubuntu que utilizam o Unity. Verifica 
+# a versão do Ubuntu, desabilita os escopos remotos e impede a coleta de dados relacionados 
+# a lojas online, como Amazon, eBay e Ubuntu Shop, que eram frequentemente associados ao 
+# Unity.
+#
+#
+# O Unity foi o ambiente de desktop padrão do Ubuntu de 2010 a 2017. Abaixo estão as 
+# versões do Ubuntu que usaram o Unity como desktop principal:
+# 
+# Versões do Ubuntu com Unity:
+# 
+#     Ubuntu 10.10 (Maverick Meerkat) — lançado em outubro de 2010
+#         Primeira versão a introduzir o Unity como o ambiente de desktop padrão.
+# 
+#     Ubuntu 11.04 (Natty Narwhal) — lançado em abril de 2011
+#         O Unity foi adotado como padrão no lugar do GNOME 2.
+# 
+#     Ubuntu 11.10 (Oneiric Ocelot) — lançado em outubro de 2011
+#         Continuou com o Unity, aprimorando a experiência.
+# 
+#     Ubuntu 12.04 LTS (Precise Pangolin) — lançado em abril de 2012
+#         Versão LTS (Long Term Support) que manteve o Unity como padrão.
+# 
+#     Ubuntu 12.10 (Quantal Quetzal) — lançado em outubro de 2012
+#         Melhorias no Unity e integração com serviços de nuvem.
+# 
+#     Ubuntu 13.04 (Raring Ringtail) — lançado em abril de 2013
+#         Melhorias no Unity, incluindo novos recursos de interface.
+# 
+#     Ubuntu 13.10 (Saucy Salamander) — lançado em outubro de 2013
+#         Continuou o desenvolvimento do Unity com mais melhorias na interface.
+# 
+#     Ubuntu 14.04 LTS (Trusty Tahr) — lançado em abril de 2014
+#         Outra versão LTS com Unity, com melhorias contínuas e mais estável.
+# 
+#     Ubuntu 14.10 (Utopic Unicorn) — lançado em outubro de 2014
+#         Continuou com Unity, mas com foco em melhorias de estabilidade.
+# 
+#     Ubuntu 15.04 (Vivid Vervet) — lançado em abril de 2015
+#         Última versão com Unity antes de o Ubuntu fazer mudanças para o GNOME.
+# 
+#     Ubuntu 15.10 (Wily Werewolf) — lançado em outubro de 2015
+#         Continuou o uso do Unity, mas com foco em melhorias e atualizações do sistema.
+# 
+#     Ubuntu 16.04 LTS (Xenial Xerus) — lançado em abril de 2016
+#         A última versão LTS com Unity, que foi amplamente usada por vários anos.
+# 
+#     Ubuntu 16.10 (Yakkety Yak) — lançado em outubro de 2016
+#         Versão de transição para a mudança para o GNOME no Ubuntu.
+# 
+#     Ubuntu 17.04 (Zesty Zapus) — lançado em abril de 2017
+#         Última versão do Ubuntu com Unity como o ambiente de desktop padrão.
+#
+#
+# Transição para o GNOME:
+#
+# A partir do Ubuntu 17.10 (Artful Aardvark), o Ubuntu abandonou o Unity em favor do GNOME 
+# como o ambiente de desktop padrão, após a Canonical (a empresa por trás do Ubuntu) 
+# decidir que o Unity não era mais viável a longo prazo.
+
+
+# Define o caminho do comando gsettings
+
+GS="/usr/bin/gsettings"
+CCUL="com.canonical.Unity.lenses"
+
+
+# Obtém a versão do Ubuntu
+
+V=`/usr/bin/lsb_release -rs`
+
+
+# O Unity foi usado no Ubuntu de 10.10 até 17.04, então a faixa de versões para desativar 
+# escopos remotos deve ser essas.
+
+
+# Versões do Ubuntu com Unity que serão afetadas
+
+MIN="10.10"
+MAX="17.04"
+
+
+
+
+
+# Verifica se a versão do Ubuntu está dentro do intervalo desejado
+
+if [[ $(echo "$V >= $MIN" | bc -l) -eq 1 && $(echo "$V <= $MAX" | bc -l) -eq 1 ]]; then
+
+    echo -e "$(gettext 'Ubuntu version within range to disable remote scopes.')"
+
+    
+    # Verifica se o esquema Canonical Unity está presente
+
+    SCHEMA="`$GS list-schemas | grep -i $CCUL | head -1`"
+    
+    if [[ -z "$SCHEMA" ]]; then
+
+        echo -e "$(gettext 'Error: Canonical Unity lenses schema not found.')"
+
+        exit 1
+
+    else
+
+        CCUL="$SCHEMA"
+    fi
+
+    # Desabilita a pesquisa remota no Unity (impede que dados de pesquisa sejam enviados para a internet)
+
+    echo -e "$(gettext 'Disabling Remote Content Search...')"
+
+    $GS set $CCUL remote-content-search none
+
+
+    # Desabilita escopos relacionados a lojas online (Amazon, Ebay, Ubuntu Shop, etc.)
+
+    echo -e "$(gettext 'Disabling remote scopes from online store suggestions...')"
+
+    $GS set $CCUL disabled-scopes "['more_suggestions-amazon.scope', 'more_suggestions-u1ms.scope', 'more_suggestions-populartracks.scope', 'music-musicstore.scope', 'more_suggestions-ebay.scope', 'more_suggestions-ubuntushop.scope', 'more_suggestions-skimlinks.scope']"
+
+    echo -e "$(gettext 'Remote scopes disabled successfully!')"
+
+else
+
+    echo -e "$(gettext 'This version of Ubuntu does not need modifications or is out of range for disabling remote scopes.')"
+
+    # exit
+fi
+
+
+
+
+else
+
+    echo -e "$(gettext 'Unity GUI is NOT running.')"
+
+fi
+
+
+# ----------------------------------------------------------------------------------------
+
 
 
 # Verificar as fontes de pesquisa online ativas:
@@ -1594,7 +1992,7 @@ if [ $? -ne 0 ]; then  # Verifica se o código de saída é diferente de 0 (erro
 
 echo -e "${RED}\n$(gettext 'An error occurred while disabling online search sources (eBay, Wikipedia, flickr, etc.)') ${NC}"
 
-sudo -u $SUDO_USER DISPLAY=$DISPLAY XAUTHORITY=$XAUTHORITY \
+$notify_users  \
 notify-send -i "/usr/share/icons/gnome/32x32/status/network-error.png" -t "$((DELAY * 1000))" "$(gettext 'Notice')" "$(gettext 'An error occurred while disabling online search sources (eBay, Wikipedia, flickr, etc.)')"
 
 fi
@@ -1613,7 +2011,7 @@ if [ $? -ne 0 ]; then  # Verifica se o código de saída é diferente de 0 (erro
 
 echo -e "${RED}\n$(gettext 'An error occurred while disabling Amazon online search in Dash') \n${NC}"
 
-sudo -u $SUDO_USER DISPLAY=$DISPLAY XAUTHORITY=$XAUTHORITY \
+$notify_users  \
 notify-send -i "/usr/share/icons/gnome/32x32/status/network-error.png" -t "$((DELAY * 1000))" "$(gettext 'Notice')" "$(gettext 'An error occurred while disabling Amazon online search in Dash')"
 
 fi
@@ -1629,14 +2027,28 @@ fi
 # O método via script automatiza essa configuração, desativando a pesquisa online e evitando o envio de consultas para serviços como a Amazon.
 
 
+
+# Desativação de sugestões online no GNOME
+
+# Desativar as sugestões online:
+
+gsettings set org.gnome.desktop.search-providers disable-remote true
+
+# Isso vai desabilitar a pesquisa online do GNOME, impedindo que sugestões de fontes 
+# externas sejam mostradas na pesquisa do sistema.
+
+
+
 echo -e "${GREEN}\n$(gettext "Dash's search data collection has been disabled.") \n${NC}"
+
+
 
 
 # https://www.gnu.org/philosophy/ubuntu-spyware.pt-br.html
 
 
-
 }
+
 
 # ----------------------------------------------------------------------------------------
 
@@ -1652,6 +2064,10 @@ echo -e "${GREEN}\n$(gettext "Dash's search data collection has been disabled.")
 
 
 remover_PPA() {
+
+
+    check_internet
+
 
 echo "Reverter pacotes instalados via PPAs
 
@@ -1688,6 +2104,7 @@ for ppa in /etc/apt/sources.list.d/*; do
     fi
 
 done
+
 
 
 # Passo 2: Atualizar a lista de pacotes
@@ -2020,7 +2437,7 @@ O GNOME Shell armazena o histórico dos arquivos utilizados para colocar nos ite
 
 # Desabilitar o Histórico de Arquivos no GNOME (tracker3 e gnome-shell): No Ubuntu, o GNOME usa o tracker3 para indexar arquivos e criar o histórico de arquivos acessados.
 
-echo "$(gettext 'Desabilitando o serviço de rastreamento de arquivos (tracker3)...')"
+echo -e "$(gettext 'Disabling file tracking service (tracker3)...')"
 
 # Para parar o serviço de rastreamento de arquivos:
 
@@ -2067,7 +2484,7 @@ systemctl --user mask tracker3-miner-text.service 2>> "$log"
 
 
 
-echo "$(gettext 'Desabilitar o Histórico de Arquivos no GNOME')"
+echo -e "$(gettext 'Disable File History in GNOME')"
 
 # Se você também quiser desabilitar o histórico de arquivos do GNOME, que armazena informações sobre arquivos abertos recentemente:
 
@@ -2078,7 +2495,7 @@ gsettings set org.gnome.nautilus.history enabled false 2>> "$log"
 # Isso irá desabilitar o registro de arquivos acessados no Nautilus e também os itens recentes mostrados no menu "Recentes".
 
 
-echo "$(gettext 'Limpar o histórico de arquivos recentes')"
+echo -e "$(gettext 'Clear recent file history')"
 
 # (Opcional) Apagar o histórico de arquivos armazenado:
 
@@ -2290,7 +2707,8 @@ systemctl disable unattended-upgrades  2>> "$log"
 
 # Desabilitar atualizações automáticas no Update Manager
 
-echo "Desabilitando a verificação automática de novas versões..."
+
+echo -e "\n$(gettext 'Disabling automatic checking for new versions...')\n"
 
 # Desativar atualizações automáticas no update-manager:
 
@@ -2743,6 +3161,7 @@ else
     message=$(gettext "An error occurred while trying to disable service %s. Check the log for more details.\n\nError logged: %s")
 
     echo -e "${RED}\n$(printf "$message" "$service" "$log") ${NC}"
+
 fi
 
 
@@ -2813,6 +3232,8 @@ done
 
 # https://medium.com/@leandroembu/melhorando-a-performance-do-ubuntu-em-computadores-fracos-6b60c1a2678#:~:text=Desinstale%20o%20GNOME%20Online%20Accounts&text=Isso%20vai%20remover%20o%20suporte%20%C3%A0s%20Contas,servi%C3%A7o%20(daemon)%20que%20fica%20rodando%20no%20sistema.
 
+# https://www.youtube.com/watch?v=HdyXCSe1aEE
+
 
 # ----------------------------------------------------------------------------------------
 
@@ -2834,10 +3255,10 @@ if [ "$user" == "root" ]; then
 
     echo -e "${RED}\n$(gettext 'The user is Root.') \n${NC}"
 
-sudo -u $SUDO_USER DISPLAY=$DISPLAY XAUTHORITY=$XAUTHORITY \
+$notify_users  \
 notify-send -i "/usr/share/icons/gnome/32x32/status/dialog-error.png" -t "$((DELAY * 1000))" "$(gettext 'Restore Gnome Interface')" "\n$(gettext 'The user is Root.')\n"
 
-    exit 1
+   # exit 1
 
 fi
 
@@ -2853,10 +3274,10 @@ fi
 
 if groups "$user" | grep -q '\bsudo\b' || groups "$user" | grep -q '\bwheel\b'; then
 
-sudo -u $SUDO_USER DISPLAY=$DISPLAY XAUTHORITY=$XAUTHORITY \
+$notify_users  \
 notify-send -i "/usr/share/icons/gnome/32x32/status/dialog-error.png" -t "$((DELAY * 1000))" "$(gettext 'Restore Gnome Interface')" "\n$(gettext 'The user has sudo permissions.')\n"
 
-    exit 1
+   # exit 1
 
 fi
 
@@ -2879,13 +3300,74 @@ fi
 # O GNOME armazena a maioria das configurações no banco de dados dconf. Redefinir o dconf 
 # para os padrões pode corrigir configurações problemáticas.
 
-dconf reset -f /org/gnome/   2>> "$log" 
+# dconf reset -f /org/gnome/   2>> "$log" 
+
+
+# Para listar os usuários comuns do sistema e mostrá-los em uma tela do yad, para que você possa selecionar um e usá-lo em seu comando.
+
+# clear
+
+# Cria uma lista de usuários comuns
+
+# Podemos usar o comando who para obter uma lista dos usuários conectados, que geralmente será mais adequada para suas necessidades.
+
+# Lista os usuários ativos atualmente conectados
+
+usuarios=$(who | awk '{print $1}' | sort | uniq)
+
+
+
+# Exibe a lista de usuários no yad
+
+usuario_selecionado=$(echo "$usuarios" | yad --center --list --title="Selecione um Usuário" --column="Usuário" --width=600 --height=500 --separator="\n" --button="Selecionar":0 --button="Cancelar":1)
+
+# error: Erro ao chamar a linha de comandos “dbus-launch --autolaunch=9733713912251517def2795567c63105 --binary-syntax --close-stderr”: Processo filho concluiu com código 1
+
+
+
+# Verifica se um usuário foi selecionado
+
+if [ -n "$usuario_selecionado" ]; then
+
+    # Executa o comando dconf reset -f /org/gnome/ com o usuário selecionado
+    
+  notify_users="sudo -u $(who | grep '('$DISPLAY')' | awk '{print $1}' | head -n 1) DISPLAY=$DISPLAY DBUS_SESSION_BUS_ADDRESS=unix:path=/run/user/$(id -u $(who | grep '('$DISPLAY')' | awk '{print $1}' | head -n 1))/bus"
+  
+    $notify_users  \
+    dconf reset -f /org/gnome/
+    
+
+exit_code=$?
+
+# Verifica o código de saída do comando
+
+if [ $exit_code -eq 0 ]; then
+
+    echo "O comando dconf reset -f /org/gnome/ foi executado com sucesso."
+    
+else
+
+    echo "Erro ao executar o comando dconf reset -f /org/gnome/. Código de saída: $exit_code"
+    
+    exit $exit_code
+fi
+
+  
+else
+    echo "Nenhum usuário selecionado."
+fi
+
+# Este script irá exibir uma lista dos usuários comuns no yad, permitir que você selecione um usuário e, em seguida, executar o comando dconf reset -f /org/gnome/ como o usuário selecionado.
+
+
 
 # Isso irá resetar as configurações do GNOME para o estado padrão.
 
 
-sudo -u $SUDO_USER DISPLAY=$DISPLAY XAUTHORITY=$XAUTHORITY \
-notify-send -i "/usr/share/icons/gnome/32x32/status/dialog-warning.png" -t "$((DELAY * 1000))" "$(gettext 'Restore Gnome Interface')" "\n$(gettext 'Restart GNOME (or reboot your system) for the changes to take effect. You can restart GNOME with the command:\n\n# killall -3 gnome-shell')\n"
+$notify_users  \
+notify-send -i "/usr/share/icons/gnome/32x32/status/dialog-warning.png" -t "$((DELAY * 1000))" "$(gettext 'Restore Gnome Interface')" "\n$(gettext 'Restart GNOME (or reboot your system) for the changes to take effect. You can restart GNOME with the command:
+
+# killall -3 gnome-shell')\n"
 
 
 
@@ -2957,6 +3439,7 @@ notify-send -i "/usr/share/icons/gnome/32x32/status/dialog-warning.png" -t "$((D
 desmarcar_repositorio_canonical() {
 
 
+
 # Caminho para o arquivo de repositórios principal
 
 SOURCE_LIST="/etc/apt/sources.list"
@@ -3002,6 +3485,8 @@ desmarcar_repositorio() {
 desmarcar_repositorio
 
 
+    check_internet
+
     echo -e "${GREEN}\n$(gettext 'Updating repositories...') \n${NC}"
 
     apt update 2>> "$log" 
@@ -3009,8 +3494,8 @@ desmarcar_repositorio
     sleep 1
 
 
-sudo -u $SUDO_USER DISPLAY=$DISPLAY XAUTHORITY=$XAUTHORITY \
-notify-send -i "/usr/share/icons/gnome/32x32/status/dialog-information.png" -t "$((DELAY * 1000))" "$(gettext '"Canonical Partners Repository')" "\n$(gettext 'Canonical repositories successfully unchecked.')\n"
+$notify_users  \
+notify-send -i "/usr/share/icons/gnome/32x32/status/dialog-information.png" -t "$((DELAY * 1000))" "$(gettext 'Canonical Partners Repository')" "\n$(gettext 'Canonical repositories successfully unchecked.')\n"
 
 
 # Essa função desmarcará os repositórios de "Parceiros da Canonical" e atualizará a lista de pacotes.
@@ -3043,6 +3528,8 @@ notify-send -i "/usr/share/icons/gnome/32x32/status/dialog-information.png" -t "
 
 
 test_latency(){
+
+    check_internet
 
 
 # Função para medir a latência de um servidor
@@ -3183,6 +3670,19 @@ conf_firewall() {
 # Firewall para Proteção Total de Privacidade
 
 
+# O endereço IP 91.189.92.11 pertence à Canonical Group Limited, a empresa responsável 
+# pelo desenvolvimento do Ubuntu.
+# 
+# Este IP está associado ao serviço productsearch.ubuntu.com, utilizado para fornecer 
+# resultados de busca de produtos diretamente no Dash do Unity, a interface de busca do 
+# Ubuntu.
+# 
+# Este serviço foi introduzido no Ubuntu 12.10 para integrar resultados de produtos da 
+# Amazon ao Dash. No entanto, devido a preocupações com privacidade e feedback dos 
+# usuários, a Canonical descontinuou essa funcionalidade em versões posteriores do Ubuntu.
+
+
+
 Firewall_UFW() {
 
 
@@ -3244,27 +3744,63 @@ Firewall_UFW() {
 
 
 
+# A ordem das regras no ufw é importante, pois o ufw avalia as regras na sequência em que 
+# são aplicadas, e a primeira regra que corresponde à solicitação será a que será aplicada.
+
+
+
 # Ativa o UFW (Uncomplicated Firewall)
 
 echo -e "$(gettext 'Activating UFW...')"
 
-ufw enable  2>> "$log" 
+ufw enable  | tee -a "$log"
 
 
 # Limpa as regras existentes, se houver
 
 echo -e "$(gettext 'Cleaning up existing rules...')"
 
-ufw reset 2>> "$log" 
+ufw reset | tee -a "$log"
 
 
 # Define a política padrão para bloquear todas as conexões de entrada e permitir todas as de saída
 
 echo -e "$(gettext 'Setting default policies: block inbound, allow outbound...')"
 
-ufw default deny incoming    2>> "$log"
+ufw default deny incoming    | tee -a "$log"
 
-ufw default allow outgoing   2>> "$log"
+ufw default allow outgoing   | tee -a "$log"
+
+
+# ----------------------------------------------------------------------------------------
+
+
+# A linha ufw deny from any provavelmente está bloqueando o tráfego essencial. Para 
+# permitir o tráfego de entrada para serviços essenciais (como DNS, HTTP, HTTPS), pode 
+# especificar regras mais granulares. Pode, por exemplo, permitir conexões de entrada 
+# para os serviços que precisa e ainda negar o acesso não autorizado.
+
+ufw allow from any to any port 80  proto tcp   # Para tráfego HTTP
+ufw allow from any to any port 443 proto tcp   # Para tráfego HTTPS
+ufw allow from any to any port 53  proto udp   # Para DNS
+
+
+# Configuração de serviços específicos que queremos permitir
+
+echo -e "$(gettext 'Enabling essential system services...')"
+
+
+# Permitir SSH para acesso remoto (ajuste se necessário)
+# sudo ufw allow ssh
+
+
+
+# Permitir o tráfego para conexões VPN ou outras ferramentas que você queira permitir
+# Por exemplo, para OpenVPN (ajuste a porta conforme necessário)
+# sudo ufw allow 1194/udp
+
+
+# ----------------------------------------------------------------------------------------
 
 
 # Bloqueia conexões de saída para servidores de anúncios conhecidos (IP da Canonical, Amazon, e outros servidores de rastreamento)
@@ -3288,9 +3824,10 @@ for ip in "${BLOCKED_IPS[@]}"; do
 
   echo "$ip" | tee -a "$log"
 
-  ufw deny out to $ip   2>> "$log" 
+  ufw deny out to $ip   | tee -a "$log"
 
 done
+
 
 
 
@@ -3298,36 +3835,45 @@ done
 
 echo -e "$(gettext 'Blocking incoming connections, allowing only the local interface (loopback)...')"
 
-ufw allow from 127.0.0.1  2>> "$log"
-
-ufw deny from any         2>> "$log"
+ufw allow from 127.0.0.1  | tee -a "$log"
 
 
-# Configuração de serviços específicos que queremos permitir
+# Regra de deny from any:
 
-echo -e "$(gettext 'Enabling essential system services...')"
+# Bloqueia todas as conexões de entrada (para todas as interfaces) vindas de qualquer IP 
+# externo. Essa regra pode estar impedindo conexões que você precisa para acessar a internet.
+
+ufw deny from any        | tee -a "$log"
 
 
-# Permitir SSH para acesso remoto (ajuste se necessário)
-# sudo ufw allow ssh
+# Regra de negação geral (ufw deny from any): Isso deve vir por último, pois ela bloqueia 
+# todo o tráfego de entrada. Caso você a coloque antes de outras regras, você pode acabar 
+# bloqueando tráfego legítimo (como HTTP, HTTPS e DNS) que você quer permitir.
 
-# Permitir o tráfego para conexões VPN ou outras ferramentas que você queira permitir
-# Por exemplo, para OpenVPN (ajuste a porta conforme necessário)
-# sudo ufw allow 1194/udp
+
 
 
 # Verifica o status do firewall para garantir que as regras estão ativas
 
 echo -e "$(gettext 'Checking Firewall status...')"
 
-ufw status verbose   2>> "$log" 
+ufw status verbose   | tee -a "$log"
 
+sleep 2
 
 echo -e "${GREEN}\n$(gettext 'Firewall configured for maximum privacy!') \n${NC}"
 
+echo -e "${RED}\n$(gettext 'sudo ufw  disable.') \n${NC}"
+    
+# ----------------------------------------------------------------------------------------
 
-sudo -u $SUDO_USER DISPLAY=$DISPLAY XAUTHORITY=$XAUTHORITY \
-notify-send -i "/usr/share/icons/gnome/32x32/status/security-medium.png" -t "$((DELAY * 1000))" "$(gettext 'Firewall for Total Privacy Protection')" "\n$(gettext 'Firewall configured for maximum privacy!')\n"
+
+
+$notify_users \
+notify-send  "$(gettext 'Firewall for Total Privacy Protection')" "\n$(gettext 'Firewall configured for maximum privacy!')\n"
+
+
+# ----------------------------------------------------------------------------------------
 
 
 }
@@ -3351,6 +3897,8 @@ check_iptables() {
 
     else
 
+        check_internet
+
         echo -e "$(gettext 'iptables is not installed. Installing now...')"
 
         # Atualiza o repositório de pacotes e instala o iptables
@@ -3370,37 +3918,74 @@ configure_iptables() {
 
     echo -e "$(gettext 'Setting up basic iptables rules to protect your privacy...')"
 
+# ----------------------------------------------------------------------------------------
+
     # Definindo a política padrão
+
+
+# Política de Rejeição para INPUT e FORWARD:
+
+#     As regras de iptables para as políticas padrão INPUT e FORWARD estão corretas, o 
+# que significa que, por padrão, você está bloqueando todas as conexões de entrada e de 
+# encaminhamento, permitindo apenas as saídas. Isso está bom para uma política de 
+# segurança restritiva.
+
 
     echo -e "$(gettext 'Setting default policies: block all and allow local connections...')"
 
-
-    iptables -P INPUT DROP
+    iptables -P INPUT   DROP
     iptables -P FORWARD DROP
-    iptables -P OUTPUT ACCEPT
+    iptables -P OUTPUT  ACCEPT
+
+# ----------------------------------------------------------------------------------------
 
     # Permitir conexões de loopback (localhost)
 
+# Permitir tráfego local (loopback):
+
+#    As regras para aceitar tráfego de loopback (lo) estão corretas. Isso é essencial para 
+# permitir que o sistema se comunique consigo mesmo (por exemplo, para serviços locais).
+
+
     echo -e "$(gettext 'Allow local traffic (loopback)...')"
 
-    iptables -A INPUT -i lo -j ACCEPT
+    iptables -A INPUT  -i lo -j ACCEPT
     iptables -A OUTPUT -o lo -j ACCEPT
 
+# ----------------------------------------------------------------------------------------
 
     # Permitir SSH (ajuste se necessário)
+
+# A linha comentada (para permitir o acesso SSH na porta 22) está opcional, dependendo do 
+# que você deseja fazer. Se você precisar acessar o sistema via SSH, você pode descomentar 
+# esta linha:
 
     # echo "Permitir SSH..."
 
     # iptables -A INPUT -p tcp --dport 22 -j ACCEPT
 
+# ----------------------------------------------------------------------------------------
 
     # Permitir tráfego de saída para conexões essenciais
 
+
+# Permitir tráfego de saída para HTTP, HTTPS e DNS:
+
+#   As regras para permitir tráfego de saída para portas HTTP (80), HTTPS (443) e 
+# DNS (53). Essas regras permitem que o servidor tenha acesso a sites na web e 
+# resolva nomes de domínio.
+
+
     echo -e "$(gettext 'Allow essential outbound traffic...')"
 
-    iptables -A OUTPUT -p tcp --dport 80 -j ACCEPT  # HTTP
-    iptables -A OUTPUT -p tcp --dport 443 -j ACCEPT # HTTPS
+    iptables -A OUTPUT -p tcp --dport 80  -j ACCEPT  # Para HTTP
+    iptables -A OUTPUT -p tcp --dport 443 -j ACCEPT  # Para HTTPS
+    iptables -A OUTPUT -p udp --dport 53  -j ACCEPT  # Para DNS
 
+
+# ----------------------------------------------------------------------------------------
+
+# Bloquear IPs específicos (lista BLOCKED_IPS):
 
     # Bloquear conexões para servidores de rastreamento (exemplo de IPs conhecidos)
 
@@ -3418,10 +4003,17 @@ configure_iptables() {
     done
 
 
+# Bloquear IPs com outras ações: Além de usar DROP, você pode optar por usar REJECT caso 
+# queira responder ativamente aos IPs bloqueados (embora isso possa gerar tráfego adicional). 
+# Isso depende da sua política de segurança.
 
 
+# ----------------------------------------------------------------------------------------
 
     # Salvar as regras do iptables
+
+# Certifique-se de que você tem as permissões adequadas para escrever nesse arquivo, caso 
+# contrário, você pode precisar executar o comando com permissões de Root.
 
     echo -e "$(gettext 'Saving rules...')"
 
@@ -3429,11 +4021,24 @@ configure_iptables() {
 
 
 
+# Mas a persistência também pode depender de ferramentas adicionais, como 
+# iptables-persistent em sistemas baseados em Debian/Ubuntu, ou systemctl enable iptables 
+# em sistemas que usam systemd. Se você não usar essas ferramentas, as regras podem não 
+# ser restauradas após uma reinicialização.
+
+# Caso esteja usando iptables-persistent, você pode instalar e configurar com:
+
+# apt install -y iptables-persistent
+
+
+# ----------------------------------------------------------------------------------------
+
     echo -e "${GREEN}\n$(gettext 'Iptables rules configured successfully!') \n${NC}"
 
 
-sudo -u $SUDO_USER DISPLAY=$DISPLAY XAUTHORITY=$XAUTHORITY \
+$notify_users  \
 notify-send -i "/usr/share/icons/gnome/32x32/status/security-medium.png" -t "$((DELAY * 1000))" "$(gettext 'Firewall for Total Privacy Protection')" "\n$(gettext 'Firewall configured for maximum privacy!')\n"
+
 
 
 
@@ -3497,6 +4102,9 @@ check_ufw() {
         # echo -e "${RED}\n$(gettext 'UFW is not installed. Installing now...') \n${NC}"
 
 
+        # check_internet
+
+
         # Atualiza o repositório de pacotes e instala o ufw
 
         # apt update
@@ -3553,6 +4161,9 @@ check_ufw
 
 
 deb_upgrades() {
+
+
+    check_internet
 
 
 # Verificação Manual de Atualizações
@@ -3647,7 +4258,17 @@ reduza_uso_de_swap() {
 
 # Diminuir a taxa de uso de swap
 
-echo -e "\nReduza o acesso ao swap (o padrão do Ubuntu é 60.)\n"
+
+echo -e "${GREEN}\n$(gettext 'Reduce swap access (Ubuntu defaults to 60.)') \n${NC}"
+
+
+# ----------------------------------------------------------------------------------------
+
+# Definindo as variáveis
+
+SWAPPINESS=10
+
+VFS_CACHE_PRESSURE=50
 
 
 # O sistema usa bastante swap quando tem pouca memória RAM (é o meu caso), ou quando você 
@@ -3670,21 +4291,198 @@ echo -e "\nReduza o acesso ao swap (o padrão do Ubuntu é 60.)\n"
 
 # Reduza o acesso ao swap (o padrão do Ubuntu é 60. Quanto menor o número, menor o acesso):
 
-sysctl vm.swappiness=10
+sysctl vm.swappiness=$SWAPPINESS
 
 # Reduza o uso do cache (o padrão do Ubuntu é 100):
 
-sysctl vm.vfs_cache_pressure=50
+sysctl vm.vfs_cache_pressure=$VFS_CACHE_PRESSURE
 
 
 # Torne as mudanças permanentes editando o arquivo /etc/sysctl.d/99-sysctl.conf
 
-# nano /etc/sysctl.d/99-sysctl.conf ou nano /etc/sysctl.conf
+# nano /etc/sysctl.d/99-sysctl.conf
 
 # Adicione o conteúdo abaixo ao final do arquivo
 
 # vm.swappiness=10
 # vm.vfs_cache_pressure=50
+
+
+
+# Realiza a verificação e, caso as opções já existam, atualiza os valores. Se não 
+# existirem, adiciona ao final do arquivo.
+
+
+# Arquivo de configuração
+
+
+# Verificar se o arquivo existe
+
+
+# Verifica primeiro se o arquivo /etc/sysctl.d/99-sysctl.conf existe. Se não, ele verifica 
+# se o arquivo /etc/sysctl.conf existe. Se nenhum dos dois arquivos existir, ele imprime 
+# a mensagem "O arquivo não existe".
+
+
+if [ -e "/etc/sysctl.d/99-sysctl.conf" ]; then
+
+# O arquivo /etc/sysctl.d/99-sysctl.conf é um arquivo de configuração utilizado para 
+# ajustar parâmetros do kernel do Linux, especificamente por meio do comando sysctl. Ele 
+# permite configurar diversos parâmetros de sistema, como o comportamento da rede, a 
+# memória, a segurança, entre outros, que são carregados durante o processo de inicialização 
+# ou podem ser aplicados a qualquer momento usando o sysctl.
+
+# O arquivo 99-sysctl.conf:
+
+# O número 99 no nome do arquivo (como em 99-sysctl.conf) é uma convenção usada para 
+# definir a ordem em que os arquivos de configuração são aplicados. Arquivos com números 
+# mais altos têm prioridade e são aplicados depois de arquivos com números mais baixos. 
+# Portanto, 99-sysctl.conf é carregado após outros arquivos com números menores (como 
+# 00-sysctl.conf), permitindo que você sobrescreva configurações de maneira mais específica.
+
+
+  SYSCTL_CONF="/etc/sysctl.d/99-sysctl.conf"
+
+
+elif [ -e "/etc/sysctl.conf" ]; then
+
+
+# O arquivo /etc/sysctl.conf é um arquivo de configuração utilizado no Linux para ajustar 
+# parâmetros do kernel do sistema operacional, permitindo o controle de diversos aspectos 
+# de desempenho e segurança do sistema em tempo de execução. Ele contém definições de 
+# parâmetros do kernel que afetam o comportamento do sistema, como rede, memória, limites 
+# de processo, entre outros.
+
+
+# O que o /etc/sysctl.conf faz?
+
+# Quando o sistema Linux inicia, o kernel e o sistema carregam configurações que podem 
+# ser ajustadas de acordo com as necessidades do administrador do sistema. O arquivo 
+# /etc/sysctl.conf é um desses lugares onde configurações do kernel podem ser definidas 
+# de forma persistente, ou seja, as configurações que são aplicadas automaticamente sempre 
+# que o sistema é inicializado.
+
+  SYSCTL_CONF="/etc/sysctl.conf"
+
+else
+
+
+#  echo -e "${RED}\n$(gettext 'The file does not exist.') ${NC}"
+
+#  exit
+
+
+#  Se o objetivo é simplesmente não fazer nada quando nenhum dos arquivos for encontrado, 
+#  pode substituir por um # (comentário), ou usar um comando como : (um comando nulo que 
+#  não faz nada). 
+
+# Não fazer nada
+
+#    :
+
+echo " "
+
+
+# Explicação:
+# 
+#   : (dois pontos): É um comando nulo no shell, ou seja, não faz nada. Ele é útil quando 
+# você precisa de um comando válido, mas não deseja executar nada em um determinado bloco 
+# de código.
+# 
+# 
+#   Comentário (#): Outra alternativa para indicar que você não quer fazer nada é 
+# simplesmente adicionar um comentário explicativo, como # Não fazer nada, no lugar do 
+# continue.
+
+
+fi
+
+
+
+
+
+if [ -z "$SYSCTL_CONF" ]; then
+
+  # A variável SYSCTL_CONF não tem valor.
+
+  echo -e "${RED}\n$(gettext 'The file does not exist.') ${NC}"
+
+
+else
+
+  # echo "A variável SYSCTL_CONF tem o valor: $SYSCTL_CONF"
+
+
+
+# Verificando se vm.swappiness já está no arquivo e ajustando o valor
+
+if grep -q "vm.swappiness" "$SYSCTL_CONF"; then
+
+    echo -e "$(gettext 'vm.swappiness found, updating value...')"
+
+    sed -i "s/^vm.swappiness=.*/vm.swappiness=$SWAPPINESS/" "$SYSCTL_CONF"
+
+else
+
+    echo -e "$(gettext 'vm.swappiness not found, adding to file...')"
+
+    echo "vm.swappiness=$SWAPPINESS" >> "$SYSCTL_CONF"
+
+fi
+
+
+
+# Verificando se vm.vfs_cache_pressure já está no arquivo e ajustando o valor
+
+if grep -q "vm.vfs_cache_pressure" "$SYSCTL_CONF"; then
+
+    echo -e "$(gettext 'vm.vfs_cache_pressure found, updating value...')"
+
+    sed -i "s/^vm.vfs_cache_pressure=.*/vm.vfs_cache_pressure=$VFS_CACHE_PRESSURE/" "$SYSCTL_CONF"
+
+else
+
+    echo -e "$(gettext 'vm.vfs_cache_pressure not found, adding to file...')"
+
+    echo "vm.vfs_cache_pressure=$VFS_CACHE_PRESSURE" >> "$SYSCTL_CONF"
+
+fi
+
+
+# Aplicando as novas configurações
+
+
+# O comando sysctl -p é usado para aplicar as configurações do arquivo de configuração do 
+# sysctl (geralmente /etc/sysctl.conf ou arquivos dentro do diretório /etc/sysctl.d/) no 
+# kernel do sistema sem precisar reiniciar o sistema.
+# 
+# 
+# Explicação detalhada:
+# 
+#     sysctl: É uma ferramenta de linha de comando no Linux usada para visualizar ou 
+# alterar parâmetros do kernel enquanto o sistema está em execução.
+# 
+#     -p: A opção -p diz ao sysctl para carregar as configurações de um arquivo específico, 
+# aplicando os parâmetros listados nesse arquivo diretamente no kernel do sistema.
+# 
+# Por padrão, quando você executa sysctl -p sem especificar um arquivo, ele lê e aplica as 
+# configurações de /etc/sysctl.conf.
+
+
+# Se você quiser carregar configurações de um arquivo diferente, pode especificar o 
+# caminho do arquivo.
+
+sysctl -p "$SYSCTL_CONF"
+
+
+echo -e "${GREEN}\n$(gettext 'Swap settings adjusted successfully!') \n${NC}"
+
+
+
+fi
+
+
+# ----------------------------------------------------------------------------------------
 
 
 # 10:52 https://www.youtube.com/watch?v=wA1BIJYZbXI
@@ -3808,6 +4606,50 @@ sysctl vm.vfs_cache_pressure=50
 # garantir que o Ubuntu esteja o mais seguro possível. Além disso, sempre fique atento às 
 # vulnerabilidades e patches de segurança que surgem para os pacotes que você utiliza.
 
+# ----------------------------------------------------------------------------------------
+
+
+# Para trocar a posição dos botões da janela no GNOME
+# 
+#     Usando GNOME Tweaks (Ferramentas de Ajuste):
+# 
+#         Abra o aplicativo GNOME Tweaks (se não tiver, pode instalar com o comando sudo apt install -y gnome-tweaks no Ubuntu, por exemplo).
+#         Na interface do GNOME Tweaks, vá para a aba Aparência.
+#         Dentro dessa aba, procure pela opção Botões da janela.
+# 
+#         Em Botões da janela, você pode escolher a posição dos botões de "Fechar", "Minimizar" e "Maximizar". Normalmente, o GNOME os coloca à esquerda por padrão, mas você pode movê-los para a direita, se preferir.
+# 
+#     Usando dconf-editor (avançado):
+# 
+#         Abra o terminal e digite: dconf-editor
+#         Navegue até: org > gnome > desktop > wm > preferences
+#         Encontre a opção button-layout.
+#         A chave padrão é geralmente: close,minimize,maximize:
+#         Se você quiser mover os botões para a esquerda, altere para: :close,minimize,maximize
+# 
+# Após essas alterações, os botões devem mudar de posição conforme a sua escolha.
+# 
+# 
+# Se você preferir realizar essa alteração via terminal, pode usar o gsettings para 
+# alterar a posição dos botões da janela no GNOME. Aqui está o comando que você pode usar:
+# 
+# Para mover os botões da janela para a direita:
+# 
+# gsettings set org.gnome.desktop.wm.preferences button-layout ":minimize,maximize,close"
+# 
+# Para mover os botões da janela para a esquerda (padrão):
+# 
+# gsettings set org.gnome.desktop.wm.preferences button-layout "close,minimize,maximize:"
+# 
+# Esses comandos alteram a configuração de layout dos botões da janela. O que está antes 
+# dos dois pontos : indica a posição dos botões à esquerda, e o que está depois dos dois 
+# pontos indica a posição dos botões à direita.
+# 
+# Após executar o comando, os botões devem aparecer na posição desejada.
+
+
+# https://askubuntu.com/questions/651347/how-to-bring-back-minimize-and-maximize-buttons-in-gnome-3
+
 
 # ----------------------------------------------------------------------------------------
 
@@ -3888,7 +4730,7 @@ YAD_OFF2(){
 choice=$(dialog \
 --backtitle 'ubuntu-debullshit' \
 --title "$(gettext 'Menu')" \
---menu "$(gettext 'Choose what to do:')" 30 80 30 \
+--menu "$(gettext 'Choose what to do:')" 40 80 30 \
 2  "$(gettext 'Disable Ubuntu report')" \
 3  "$(gettext 'Remove app crash popup')" \
 4  "$(gettext 'Remove snaps and snapd')" \
@@ -3916,6 +4758,9 @@ choice=$(dialog \
 26 "$(gettext 'Update the system')" \
 27 "$(gettext 'Reduza o acesso ao swap')" \
 50 "$(gettext 'Exit')" --stdout)
+
+
+clear
 
 }
 
@@ -4016,10 +4861,11 @@ main() {
 
     check_root_user
 
-    check_internet
     check_programs
-    check_distro
+    
+     check_distro
 
+     
     intro
 
 
@@ -4053,8 +4899,8 @@ if [ -e "$log" ]; then
 
 
     # A conexão está fechada
-
-sudo -u $SUDO_USER DISPLAY=$DISPLAY XAUTHORITY=$XAUTHORITY \
+    
+$notify_users  \
 notify-send -i "/usr/share/icons/gnome/32x32/status/software-update-urgent.png" -t "$((DELAY * 1000))" "$(gettext 'Notice')" "$(printf "$message" "$log")"
 
 
@@ -4173,7 +5019,7 @@ else
 
     # A conexão está fechada
 
-sudo -u $SUDO_USER DISPLAY=$DISPLAY XAUTHORITY=$XAUTHORITY \
+$notify_users  \
 notify-send -i "/usr/share/icons/gnome/32x32/status/software-update-urgent.png" -t "$((DELAY * 1000))" "$(gettext 'Notice')" "$(printf "$message" "$file_path")"
 
 
@@ -4375,6 +5221,10 @@ fi
 
 
 auto() {
+
+
+    check_internet
+
 
     msg "$(gettext 'Updating system')"
 

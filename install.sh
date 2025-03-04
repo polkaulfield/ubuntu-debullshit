@@ -11,19 +11,6 @@ clear
 
 # ----------------------------------------------------------------------------------------
 
-# Verificar se o script está sendo executado como Root
-
-if [ "$EUID" -ne 0 ]; then
-
-   yad --center --title="Erro" --text="Este script deve ser executado como Root!" --button=OK
-  
-  exit 1
-  
-fi
-
-
-# ----------------------------------------------------------------------------------------
-
 
 # echo "Você está executando como Root!"
 
@@ -36,6 +23,20 @@ which notify-send     1> /dev/null 2> /dev/null || { yad --center --image=dialog
 which find            1> /dev/null 2> /dev/null || { yad --center --image=dialog-error --timeout=10 --no-buttons --title "Aviso" --text "Programa find não esta instalado."        --width 450 --height 100 2>/dev/null   ; exit ; }
 which msgfmt          1> /dev/null 2> /dev/null || { yad --center --image=dialog-error --timeout=10 --no-buttons --title "Aviso" --text "Programa msgfmt não esta instalado. Falta o pacote gettext"        --width 450 --height 100 2>/dev/null   ; exit ; }
 which sed             1> /dev/null 2> /dev/null || { yad --center --image=dialog-error --timeout=10 --no-buttons --title "Aviso" --text "Programa sed não esta instalado."        --width 450 --height 100 2>/dev/null   ; exit ; }
+
+
+
+# ----------------------------------------------------------------------------------------
+
+# Verificar se o script está sendo executado como Root
+
+if [ "$EUID" -ne 0 ]; then
+
+   yad --center --title="Erro" --text="Este script deve ser executado como Root!" --button=OK
+  
+  exit 1
+  
+fi
 
 
 # ----------------------------------------------------------------------------------------
@@ -229,6 +230,8 @@ case "$comando" in
 esac
 
 # ----------------------------------------------------------------------------------------
+
+rm /tmp/ubuntu-debullshit.log
 
 exit 0
 

@@ -80,6 +80,12 @@ msgstr "O arquivo de log ficará em %s ao final dos processos para consulta de e
 # ----------------------------------------------------------------------------------------
 
 
+msgid   "Command %s not found."
+msgstr "Comando %s não encontrado."
+
+msgid   "Command %s not found.\n\n\n# apt install -y %s"
+msgstr "Comando %s não encontrado.\n\n\n# apt install -y %s"
+
 
 msgid  "Option"
 msgstr "Opção"
@@ -123,6 +129,29 @@ msgstr "A pasta /etc/apt/keyrings/ não existe."
 msgid  "The /etc/apt/preferences.d/ folder does not exist."
 msgstr "A pasta /etc/apt/preferences.d/ não existe."
 
+
+msgid  "Unity GUI is NOT running."
+msgstr "A interface gráfica do Unity NÃO está em execução."
+
+msgid  "This version of Ubuntu does not need modifications or is out of range for disabling remote scopes."
+msgstr "Esta versão do Ubuntu não precisa de modificações ou está fora do intervalo para desativação de escopos remotos."
+
+msgid  "Remote scopes disabled successfully!"
+msgstr "Escopos remotos desativados com sucesso!"
+
+msgid  "Disabling remote scopes from online store suggestions..."
+msgstr "Desabilitando escopos remotos de sugestões de lojas online..."
+
+msgid  "Disabling Remote Content Search..."
+msgstr "Desabilitando Remote Content Search..."
+
+msgid  "Error: Canonical Unity lenses schema not found."
+msgstr "Erro: não foi encontrado o esquema Canonical Unity lenses."
+
+msgid  "Ubuntu version within range to disable remote scopes."
+msgstr "Versão do Ubuntu dentro do intervalo para desativar escopos remotos."
+
+
 msgid  "Disable Telemetry"
 msgstr "Desativar a Telemetria"
 
@@ -149,6 +178,17 @@ msgstr "Ocorreu um erro ao remover o whoopsie."
 
 msgid  "An error occurred while removing canonical-livepatch."
 msgstr "Ocorreu um erro ao remover o canonical-livepatch."
+
+
+msgid  "This part of the script is designed to check for the unity-lens-shopping package on Ubuntu versions 12.10 through 16.04."
+msgstr "Essa parte do script foi projetada para verificar o pacote unity-lens-shopping nas versões de 12.10 até 16.04 do Ubuntu."
+
+msgid  "The unity-lens-shopping package is installed on Ubuntu %s."
+msgstr "O pacote unity-lens-shopping está instalado no Ubuntu %s."
+
+msgid  "The unity-lens-shopping package is NOT installed on Ubuntu %s."
+msgstr "O pacote unity-lens-shopping NÃO está instalado no Ubuntu %s."
+
 
 msgid  "An error occurred while disabling online search sources (eBay, Wikipedia, flickr, etc.)"
 msgstr "Ocorreu um erro ao desabilita as fontes de pesquisa online (eBay, Wikipedia, flickr, etc.)"
@@ -206,6 +246,9 @@ msgstr "Parando o serviço..."
 
 msgid  "Disabling the service so that it does not start automatically..."
 msgstr "Desabilitando o serviço para que ele não seja iniciado automaticamente..."
+
+msgid  "Disabling automatic checking for new versions..."
+msgstr "Desabilitando a verificação automática de novas versões..."
 
 msgid  "Uninstalling package..."
 msgstr "Desinstalando o pacote..."
@@ -480,9 +523,50 @@ msgstr "Limpando pacotes baixados..."
 
 # ----------------------------------------------------------------------------------------
 
+# Reduza o acesso ao swap
+
+msgid  "Reduce swap access (Ubuntu defaults to 60.)"
+msgstr "Reduza o acesso ao swap (o padrão do Ubuntu é 60.)"
+
+msgid  "The file does not exist."
+msgstr "O arquivo não existe."
+
+msgid  "vm.swappiness found, updating value..."
+msgstr "vm.swappiness encontrado, atualizando valor..."
+
+msgid  "vm.swappiness not found, adding to file..."
+msgstr "vm.swappiness não encontrado, adicionando ao arquivo..."
+
+msgid  "vm.vfs_cache_pressure found, updating value..."
+msgstr "vm.vfs_cache_pressure encontrado, atualizando valor..."
+
+msgid  "vm.vfs_cache_pressure not found, adding to file..."
+msgstr "vm.vfs_cache_pressure não encontrado, adicionando ao arquivo..."
+
+msgid  "Swap settings adjusted successfully!"
+msgstr "Configurações de swap ajustadas com sucesso!"
+
+
+# ----------------------------------------------------------------------------------------
+
+# Desativar o Histórico de Arquivos
+
+msgid  "Disabling file tracking service (tracker3)..."
+msgstr "Desabilitando o serviço de rastreamento de arquivos (tracker3)..."
+
+msgid  "Disable File History in GNOME"
+msgstr "Desabilitar o histórico de arquivos no GNOME"
+
+msgid  "Clear recent file history"
+msgstr "Limpar o histórico de arquivos recentes"
+
+
+# ----------------------------------------------------------------------------------------
 
 msgid  "RAM consumption"
 msgstr "Consumo de memória RAM"
+
+
 
 
 #: ubuntu-debullshit.sh:45 ubuntu-debullshit.sh:47

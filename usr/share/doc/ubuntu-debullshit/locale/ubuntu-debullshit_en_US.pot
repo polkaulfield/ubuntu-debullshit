@@ -52,6 +52,12 @@ msgstr ""
 
 # ----------------------------------------------------------------------------------------
 
+msgid  "Command %s not found."
+msgstr ""
+
+msgid  "Command %s not found.\n\n\n# apt install -y %s"
+msgstr ""
+
 
 msgid  "Option"
 msgstr ""
@@ -95,6 +101,31 @@ msgstr ""
 msgid  "The /etc/apt/preferences.d/ folder does not exist."
 msgstr ""
 
+
+
+msgid  "Unity GUI is NOT running."
+msgstr ""
+
+msgid  "This version of Ubuntu does not need modifications or is out of range for disabling remote scopes."
+msgstr ""
+
+msgid  "Remote scopes disabled successfully!"
+msgstr ""
+
+msgid  "Disabling remote scopes from online store suggestions..."
+msgstr ""
+
+msgid  "Disabling Remote Content Search..."
+msgstr ""
+
+msgid  "Error: Canonical Unity lenses schema not found."
+msgstr ""
+
+msgid  "Ubuntu version within range to disable remote scopes."
+msgstr ""
+
+
+
 msgid  "Disable Telemetry"
 msgstr ""
 
@@ -121,6 +152,17 @@ msgstr ""
 
 msgid  "An error occurred while removing canonical-livepatch."
 msgstr ""
+
+
+msgid  "This part of the script is designed to check for the unity-lens-shopping package on Ubuntu versions 12.10 through 16.04."
+msgstr ""
+
+msgid  "The unity-lens-shopping package is installed on Ubuntu %s."
+msgstr ""
+
+msgid  "The unity-lens-shopping package is NOT installed on Ubuntu %s."
+msgstr ""
+
 
 msgid  "An error occurred while disabling online search sources (eBay, Wikipedia, flickr, etc.)"
 msgstr ""
@@ -174,6 +216,9 @@ msgid  "Stopping service..."
 msgstr ""
 
 msgid  "Disabling the service so that it does not start automatically..."
+msgstr ""
+
+msgid  "Disabling automatic checking for new versions..."
 msgstr ""
 
 msgid  "Uninstalling package..."
@@ -452,8 +497,49 @@ msgstr ""
 # ----------------------------------------------------------------------------------------
 
 
+# Reduza o acesso ao swap
+
+msgid  "Reduce swap access (Ubuntu defaults to 60.)"
+msgstr ""
+
+msgid  "The file does not exist."
+msgstr ""
+
+msgid  "vm.swappiness found, updating value..."
+msgstr ""
+
+msgid  "vm.swappiness not found, adding to file..."
+msgstr ""
+
+msgid  "vm.vfs_cache_pressure found, updating value..."
+msgstr ""
+
+msgid  "vm.vfs_cache_pressure not found, adding to file..."
+msgstr ""
+
+msgid  "Swap settings adjusted successfully!"
+msgstr ""
+
+
+# ----------------------------------------------------------------------------------------
+
+# Desativar o Histórico de Arquivos
+
+msgid  "Disabling file tracking service (tracker3)..."
+msgstr ""
+
+msgid  "Disable File History in GNOME"
+msgstr ""
+
+msgid  "Clear recent file history"
+msgstr ""
+
+
+# ----------------------------------------------------------------------------------------
+
 msgid  "RAM consumption"
 msgstr ""
+
 
 
 
