@@ -1,17 +1,54 @@
 #!/usr/bin/env bash
-#
-# Authors:
-#
-# polkaulfield   - https://github.com/polkaulfield
-#
-# Fernando Souza - https://www.youtube.com/@fernandosuporte/ | https://github.com/tuxslack/ubuntu-debullshit 
-#
-# Date:    19/04/2024 as 16:44
-# Script:  ubuntu-debullshit.sh
-# Version: 1.0.1
 
-# Melhorando a performance do Ubuntu em computadores fracos e pode ser útil também para 
-# máquinas mais potentes.
+##########################################################################################
+#                                                                                        #
+# O Shell Script pode usar o dialog ou Yad.                                              #
+#                                                                                        #
+# Obs: Não esqueca que para funcionar o comando gettext, notify-send, pacote             #
+# gnome-icon-theme e Yad ou dialog tem que estar instalado no seu Linux.                 #
+#                                                                                        #
+# Melhorando o desempenho do Ubuntu em computadores de baixa potência, também útil para  #
+# máquinas mais potentes.                                                                #
+#                                                                                        #
+# Suporte a idiomas: Português (Brasil) e Inglês (Estados Unidos)                        #
+#                                                                                        #
+# Authors:                                                                               #
+#                                                                                        #
+# polkaulfield   - https://github.com/polkaulfield                                       #
+#                                                                                        #
+# Fernando Souza - https://www.youtube.com/@fernandosuporte/                             #
+#                  https://github.com/tuxslack/ubuntu-debullshit                         #
+#                                                                                        #
+# Version: 1.0.1                                                                         #
+# Date:    19/04/2024 as 16:44                                                           #
+# Script:  ubuntu-debullshit.sh                                                          #
+#                                                                                        #
+# Licenca: GNU/GPL - https://www.gnu.org/                                                #
+#                                                                                        #
+#                                                                                        #
+# Dê permissão para executar o script:                                                   #
+#                                                                                        #
+# chmod +x ubuntu-debullshit.sh                                                          #
+#                                                                                        #
+# Execute o script:                                                                      #
+#                                                                                        #
+# ./ubuntu-debullshit.sh                                                                 #
+#                                                                                        #
+# ou                                                                                     #
+#                                                                                        #
+# mv -i ~/Downloads/ubuntu-debullshit.sh  /usr/local/bin/                                #
+#                                                                                        #
+#                                                                                        #
+# Changelog: /usr/share/doc/ubuntu-debullshit/CHANGELOG.md                               #
+#                                                                                        #
+##########################################################################################
+
+
+
+# Bug: Problema com o comando notify-send para enviar notificação do usuário Root para um 
+# usuário comum. Cada distribuição tem um parâmetro diferente para chamar o notify-send 
+# (testado no Void Linux, BigLinux, SystemRescue 11.00).
+
 
 
 # Desativar extensões desnecessárias
@@ -26,27 +63,6 @@
 # ...
 # 
 
-
-
-
-# Dê permissão para executar o script:
-# 
-# chmod +x ubuntu-debullshit.sh
-# 
-# Execute o script:
-# 
-# ./ubuntu-debullshit.sh
-# 
-# ou
-# 
-# mv -i ~/Downloads/ubuntu-debullshit.sh  /usr/local/bin/
-
-
-
-# Changelog: /usr/share/doc/ubuntu-debullshit/CHANGELOG.md
-
-
-# License: GPL - https://www.gnu.org/
 
 
 # Desbostificando o Ubuntu!
@@ -64,11 +80,26 @@
 
 
 
+# https://www.bosontreinamentos.com.br/shell-script/shell-scripting-criando-caixas-de-dialogo-tui-com-dialog/
+# https://aurelio.net/shell/dialog/
+# http://www.bosontreinamentos.com.br/shell-script/shell-scripting-criando-caixas-de-dialogo-tui-com-whiptail-no-linux-27/
+# https://www.bosontreinamentos.com.br/shell-script/formatar-e-exibir-texto-com-o-comando-printf-no-terminal-e-em-scripts/
+# https://www.bosontreinamentos.com.br/shell-script/ler-entrada-de-dados-com-comando-read-em-shell-scripting/
+# https://www.bosontreinamentos.com.br/shell-script/curso-de-shell-scripting-retornando-valores-em-funcoes-e-status-de-saida/
+
+
 # ----------------------------------------------------------------------------------------
 
 
 # Declaração de variáveis:
 
+
+version="1.0.1"
+
+
+# time="date '+%d-%m-%Y %H:%M:%S'"
+
+# time="date '+%d/%m/%Y %H:%M:%S'"
 
 
 # Arquivo de log
@@ -86,6 +117,8 @@ ICON="/usr/share/icons/ubuntu-debullshit.png"
 
 wallpaper="/usr/share/backgrounds/gnome/blobs-l.svg"
 
+
+time="sleep 1"
 
 # ----------------------------------------------------------------------------------------
 
@@ -115,55 +148,6 @@ wallpaper="/usr/share/backgrounds/gnome/blobs-l.svg"
 # export DISPLAY=:0
 # export DISPLAY=:0.0
 
-# ----------------------------------------------------------------------------------------
-
-# No Void Linux / SystemRescue 11.00
-
-# sudo: usuário desconhecido DISPLAY=:0.0
-# sudo: erro ao inicializar o plug-in de auditoria sudoers_audit
-
-# notify_users="sudo -u $(who | awk '{print $1}' | head -n 1) DISPLAY=$DISPLAY "
-
-# notify_users=$(sudo -u $(logname) DISPLAY=$DISPLAY XAUTHORITY=$XAUTHORITY)
-
-# Exemplo:
-
-# sudo -u $(logname) DISPLAY=$DISPLAY XAUTHORITY=$XAUTHORITY \
-# notify-send -i "/usr/share/icons/gnome/32x32/status/security-medium.png" -t "$((DELAY * 1000))" "$(gettext 'Firewall for Total Privacy Protection')" "\n$(gettext 'Firewall configured for maximum privacy!')\n"
-
-
-# Funciona no Void Linux (Parece que o problema esta relacionado a variavel $DBUS_SESSION_BUS_ADDRESS no BigLinux em modo live usando o Root)
-
-# notify_users="sudo -u $(logname) DISPLAY=$DISPLAY $DBUS_SESSION_BUS_ADDRESS"
-
-
-# Problema no BigLinux
-
-# A opção acima no BigLinux gera o erro:
-
-# Erro ao chamar a linha de comandos “dbus-launch --autolaunch=26a6e81a4245d54d88fd143067c6b17d --binary-syntax --close-stderr”: Processo filho concluiu com código 1
-
-
-# Funciona no BigLinux
-
-# notify_users="sudo -u $(who | grep '('$DISPLAY')' | awk '{print $1}' | head -n 1) DISPLAY=$DISPLAY DBUS_SESSION_BUS_ADDRESS=unix:path=/run/user/$(id -u $(who | grep '('$DISPLAY')' | awk '{print $1}' | head -n 1))/bus"
-
-
-# Funciona no SystemRescue 11.00
-
-notify_users="sudo -u $(who | awk '{print $1}' | head -n 1) DISPLAY=$DISPLAY DBUS_SESSION_BUS_ADDRESS=unix:path=/run/user/$(id -u $(who | grep '('$DISPLAY')' | awk '{print $1}' | head -n 1))/bus"
-
-
-
-
-
-# sudo: usuário desconhecido DISPLAY=:0.0:
-
-#     Isso indica que o comando sudo não consegue encontrar o usuário associado ao display gráfico. O DISPLAY=:0.0 é uma variável de ambiente usada em sistemas gráficos Linux (geralmente relacionados a ambientes X11 ou Wayland) para especificar a tela onde o gráfico deve ser exibido. Quando você tenta rodar um comando gráfico com sudo, ele pode não estar configurado corretamente para passar esse display.
-
-# sudo: erro ao inicializar o plug-in de auditoria sudoers_audit:
-
-#     Isso significa que há um problema relacionado ao plugin de auditoria no sudo, que é responsável por registrar os comandos executados com privilégios de superusuário. O erro pode ser causado por uma configuração incorreta ou um problema de permissões.
 
 # ----------------------------------------------------------------------------------------
 
@@ -205,22 +189,161 @@ rm "$log"
 
 clear
 
+
 # ----------------------------------------------------------------------------------------
 
 
+# Função para identificar a distribuição
+
+identificar_distro() {
+
+    if [ -f /etc/os-release ]; then
+
+        # Lê o arquivo /etc/os-release
+        . /etc/os-release
+
+        case "$ID" in
+            void)
+
+                echo -e "${GREEN}\n$(gettext "Distribution"): Void Linux \n ${NC}"
+
+                
+# No Void Linux / SystemRescue 11.00
+
+# sudo: usuário desconhecido DISPLAY=:0.0
+# sudo: erro ao inicializar o plug-in de auditoria sudoers_audit
+
+
+# notify_users="sudo -u $(who | awk '{print $1}' | head -n 1) DISPLAY=$DISPLAY "
+
+# notify_users=$(sudo -u $(logname) DISPLAY=$DISPLAY XAUTHORITY=$XAUTHORITY)
+
+# Exemplo:
+
+# sudo -u $(logname) DISPLAY=$DISPLAY XAUTHORITY=$XAUTHORITY \
+# notify-send -i "/usr/share/icons/gnome/32x32/status/security-medium.png" -t "$((DELAY * 1000))" "$(gettext 'Firewall for Total Privacy Protection')" "\n$(gettext 'Firewall configured for maximum privacy!')\n"
+
+
+# Funciona no Void Linux (Parece que o problema esta relacionado a variavel $DBUS_SESSION_BUS_ADDRESS no BigLinux em modo live usando o Root)
+
+notify_users="sudo -u $(logname) DISPLAY=$DISPLAY $DBUS_SESSION_BUS_ADDRESS"
+
+
+# notify_users="sudo -u $(logname) DISPLAY=$DISPLAY DBUS_SESSION_BUS_ADDRESS=$DBUS_SESSION_BUS_ADDRESS"
+
+                
+                ;;
+
+            ubuntu)
+
+                echo -e "${GREEN}\n$(gettext "Distribution"): Ubuntu \n ${NC}"
+                ;;
+
+            debian)
+
+                echo -e "${GREEN}\n$(gettext "Distribution"): Debian \n ${NC}"
+                ;;
+
+            slackware)
+
+                echo -e "${GREEN}\n$(gettext "Distribution"): Slackware \n ${NC}"
+
+                ;;
+
+            *)
+                if [[ "$NAME" == *"BigLinux"* ]]; then
+
+
+                    echo -e "${GREEN}\n$(gettext "Distribution"): BigLinux \n ${NC}"
+ 
+ 
+# Problema no BigLinux
+
+# A opção acima no BigLinux gera o erro:
+
+# Erro ao chamar a linha de comandos “dbus-launch --autolaunch=26a6e81a4245d54d88fd143067c6b17d --binary-syntax --close-stderr”: Processo filho concluiu com código 1
+
+
+# Funciona no BigLinux
+
+notify_users="sudo -u $(who | grep '('$DISPLAY')' | awk '{print $1}' | head -n 1) DISPLAY=$DISPLAY DBUS_SESSION_BUS_ADDRESS=unix:path=/run/user/$(id -u $(who | grep '('$DISPLAY')' | awk '{print $1}' | head -n 1))/bus"
+
+                    
+                    
+                elif [[ "$NAME" == *"SystemRescue"* ]]; then
+
+
+                     echo -e "${GREEN}\n$(gettext "Distribution"): SystemRescue \n ${NC}"
+
+
+# Funciona no SystemRescue 11.00
+
+notify_users="sudo -u $(who | awk '{print $1}' | head -n 1) DISPLAY=$DISPLAY DBUS_SESSION_BUS_ADDRESS=unix:path=/run/user/$(id -u $(who | grep '('$DISPLAY')' | awk '{print $1}' | head -n 1))/bus"
+
+                    
+                    
+                    
+                else
+
+                    echo -e "${RED}\n$(gettext "Distribution unknown or not listed.") \n ${NC}"
+                 
+                    exit
+                    
+                fi
+
+                ;;
+
+        esac
+        
+        
+    else
+    
+        echo -e "${RED}\n$(gettext "Unable to identify distribution.") \n ${NC}"
+        
+        exit
+        
+    fi
+}
+
+
+
+# sudo: usuário desconhecido DISPLAY=:0.0:
+
+#     Isso indica que o comando sudo não consegue encontrar o usuário associado ao display gráfico. O DISPLAY=:0.0 é uma variável de ambiente usada em sistemas gráficos Linux (geralmente relacionados a ambientes X11 ou Wayland) para especificar a tela onde o gráfico deve ser exibido. Quando você tenta rodar um comando gráfico com sudo, ele pode não estar configurado corretamente para passar esse display.
+
+# sudo: erro ao inicializar o plug-in de auditoria sudoers_audit:
+
+#     Isso significa que há um problema relacionado ao plugin de auditoria no sudo, que é responsável por registrar os comandos executados com privilégios de superusuário. O erro pode ser causado por uma configuração incorreta ou um problema de permissões.
+
+
+
+# ----------------------------------------------------------------------------------------
+
 # Verifique se os programas estao instalados no sistema.
 
-# which yad                 1> /dev/null 2> /dev/null || { echo "Programa Yad não esta instalado."           ; exit ; }
-# which dialog              1> /dev/null 2> /dev/null || { echo "Programa dialog não esta instalado."        ; exit ; }
-which gettext             1> /dev/null 2> /dev/null || { echo "Programa gettext não esta instalado."       ; exit ; }
-which notify-send         1> /dev/null 2> /dev/null || { echo "Programa notify-send não esta instalado."   ; exit ; }
 
+# O comando "yad"  é necessario quando o script precisa ser executado em um ambiente gráfico (por exemplo, GNOME, KDE, XFCE, Mate, OpenBox, Fluxbox, i3WM...).
+
+# which yad                 1> /dev/null 2> /dev/null || { echo "Programa Yad não esta instalado."           ; exit ; }
+
+
+# O comando "dialog"  é necessario quando o script precisa ser executado somente em "modo texto"
+
+# which dialog              1> /dev/null 2> /dev/null || { echo "Programa dialog não esta instalado."        ; exit ; }
+
+
+which gettext             1> /dev/null 2> /dev/null || { echo "Programa gettext não esta instalado."       ; exit ; }
+
+
+# O comando "notify-send"  é necessario quando o script precisa ser executado em um ambiente gráfico (por exemplo, GNOME, KDE, XFCE, Mate, OpenBox, Fluxbox, i3WM...).
+
+which notify-send         1> /dev/null 2> /dev/null || { echo "Programa notify-send não esta instalado."   ; exit ; }
 
 # ----------------------------------------------------------------------------------------
 
 # Introdução ao Shell Script 
 
-intro(){
+function intro(){
 
 
 
@@ -303,6 +426,13 @@ else
     # echo "Aviso: Modo Texto Detectado!"
 
 
+
+# Verifica se o dialog está instalado
+
+if  command -v dialog &> /dev/null; then
+
+
+
 dialog                                    \
    --title "$(gettext 'Notice')"          \
    --backtitle 'ubuntu-debullshit'        \
@@ -310,6 +440,20 @@ dialog                                    \
    30 120
 
     clear
+
+
+else
+
+
+clear
+
+        
+cat /tmp/introducao.txt
+
+
+fi
+
+
 
 
 
@@ -323,16 +467,12 @@ rm -Rf /tmp/introducao.txt
 }
 
 
-
-# https://aurelio.net/shell/dialog/
-
-
 # ----------------------------------------------------------------------------------------
 
     # Removendo pacotes desnecessários
 
 
-cleanup() {
+function cleanup() {
 
 
 # O comando apt autoremove -y é utilizado para remover automaticamente pacotes e 
@@ -377,7 +517,7 @@ cleanup() {
 
     echo -e "${GREEN}\n$(gettext 'Removing residue from packages...')\n ${NC}"
 
-    sleep 1
+    $time
 
     apt autoremove -y 2>> "$log"
 
@@ -387,7 +527,7 @@ cleanup() {
 
 # ----------------------------------------------------------------------------------------
 
-check_internet(){
+function check_internet(){
 
 echo "
 $(gettext 'Testing if internet connection is active...')
@@ -408,7 +548,7 @@ if ! ping -c 1 www.google.com.br -q &> /dev/null; then
               
               # Big Linux: Erro ao chamar a linha de comandos “dbus-launch --autolaunch=f662f1a5f2682f2556553c8d67c319f5 --binary-syntax --close-stderr”: Processo filho concluiu com código 1
               
-              sleep 1
+              $time
 
               exit 1
     
@@ -420,7 +560,7 @@ if ! ping -c 1 www.google.com.br -q &> /dev/null; then
 
 echo -e "\n------------------------------------------------------------------------"
 
-              sleep 1
+            $time
 
 fi
 
@@ -434,7 +574,7 @@ fi
 # encontrado. O uso do loop elimina a necessidade de escrever o comando which repetidamente.
 
 
-check_programs(){
+function check_programs(){
 
 
 
@@ -460,7 +600,7 @@ for cmd in snap apt dpkg systemctl ; do
         $notify_users  \
         notify-send -i "/usr/share/icons/gnome/32x32/status/software-update-urgent.png" -t "$((DELAY * 1000))" "$(gettext 'Error')" "\n$(printf "$message"  "$cmd") \n"
 
-        sleep 1
+        $time
 
         continue
 
@@ -503,7 +643,7 @@ for cmd in  sysctl pgrep rm fc-list gettext gsettings notify-send gpg sed sudo c
         notify-send -i "/usr/share/icons/gnome/32x32/status/software-update-urgent.png" -t "$((DELAY * 1000))" "$(gettext 'Error')" "\n$(printf "$message" "$cmd" "$cmd") \n"
 
 
-        sleep 1
+        $time
 
         exit
 
@@ -514,6 +654,99 @@ done
 
 
 # ----------------------------------------------------------------------------------------
+
+
+
+# Tema de icone do gnome usado no script
+
+
+# No Ubuntu, o nome do tema de ícones padrão usado no GNOME é "Yaru".
+
+# O tema Yaru foi introduzido no Ubuntu 18.10 e se tornou o tema padrão de ícones e tema de 
+# interface para o ambiente GNOME no Ubuntu. Ele tem um visual moderno e é mantido pela 
+# comunidade do Ubuntu.
+
+
+# Onde encontrar:
+
+# Os arquivos de ícones do tema Yaru estão geralmente localizados em /usr/share/icons/Yaru/.
+
+# Se você quiser ver ou alterar o tema de ícones no GNOME, pode acessar as configurações do 
+# GNOME, na seção Aparência, ou usar ferramentas como gnome-tweaks (Ajustes GNOME), onde 
+# você pode modificar o tema de ícones, o tema GTK, entre outros.
+
+
+
+# Verifica se o diretório /usr/share/icons/gnome/ não existe.
+
+# Podemos usar o comando test ou a sintaxe -d para verificar.
+
+# O -d é utilizado para verificar se um diretório existe, e o ! inverte a verificação 
+# (verifica se o diretório não existe).
+
+
+
+
+if [ ! -d "/usr/share/icons/gnome/" ]; then
+
+    # Exibe a mensagem informando que o diretório não foi encontrado.
+
+    echo -e "${RED}$(gettext 'The folder /usr/share/icons/gnome/ does not exist.') \n ${NC}"
+
+    $time
+    
+    # Enviar notificação
+    
+    $notify_users  \
+    notify-send -i "" -t "$((DELAY * 1000))" "$(gettext 'Error')" "$(gettext 'The folder /usr/share/icons/gnome/ does not exist.') \n"
+
+
+ 
+
+    
+# A pasta /usr/share/icons/gnome/ é criada pelo pacote gnome-icon-theme. Este pacote contém 
+# o conjunto de ícones padrão do GNOME, incluindo os ícones que são usados em várias partes 
+# do ambiente de desktop GNOME.
+
+# Se você não tiver esse pacote instalado, pode instalá-lo utilizando o seguinte comando no terminal:
+
+# sudo apt install -y gnome-icon-theme
+
+# Este comando instalará o pacote que cria a pasta /usr/share/icons/gnome/ e seus respectivos ícones.
+
+
+# Para verificar se tem o pacote gnome-icon-theme instalado no Ubuntu e caso falso instala.
+
+
+# Verificar se o pacote gnome-icon-theme está instalado
+
+# if dpkg -l | grep -q gnome-icon-theme; then
+
+#     echo "O pacote gnome-icon-theme já está instalado."
+    
+# else
+
+  #  echo "O pacote gnome-icon-theme não está instalado. Instalando agora..."
+    
+  #  apt update
+    
+  #  apt install -y gnome-icon-theme
+    
+  #  echo "Pacote gnome-icon-theme instalado com sucesso."
+
+ #   $time
+
+  #  $notify_users  \
+  #  notify-send -i "" -t "$((DELAY * 1000))" "$(gettext 'Error')" "$(gettext 'Pacote gnome-icon-theme instalado com sucesso.') \n"
+    
+# fi
+
+
+
+    # exit 1  # Saída com código de erro 1
+
+fi
+
 
 
 }
@@ -538,7 +771,7 @@ done
 
 # Verifica se a distribuição Linux é o Ubuntu
 
-check_distro(){
+function check_distro(){
 
 # Para verificar se a distribuição Linux é o Ubuntu, vamos consultar o conteúdo do arquivo 
 # /etc/os-release ou podemos usar o comando lsb_release. Ambas as abordagens são confiáveis 
@@ -552,9 +785,44 @@ if [ -e /etc/os-release ]; then
 
 if ! grep -i "ubuntu" /etc/os-release > /dev/null 2> /dev/null ; then
 
-  echo -e "${RED}\n$(gettext 'Your Linux distribution is NOT Ubuntu.') \n ${NC}"
+
+
+# Verifica se o yad está instalado
+
+if command -v yad &> /dev/null
+then
+
 
   yad --center --window-icon="$ICON" --image=dialog-error  --title="$(gettext 'ubuntu-debullshit!')" --text="$(gettext 'Your Linux distribution is NOT Ubuntu.')" --buttons-layout=center --button="$(gettext 'OK')":0 --width="650"
+
+
+# Verifica se o dialog está instalado
+
+elif command -v dialog &> /dev/null; then
+
+
+
+# dialog --backtitle 'ubuntu-debullshit' --msgbox "\n$(gettext 'Your Linux distribution is NOT Ubuntu.')\n" 8 50
+
+dialog --backtitle 'ubuntu-debullshit' --title "$(gettext 'Error')" --infobox "\n$(gettext 'Your Linux distribution is NOT Ubuntu.')\n" 8 50; sleep 5
+
+
+clear
+
+
+
+else
+
+
+clear
+
+  echo -e "${RED}\n$(gettext 'Your Linux distribution is NOT Ubuntu.') \n ${NC}"
+
+
+fi
+
+
+
 
   exit
 
@@ -585,21 +853,55 @@ distro=$(lsb_release -a 2> /dev/null | grep Distributor | cut -d: -f2 | sed 's/\
 
 if [ "$distro" == "Ubuntu" ]; then
 
-  message=$(gettext 'Your Linux distribution is NOT Ubuntu.
-
-Detected: %s')
-
-  echo -e "${RED}\n $(printf "$message" "$distro") \n ${NC}"
-
-  yad --center --window-icon="$ICON" --image=dialog-error  --title="$(gettext 'ubuntu-debullshit!')" --text="$(gettext 'Your Linux distribution is NOT Ubuntu.')" --buttons-layout=center --button="$(gettext 'OK')":0 --width="650"
-
-  exit
-
-else
 
     message=$(gettext 'Your Linux distribution is: %s')
 
     echo -e "${GREEN}$(printf "$message" "$distro") ${NC}"
+
+else
+
+
+# Verifica se o yad está instalado
+
+if command -v yad &> /dev/null
+then
+
+
+  yad --center --window-icon="$ICON" --image=dialog-error  --title="$(gettext 'ubuntu-debullshit!')" --text="$(gettext 'Your Linux distribution is NOT Ubuntu.')" --buttons-layout=center --button="$(gettext 'OK')":0 --width="650"
+
+
+# Verifica se o dialog está instalado
+
+elif command -v dialog &> /dev/null; then
+
+
+
+dialog --backtitle 'ubuntu-debullshit' --msgbox "\n$(gettext 'Your Linux distribution is NOT Ubuntu.')\n" 8 50
+
+
+clear
+
+
+
+else
+
+
+clear
+
+
+    message=$(gettext 'Your Linux distribution is NOT Ubuntu.
+
+Detected: %s')
+
+  echo -e "${RED}\n$(printf "$message" "$distro") \n ${NC}"
+
+
+fi
+
+
+
+
+  exit
 
 fi
 
@@ -617,7 +919,7 @@ fi
 # ----------------------------------------------------------------------------------------
 
 
-disable_ubuntu_report() {
+function disable_ubuntu_report() {
 
 
     rm -Rf ~/.cache/ubuntu-report/         2>> "$log"
@@ -626,6 +928,8 @@ disable_ubuntu_report() {
 
 
     echo -e "\n$(gettext 'Uninstalling package...')\n"
+
+    $time
 
     apt purge -y ubuntu-report    2>> "$log"
 
@@ -639,7 +943,8 @@ disable_ubuntu_report() {
 
 # ----------------------------------------------------------------------------------------
 
-remove_appcrash_popup() {
+
+function remove_appcrash_popup() {
 
 # Desativar a coleta de dados do apport
 
@@ -654,10 +959,14 @@ remove_appcrash_popup() {
 
 echo -e "\n$(gettext 'Stopping service...')\n"
 
+$time
+
 systemctl stop apport     2>> "$log"
 
 
 echo -e "\n$(gettext 'Disabling the service so that it does not start automatically...')\n"
+
+$time
 
 systemctl disable apport  2>> "$log"
 
@@ -679,6 +988,8 @@ systemctl disable apport  2>> "$log"
 
 echo -e "\n$(gettext 'Uninstalling package...')\n"
 
+$time
+
 apt purge -y  apport* apport-gtk apport-symptoms 2>> "$log"
 
 
@@ -695,13 +1006,47 @@ cleanup
 
 # ----------------------------------------------------------------------------------------
 
-remove_snaps() {
+function remove_snaps() {
+
+
+# Verifica se o comando snap está disponível
+
+if command -v snap &> /dev/null
+then
+
+    # Se o Snap estiver instalado, ele exibirá a versão do Snap.
+
+    echo "$(gettext 'Snap is installed. Version:')" >> "$log"
+
+    echo -e "${GREEN}\n$(gettext 'Snap is installed. Version:') \n ${NC}"
+
+    snap --version | tee -a "$log"
+
+    $time
+
+# O comando tee lê a entrada do fluxo e a grava tanto na saída padrão (geralmente o terminal) 
+# quanto em um arquivo especificado. A opção -a faz com que o tee anexe a saída ao arquivo, 
+# em vez de sobrescrevê-lo.
+
+
+
+# O comando snap list é utilizado no terminal de sistemas Linux que utilizam o sistema de 
+# pacotes Snap. Quando você executa esse comando, ele exibe uma lista de todos os pacotes 
+# Snap instalados no sistema.
+#
+# A saída mostrará informações como o nome do pacote, a versão instalada, o canal de 
+# distribuição (por exemplo, stable, candidate, edge) e o desenvolvedor do pacote. É útil 
+# para gerenciar e verificar os pacotes Snap no seu sistema.
+
+    echo -e "\nsnap list | wc -l ...\n"
 
     while [ "$(snap list | wc -l)" -gt 0 ]; do
 
         for snap in $(snap list | tail -n +2 | cut -d ' ' -f 1); do
 
             echo -e "\n$(gettext 'Uninstalling package...')\n"
+
+            $time
 
             snap remove --purge "$snap" 2>> "$log"
 
@@ -710,12 +1055,21 @@ remove_snaps() {
     done
 
 
+# snap list
+# error: cannot list snaps: cannot communicate with server: Get "http://localhost/v2/snaps": dial unix /run/snapd.socket: connect: no such file or directory
+
+
+
     echo -e "\n$(gettext 'Stopping service...')\n"
+
+    $time
 
     systemctl stop snapd          2>> "$log"
 
 
     echo -e "\n$(gettext 'Disabling the service so that it does not start automatically...')\n"
+
+    $time
 
     systemctl disable snapd       2>> "$log"
 
@@ -724,6 +1078,8 @@ remove_snaps() {
 
 
     echo -e "\n$(gettext 'Uninstalling package...')\n"
+
+    $time
 
     apt purge -y snapd*  2>> "$log"
 
@@ -792,6 +1148,8 @@ remove_snaps() {
 
            echo -e "\n$userpath/snap \n"  | tee -a "$log"
 
+           $time
+
            # Se o diretório snap existir, ele será removido com o comando rm -rf, e qualquer erro gerado será redirecionado para o arquivo de log.
 
            rm -rf "$userpath/snap"     2>> "$log"
@@ -801,8 +1159,10 @@ remove_snaps() {
 
     done
 
+    
+# Verificar se a pasta /etc/apt/preferences.d existe
 
-
+if [ -d /etc/apt/preferences.d/ ]; then
 
     # Cria um arquivo de configuração que impede a instalação do snapd via APT 
 
@@ -824,6 +1184,27 @@ remove_snaps() {
 # não será instalado ou atualizado.
 
 
+fi
+
+
+
+else
+
+
+# Se o comando snap não estiver instalado, você verá uma mensagem de erro indicando que o 
+# comando não foi encontrado, algo como:
+
+# bash: snap: command not found
+
+
+  echo -e "${RED}\n$(gettext 'Snap is not installed on your system.
+
+To install Snap, use the command: # apt install -y snapd') \n\n${NC}"
+
+  $time
+
+
+fi
 
 
 
@@ -831,7 +1212,7 @@ remove_snaps() {
 
 # ----------------------------------------------------------------------------------------
 
-disable_terminal_ads() {
+function disable_terminal_ads() {
 
 
 # sed: can't read /etc/default/motd-news: No such file or directory
@@ -845,6 +1226,8 @@ if [ -e /etc/default/motd-news ]; then
 
     echo "$(gettext 'The file /etc/default/motd-news exists.')"
 
+    $time
+
     sed -i 's/ENABLED=1/ENABLED=0/g' /etc/default/motd-news   2>> "$log"
 
     pro config set apt_news=false  2>> "$log"
@@ -853,6 +1236,8 @@ else
 
     echo "$(gettext 'The file /etc/default/motd-news does not exist.')"
 
+    $time
+
 fi
 
 
@@ -860,40 +1245,52 @@ fi
 
 # ----------------------------------------------------------------------------------------
 
-update_system() {
+function update_system() {
 
     check_internet
 
     apt update 2>> "$log" && apt upgrade -y   2>> "$log"
+
+    $time
+
 }
 
 
 # ----------------------------------------------------------------------------------------
 
-setup_flathub() {
+function setup_flathub() {
 
     check_internet
 
 # Para verificar se um site está fora do ar
 
 # URL do site que deseja verificar
+
 URL="https://flathub.org"
 
+
 # Verificar se o site está acessível
+
 http_response=$(curl --write-out "%{http_code}" --silent --output /dev/null "$URL")
 
+
 # Se o código de resposta HTTP for diferente de 200, o site está fora do ar
+
 if [ "$http_response" -ne 200 ]; then
 
     message=$(gettext 'The website %s is down. Response code: %s')
 
     echo "$(printf "$message" "$URL" "$http_response")"
 
+    $time
+
 else
 
   message=$(gettext 'The website %s is online.')
 
   echo "$(printf "$message" "$URL")"
+
+  $time
 
   apt install -y flatpak  2>> "$log"
 
@@ -908,7 +1305,7 @@ fi
 
 # ----------------------------------------------------------------------------------------
 
-gsettings_wrapper() {
+function gsettings_wrapper() {
 
     check_internet
 
@@ -922,7 +1319,7 @@ gsettings_wrapper() {
 
 # ----------------------------------------------------------------------------------------
 
-set_fonts() {
+function set_fonts() {
 
 
 # Para verificar se a fonte $FONT_NAME está instalada no sistema
@@ -936,6 +1333,7 @@ if fc-list | grep -i "$FONT_NAME"; then
 
   echo -e "${GREEN}\n$(printf "$message" "$FONT_NAME") \n ${NC}"
 
+  $time
 
 
 # O comando configura a fonte padrão de texto monospace (fonte de largura fixa, como a usada em terminais e editores de texto) para $FONT_NAME com o tamanho 10.
@@ -955,6 +1353,7 @@ else
 
   echo -e "${RED}\n$(printf "$message" "$FONT_NAME") \n${NC}"
 
+  $time
 
 fi
 
@@ -966,7 +1365,7 @@ fi
 # ----------------------------------------------------------------------------------------
 
 
-setup_vanilla_gnome() {
+function setup_vanilla_gnome() {
 
     check_internet
 
@@ -995,7 +1394,7 @@ cleanup
 # ----------------------------------------------------------------------------------------
 
 
-restore_background() {
+function restore_background() {
 
 
 
@@ -1007,6 +1406,7 @@ if [ -f "$wallpaper" ]; then
 
   echo -e "${GREEN}$(printf "$message" "$wallpaper")  ${NC}"
 
+  $time
 
 # Verificar se o usuário está utilizando o GNOME como ambiente de desktop
 
@@ -1020,6 +1420,7 @@ if [[ "$XDG_CURRENT_DESKTOP" == "GNOME" || "$DESKTOP_SESSION" == "GNOME" ]]; the
 
   echo "$(gettext 'The user is using GNOME.')"
 
+  $time
 
     # Este comando altera a imagem de fundo da área de trabalho no GNOME para a imagem localizada no caminho $FILE.
 
@@ -1039,6 +1440,8 @@ else
 
   echo "$(gettext 'The user is NOT using GNOME.')"
 
+  $time
+
 fi
 
 
@@ -1053,6 +1456,7 @@ else
 
     echo -e "${RED}\n$(printf "$message" "$wallpaper") ${NC}"
 
+    $time
 
 
 # Nome do pacote
@@ -1070,6 +1474,7 @@ if [ $? -eq 0 ]; then
 
     echo -e "${GREEN}$(printf "$message" "$PACKAGE")  ${NC}"
 
+    $time
 
 else
 
@@ -1083,6 +1488,8 @@ else
 
     echo -e "${GREEN}$(gettext 'Updating package list...')  ${NC}"
 
+    $time
+
     apt update
 
     apt install -y $PACKAGE
@@ -1094,12 +1501,16 @@ else
 
     echo -e "${GREEN}$(printf "$message" "$PACKAGE")  ${NC}"
 
+    $time
 
     else
 
     message=$(gettext 'Failed to install package %s.')
 
     echo -e "${RED}\n$(printf "$message" "$PACKAGE") ${NC}"
+
+    $time
+
 
     fi
 
@@ -1117,7 +1528,7 @@ fi
 
 # ----------------------------------------------------------------------------------------
 
-setup_julianfairfax_repo() {
+function setup_julianfairfax_repo() {
 
     check_internet
 
@@ -1129,6 +1540,8 @@ setup_julianfairfax_repo() {
     if [ ! -d "/etc/apt/sources.list.d/" ]; then
 
         echo -e "\n$(gettext 'The folder /etc/apt/sources.list.d/ does not exist.')\n"
+
+        $time
 
         # Se a pasta não existir, o comando mkdir -p cria a pasta. O -p garante que, se a pasta pai não existir, ela também será criada.
 
@@ -1159,12 +1572,15 @@ if [ "$http_response" -ne 200 ]; then
 
     echo -e "\n$(printf "$message" "$URL" "$http_response")\n"
 
+    $time
+
 else
 
     message=$(gettext 'The website %s is online.')
 
     echo -e "\n$(printf "$message" "$URL")\n"
 
+    $time
 
     curl -s https://julianfairfax.gitlab.io/package-repo/pub.gpg | gpg --dearmor | sudo dd of=/usr/share/keyrings/julians-package-repo.gpg   2>> "$log"
 
@@ -1172,6 +1588,8 @@ else
 
 
     echo -e "${GREEN}$(gettext 'Updating package list...')  ${NC}"
+
+    $time
 
     apt update 2>> "$log"
 
@@ -1184,7 +1602,7 @@ fi
 
 # ----------------------------------------------------------------------------------------
 
-install_adwgtk3() {  
+function install_adwgtk3() {  
   
     check_internet
 
@@ -1214,7 +1632,7 @@ install_adwgtk3() {
 
 # ----------------------------------------------------------------------------------------
 
-install_icons() {
+function install_icons() {
 
     check_internet
 
@@ -1240,12 +1658,15 @@ if [ "$http_response" -ne 200 ]; then
 
     echo -e "\n$(printf "$message" "$URL" "$http_response")\n"
 
+    $time
+
 else
 
     message=$(gettext 'The website %s is online.')
 
     echo -e "\n$(printf "$message" "$URL")\n"
 
+    $time
 
 
 # URL base do repositório Debian
@@ -1267,6 +1688,8 @@ file_url="${base_url}${file_name}"
 
 echo -e "\n$(gettext 'Downloading the package'): $file_url \n"
 
+$time
+
 # adwaita-icon-theme_48~beta-3_all.deb
 
 wget -O /tmp/adwaita-icon-theme.deb -c "$file_url"  2>> "$log"
@@ -1285,7 +1708,7 @@ fi
 # ----------------------------------------------------------------------------------------
 
 
-restore_firefox() {
+function restore_firefox() {
 
     check_internet
 
@@ -1313,6 +1736,8 @@ if [ "$http_response" -ne 200 ]; then
 
     echo -e "\n$(printf "$message" "$URL" "$http_response")\n"
 
+    $time
+
 
 else
 
@@ -1321,6 +1746,7 @@ else
 
     echo -e "\n$(printf "$message" "$URL")\n"
 
+    $time
 
     apt purge -y firefox         2>> "$log"
 
@@ -1337,6 +1763,7 @@ if [ ! -d "/etc/apt/keyrings/" ]; then
 
   echo -e "\n$(gettext 'The /etc/apt/keyrings/ folder does not exist.')\n"
 
+  $time
 
   mkdir -p /etc/apt/keyrings/      2>> "$log"
 
@@ -1352,6 +1779,8 @@ if [ ! -d "/etc/apt/sources.list.d/" ]; then
 
   echo -e "\n$(gettext 'The folder /etc/apt/sources.list.d/ does not exist.')\n"
 
+  $time
+
   # Se a pasta não existir, o comando mkdir -p cria a pasta. O -p garante que, se a pasta pai não existir, ela também será criada.
 
   mkdir -p /etc/apt/sources.list.d/  2>> "$log"
@@ -1365,6 +1794,8 @@ fi
 if [ ! -d "/etc/apt/preferences.d/" ]; then
 
   echo -e "\n$(gettext 'The /etc/apt/preferences.d/ folder does not exist.')\n"
+
+  $time
 
   mkdir -p /etc/apt/preferences.d/ 2>> "$log"
 
@@ -1440,22 +1871,74 @@ fi
 
 # ----------------------------------------------------------------------------------------
 
-ask_reboot() {
+function ask_reboot() {
 
+
+
+# Verifica se o yad está instalado
+
+if command -v yad &> /dev/null
+then
 
 # Exibe a caixa de diálogo de confirmação usando yad e captura o código do botão pressionado
 
 choice=$(yad --center --window-icon="$ICON" --title="$(gettext 'Reboot')" --question --text="$(gettext 'Reboot now?')" --button="$(gettext 'Yes')":0 --button="$(gettext 'No')":1)
 
+
+choice=$?
+
+
+elif command -v dialog &> /dev/null; then
+
+
+dialog --backtitle 'ubuntu-debullshit' --yesno  "$(gettext 'Reboot now?')" 8 50
+
+choice=$?
+
+clear
+
+
+
+else
+
+
+clear
+
+read -p "$(gettext 'Reboot now?') [y/n]:" yn
+
+choice=$(echo $yn | tr '[:upper:]' '[:lower:]') # convert input to lowercase
+
+if [ "$choice" = "y" ];then
+
+choice=0
+
+else
+
+choice=1
+
+fi
+
+
+
+fi
+
+  
+
+
 # Verifica o código retornado pelo yad
 
 if [[ "$choice" == "0" ]]; then
 
-    reboot
+    clear
 
-    exit 1
+    sudo reboot
+
+    # sudo shutdown -r
+
 
 elif [[ "$choice" == "1" ]]; then
+
+    clear
 
     exit 2
 
@@ -1468,7 +1951,7 @@ fi
 
 # ----------------------------------------------------------------------------------------
 
-msg() {
+function msg() {
 
     tput setaf 2
     echo "[*] $1"
@@ -1478,7 +1961,7 @@ msg() {
 
 # ----------------------------------------------------------------------------------------
 
-error_msg() {
+function error_msg() {
 
     tput setaf 1
     echo "[!] $1"
@@ -1488,23 +1971,65 @@ error_msg() {
 
 # ----------------------------------------------------------------------------------------
 
-check_root_user() {
+
+# Verifica se o usuário é o Root.
+
+
+function check_root_user() {
+
 
     if [ "$(id -u)" != 0 ]; then
 
-        echo -e "\n$(gettext 'Please run the script as Root!\nWe need to do administrative tasks')\n"
+
+
+# Verifica se o yad está instalado
+
+if command -v yad &> /dev/null
+then
 
         yad --center --window-icon="$ICON" --image=dialog-error  --title="$(gettext 'ubuntu-debullshit!')" --text="$(gettext 'Please run the script as Root!\nWe need to do administrative tasks')" --buttons-layout=center --button="$(gettext 'OK')":0 --width="650"
 
+
+# Verifica se o dialog está instalado
+
+elif command -v dialog &> /dev/null; then
+
+
+
+dialog --backtitle 'ubuntu-debullshit' --msgbox "\n$(gettext 'Please run the script as Root!\nWe need to do administrative tasks')\n" 8 50
+
+
+clear
+
+
+
+else
+
+
+clear
+
+        echo -e "\n$(gettext 'Please run the script as Root!\nWe need to do administrative tasks')\n"
+
+        $time
+
+fi
+
+        # Fecha
+
         exit 3
 
+
     fi
+
+
+
+
 
 }
 
 # ----------------------------------------------------------------------------------------
 
-remove_telemetry(){
+function remove_telemetry(){
 
 
 # Desativar a Telemetria do Ubuntu
@@ -1536,6 +2061,8 @@ if [ $? -ne 0 ]; then  # Verifica se o código de saída é diferente de 0 (erro
 
 echo -e "${RED}\n$(gettext 'An error occurred while disabling ubuntu-report telemetry collection.') \n${NC}"
 
+# $time
+
 $notify_users  \
 notify-send -i "/usr/share/icons/gnome/32x32/status/network-error.png" -t "$((DELAY * 1000))" "$(gettext 'Error')" "$(gettext 'An error occurred while disabling ubuntu-report telemetry collection.')"
 
@@ -1563,10 +2090,14 @@ if systemctl is-active --quiet pop-con; then
 
     echo -e "\n$(gettext 'Stopping service...')\n"
 
+    $time
+
     systemctl stop pop-con     2>> "$log"
 
 
     echo -e "\n$(gettext 'Disabling the service so that it does not start automatically...')\n"
+
+    $time
 
     systemctl disable pop-con  2>> "$log"
 
@@ -1579,6 +2110,8 @@ notify-send -i "/usr/share/icons/gnome/32x32/status/dialog-information.png" -t "
 else
 
     echo -e "${GREEN}\n$(gettext 'Pop-con service is not running.') \n${NC}"
+
+    # $time
 
 fi
 
@@ -1621,10 +2154,14 @@ fi
 
 echo -e "\n$(gettext 'Stopping service...')\n"
 
+$time
+
 systemctl stop whoopsie     2>> "$log"
 
 
 echo -e "\n$(gettext 'Disabling the service so that it does not start automatically...')\n"
+
+$time
 
 systemctl disable whoopsie  2>> "$log"
 
@@ -1633,6 +2170,8 @@ systemctl disable whoopsie  2>> "$log"
 # Você também pode remover o pacote whoopsie se preferir:
 
 echo -e "\n$(gettext 'Uninstalling package...')\n"
+
+$time
 
 apt purge -y whoopsie 2>> "$log"
 
@@ -1658,10 +2197,14 @@ fi
 
 echo -e "\n$(gettext 'Stopping service...')\n"
 
+$time
+
 systemctl stop canonical-livepatch 2>> "$log"
 
 
 echo -e "\n$(gettext 'Disabling the service so that it does not start automatically...')\n"
+
+$time
 
 systemctl disable canonical-livepatch    2>> "$log"
 
@@ -1669,6 +2212,8 @@ systemctl disable canonical-livepatch    2>> "$log"
 # Para remover:
 
 echo -e "\n$(gettext 'Uninstalling package...')\n"
+
+$time
 
 apt purge -y canonical-livepatch  2>> "$log"
 
@@ -1756,6 +2301,8 @@ check_package() {
 
         echo -e "\n$(printf "$message" "$version")\n"
 
+        $time
+
 
         # Remoção do unity-lens-shopping
 
@@ -1764,10 +2311,12 @@ check_package() {
 
     else
 
+
     message=$(gettext 'The unity-lens-shopping package is NOT installed on Ubuntu %s.')
 
     echo -e "\n$(printf "$message" "$version")\n"
 
+    $time
 
 
     fi
@@ -1789,6 +2338,8 @@ if [[ "$ubuntu_version" == "12.10" ]] || [[ "$ubuntu_version" == "13.04" ]] || [
 else
 
     echo -e "$(gettext 'This part of the script is designed to check for the unity-lens-shopping package on Ubuntu versions 12.10 through 16.04.')"
+
+    $time
 
 fi
 
@@ -1901,7 +2452,8 @@ if [[ $(echo "$V >= $MIN" | bc -l) -eq 1 && $(echo "$V <= $MAX" | bc -l) -eq 1 ]
 
     echo -e "$(gettext 'Ubuntu version within range to disable remote scopes.')"
 
-    
+    $time
+
     # Verifica se o esquema Canonical Unity está presente
 
     SCHEMA="`$GS list-schemas | grep -i $CCUL | head -1`"
@@ -1909,6 +2461,8 @@ if [[ $(echo "$V >= $MIN" | bc -l) -eq 1 && $(echo "$V <= $MAX" | bc -l) -eq 1 ]
     if [[ -z "$SCHEMA" ]]; then
 
         echo -e "$(gettext 'Error: Canonical Unity lenses schema not found.')"
+
+        $time
 
         exit 1
 
@@ -1921,6 +2475,8 @@ if [[ $(echo "$V >= $MIN" | bc -l) -eq 1 && $(echo "$V <= $MAX" | bc -l) -eq 1 ]
 
     echo -e "$(gettext 'Disabling Remote Content Search...')"
 
+    $time
+
     $GS set $CCUL remote-content-search none
 
 
@@ -1928,13 +2484,19 @@ if [[ $(echo "$V >= $MIN" | bc -l) -eq 1 && $(echo "$V <= $MAX" | bc -l) -eq 1 ]
 
     echo -e "$(gettext 'Disabling remote scopes from online store suggestions...')"
 
+    $time
+
     $GS set $CCUL disabled-scopes "['more_suggestions-amazon.scope', 'more_suggestions-u1ms.scope', 'more_suggestions-populartracks.scope', 'music-musicstore.scope', 'more_suggestions-ebay.scope', 'more_suggestions-ubuntushop.scope', 'more_suggestions-skimlinks.scope']"
 
     echo -e "$(gettext 'Remote scopes disabled successfully!')"
 
+    $time
+
 else
 
     echo -e "$(gettext 'This version of Ubuntu does not need modifications or is out of range for disabling remote scopes.')"
+
+    $time
 
     # exit
 fi
@@ -1945,6 +2507,8 @@ fi
 else
 
     echo -e "$(gettext 'Unity GUI is NOT running.')"
+
+    $time
 
 fi
 
@@ -2041,7 +2605,7 @@ gsettings set org.gnome.desktop.search-providers disable-remote true
 
 echo -e "${GREEN}\n$(gettext "Dash's search data collection has been disabled.") \n${NC}"
 
-
+$time
 
 
 # https://www.gnu.org/philosophy/ubuntu-spyware.pt-br.html
@@ -2063,33 +2627,82 @@ echo -e "${GREEN}\n$(gettext "Dash's search data collection has been disabled.")
 # comando apt list --installed ou na saída de dpkg -l.
 
 
-remover_PPA() {
+function remover_PPA() {
+
+
+
+
+# Verificar se a pasta /etc/apt/sources.list.d existe
+
+if [ -d "/etc/apt/sources.list.d" ]; then
+
+   # echo "A pasta /etc/apt/sources.list.d existe."
+
 
 
     check_internet
 
 
-echo "Reverter pacotes instalados via PPAs
+
+# Verifica se o dialog está instalado
+
+if  command -v dialog &> /dev/null; then
+
+
+# Explicação:
+
+# --timeout 10: Isso fecha automaticamente a caixa de diálogo após 10 segundos. Você pode 
+# alterar esse número conforme necessário.
+
+# Agora, a caixa de diálogo será exibida e fechará automaticamente após o tempo 
+# especificado, sem precisar de interação do usuário.
+
+
+
+dialog \
+--backtitle 'ubuntu-debullshit' \
+--timeout 10 \
+--msgbox "\n$(gettext "Revert packages installed via PPAs\n\n\nWarning\n\nIf you are a winuser who is addicted to Baixaki and installs all kinds of \nthird-party junk on your Linux, such as PPAs, .deb packages, \nruns scripts and compilations without knowing whether it is for food or \ndrink, don't even try to use this option. Your system will most likely break.")\n" 20 90
+
+
+clear
+
+
+
+else
+
+
+# clear
+
+
+echo "$(gettext "Revert packages installed via PPAs
 
 
 Warning
 
-Se você é do tipo winuser dependente químico do Baixaki e instala tudo que é lixo de 
-terceiros no seu sistema Linux como PPA, .deb, roda scripts e compilações sem saber se 
-é para comer ou beber, nem tente usa essa opção, seu sistema muito provavelmente ira 
-quebrar.
+If you are a winuser who is addicted to Baixaki and installs all kinds of 
+third-party junk on your Linux, such as PPAs, .deb packages, 
+runs scripts and compilations without knowing whether it is for food or 
+drink, don't even try to use this option. Your system will most likely break.")" | tee -a "$log"
 
-"
 
 sleep 10
 
 
+fi
+
+
+
+
 echo -e "${GREEN}\n$(gettext 'Starting to clean up packages installed via PPAs...')  \n${NC}"
 
+$time
 
 # Passo 1: Remover todos os PPAs adicionados
 
-echo -e "$(gettext 'Removing .list files from PPAs...')"
+echo -e "$(gettext 'Removing .list files from PPAs...')" | tee -a "$log"
+
+$time
 
 for ppa in /etc/apt/sources.list.d/*; do
 
@@ -2099,6 +2712,7 @@ for ppa in /etc/apt/sources.list.d/*; do
 
         echo -e "${GREEN}$(printf "$message" "$ppa")  ${NC}"
 
+        $time
 
         rm -f "$ppa" 2>> "$log"
     fi
@@ -2112,15 +2726,19 @@ done
 
 echo -e "${GREEN}$(gettext 'Updating package list...')  ${NC}"
 
+$time
+
+
 apt update 2>> "$log"
 
-sleep 1
+$time
 
 
 # Passo 3: Remover pacotes instalados via PPAs
 
 echo -e "${GREEN}$(gettext 'Checking packages installed via PPAs...')  ${NC}"
 
+$time
 
 
 # Embora não seja tão direto, o comando apt list --installed exibe a origem dos pacotes. 
@@ -2165,6 +2783,8 @@ for package in $(apt list --installed 2>/dev/null | grep -E 'ppa' | cut -d/ -f1)
 
     echo -e "${GREEN}\n$(printf "$message" "$package")  \n${NC}"
 
+    $time
+
 
     # EM FACE DE TESTE
 
@@ -2200,6 +2820,27 @@ apt clean 2>> "$log"
 
     echo -e "${GREEN}\n$(gettext 'Removal of packages installed by PPAs has been completed.')\n${NC}"
 
+    $time
+
+
+$notify_users  \
+notify-send -i "/usr/share/icons/gnome/32x32/status/dialog-error.png" -t "$((DELAY * 1000))" "$(gettext 'ubuntu-debullshit')" "\n$(gettext 'Removal of packages installed by PPAs has been completed.')\n"
+
+
+else
+
+
+    echo "$(gettext 'The folder /etc/apt/sources.list.d does not exist...')" >> "$log"
+
+
+    echo -e "${RED}\n$(gettext 'The folder /etc/apt/sources.list.d does not exist...') \n${NC}"
+
+    $time
+
+
+fi
+
+
 
 }
 
@@ -2209,16 +2850,15 @@ apt clean 2>> "$log"
 
 # ----------------------------------------------------------------------------------------
 
-remove_gnome-online-accounts() {
+function remove_gnome-online-accounts() {
 
-echo "
-Desinstale o GNOME Online Accounts
+echo -e "\n$(gettext 'Uninstall GNOME Online Accounts
 
-Integração com contas online (montagem de pastas do Google Drive, e-mail, calendário).
+Integration with online accounts (mounting Google Drive folders, email, calendar).
 
-Isso vai remover o suporte às Contas Online e também o serviço (daemon) que fica rodando no sistema.
+This will remove support for Online Accounts and also the service (daemon) that is running on the system.')\n\n\n"
 
-"
+sleep 10
 
 apt purge -y gnome-online-accounts 2>> "$log"
 
@@ -2232,24 +2872,22 @@ cleanup
 
 # ----------------------------------------------------------------------------------------
 
-remove_software_stores() {
-
-echo "
-Removendo lojas de software e atualizador
+function remove_software_stores() {
 
 
-Desinstale as 'Lojas de Software' (somente se você sabe lidar com o APT)
+echo -e "\n$(gettext 'Removing software stores and updaters
 
-Se você costuma gerenciar seus software pela linha de comando, desinstale os 
-programas gerenciadores que também mantém serviços (daemons) rodando o tempo todo 
-no sistema. Novamente: eu mostro, mas não recomendo, é por sua conta lidar com os 
-programas pelo terminal.
+Uninstall the Software Stores (only if you know how to use APT).
 
-O comando abaixo remove as lojinhas, o gerenciador de repositórios e o gerenciador de atualizações, bem como o notificador de atualizações.
+If you usually manage your software through the command line, uninstall the 
+manager programs that also keep services (daemons) running all the time 
+on the system (not recommended).
 
-"
 
-sleep 5
+This action will remove the store(s), the repository manager, the 
+update manager and the update notifier.')\n\n"
+
+sleep 10
 
 apt purge -y ubuntu-software gnome-software software-properties-gtk update-manager  2>> "$log"
 
@@ -2264,7 +2902,7 @@ cleanup
 # ----------------------------------------------------------------------------------------
 
 
-remove_location_service() {
+function remove_location_service() {
 
 
 # O Geoclue é uma biblioteca e serviço no Ubuntu (e em outros sistemas Linux) que fornece 
@@ -2293,7 +2931,7 @@ echo -e "${GREEN}\n\n$(gettext "Disable location services
 
 Do this if you don't use programs that rely on location being enabled.") ;) \n${NC}"
 
-sleep 2
+$time
 
 # Para desativar o serviço de localização no Ubuntu
 
@@ -2301,12 +2939,17 @@ sleep 2
 
 # O Ubuntu usa o geoclue2 para obter a localização, então o primeiro passo é parar e desabilitar esse serviço.
 
+
 echo -e "\n$(gettext 'Stopping service...')\n"
+
+$time
 
 systemctl stop geoclue 2>> "$log"
 
 
 echo -e "\n$(gettext 'Disabling the service so that it does not start automatically...')\n"
+
+$time
 
 # Desabilitar o serviço de localização para que ele não seja iniciado automaticamente:
 
@@ -2316,6 +2959,8 @@ systemctl disable geoclue 2>> "$log"
 
 
 echo -e "\n$(gettext 'Uninstalling package...')\n"
+
+$time
 
 # (Opcional) Remover o pacote de localização:
 
@@ -2344,7 +2989,7 @@ cleanup
 # Desativar o Histórico de Arquivos
 
 
-disable_file_history() {
+function disable_file_history() {
 
 
 # A pesquisa no GNOME Shell é uma funcionalidade central no ambiente de desktop GNOME, que 
@@ -2416,28 +3061,32 @@ disable_file_history() {
 
 
 
-echo "
+echo -e "\n$(gettext 'Disable search
 
-Desative a pesquisa
-
-O GNOME Shell faz pesquisas por arquivos, eventos no calendário, programas na GNOME Software (ou Ubuntu Software), no terminal, além da busca padrão pelos programas instalados.
-
-
-Desativar a pesquisa vai deixar o sistema bem mais leve, respondendo mais rapidamente. Avalie suas necessidades e decida se vale a pena (eu só faço porque minha máquina é muito, muito fraca).
+GNOME Shell searches for files, calendar events, programs in 
+GNOME Software (or Ubuntu Software), in the terminal, in addition to the standard search for installed programs.
 
 
+Disabling search will make the system much lighter, responding more quickly. 
+Evaluate your needs and decide if it is worth it (ideal for very weak machines).
 
-Desative o Histórico de Arquivos
 
-O GNOME Shell armazena o histórico dos arquivos utilizados para colocar nos itens recentes, em buscas. É um recurso que eu não uso. Se não for importante, desative.
+Disable File History
 
-"
+GNOME Shell stores the history of files used to place in recent items, in searches. If it is not important, disable it.')\n"
+
+
+sleep 10
+
+
 
 # Para desativar o Histórico de Arquivos no Ubuntu, é necessário focar no gnome-initial-setup e no próprio serviço de rastreamento de arquivos.
 
 # Desabilitar o Histórico de Arquivos no GNOME (tracker3 e gnome-shell): No Ubuntu, o GNOME usa o tracker3 para indexar arquivos e criar o histórico de arquivos acessados.
 
 echo -e "$(gettext 'Disabling file tracking service (tracker3)...')"
+
+$time
 
 # Para parar o serviço de rastreamento de arquivos:
 
@@ -2486,6 +3135,8 @@ systemctl --user mask tracker3-miner-text.service 2>> "$log"
 
 echo -e "$(gettext 'Disable File History in GNOME')"
 
+$time
+
 # Se você também quiser desabilitar o histórico de arquivos do GNOME, que armazena informações sobre arquivos abertos recentemente:
 
 # Desabilitar o histórico de arquivos no Nautilus: O Nautilus usa uma configuração específica para armazenar o histórico de arquivos acessados. Para desativá-lo, execute:
@@ -2497,33 +3148,43 @@ gsettings set org.gnome.nautilus.history enabled false 2>> "$log"
 
 echo -e "$(gettext 'Clear recent file history')"
 
+$time
+
 # (Opcional) Apagar o histórico de arquivos armazenado:
 
 # Para limpar os arquivos históricos que já foram gravados, você pode executar este comando:
 
 rm -rf ~/.local/share/recently-used.xbel 2>> "$log"
 
+
 # Este comando remove o arquivo que contém o histórico de arquivos recentemente acessados.
 
-# Esses passos irão desabilitar o histórico de arquivos e impedir que o Ubuntu rastreie ou armazene arquivos acessados no futuro.
+# Esses passos irão desabilitar o histórico de arquivos e impedir que o Ubuntu rastreie 
+# ou armazene arquivos acessados no futuro.
 
 
-# Após esses passos, o GNOME Shell não armazenará mais o histórico de arquivos acessados, e as buscas e menus não exibirão mais itens recentes.
+# Após esses passos, o GNOME Shell não armazenará mais o histórico de arquivos acessados, 
+# e as buscas e menus não exibirão mais itens recentes.
 
 
-# O GNOME Shell armazena o histórico dos arquivos utilizados para exibir nos itens recentes e para ajudar nas buscas feitas no sistema. Esse histórico é usado principalmente pelo Nautilus (o gerenciador de arquivos do GNOME) e pelo próprio GNOME Shell, para melhorar a experiência de uso.
+# O GNOME Shell armazena o histórico dos arquivos utilizados para exibir nos itens recentes 
+# e para ajudar nas buscas feitas no sistema. Esse histórico é usado principalmente pelo 
+# Nautilus (o gerenciador de arquivos do GNOME) e pelo próprio GNOME Shell, para melhorar 
+# a experiência de uso.
 
-# Esse histórico pode ser utilizado para mostrar arquivos recentemente acessados tanto no menu "Atividades" (quando você faz uma busca rápida) quanto nos itens recentes no Nautilus, entre outras partes do sistema.
+# Esse histórico pode ser utilizado para mostrar arquivos recentemente acessados tanto no 
+# menu "Atividades" (quando você faz uma busca rápida) quanto nos itens recentes no Nautilus, 
+# entre outras partes do sistema.
 
 
-echo "
+echo -e "\n\n$(gettext "After performing these steps, you will have disabled search in Ubuntu, 
+including file indexing, recent file history, and GNOME Shell search. This 
+may improve performance, but it also means that you will no longer be 
+able to use the system's quick search to find files or applications.")\n\n"
 
-Após realizar esses passos, você terá desativado a pesquisa no Ubuntu, incluindo a indexação 
-de arquivos, o histórico de arquivos recentes e a pesquisa no GNOME Shell. Isso pode melhorar 
-o desempenho, mas também significa que você não poderá mais usar a pesquisa rápida do sistema 
-para encontrar arquivos ou aplicativos.
+sleep 10
 
-"
+
 
 }
 
@@ -2533,9 +3194,11 @@ para encontrar arquivos ou aplicativos.
 # Desative as animações [desligar os efeitos visuais da interface]
 
 
-disable_animations() {
+function disable_animations() {
 
 echo -e "\n$(gettext 'Disable GNOME GUI animations')\n"
+
+$time
 
 # Para desativar as animações no Ubuntu, você pode alterar as configurações do GNOME para 
 # desativar as animações da interface gráfica. Isso pode ser feito com o comando gsettings, 
@@ -2555,13 +3218,19 @@ if [ $? -eq 0 ]; then
 
     echo -e "${GREEN}$(gettext "Animations have been successfully disabled.") ${NC}"
 
+    $time
+
 else
 
     # Se houver algum erro
 
-    message=$(gettext 'An error occurred while trying to disable animations. Check the log for more details.\n\nError logged in: %s')
+    message=$(gettext 'An error occurred while trying to disable animations. Check the log for more details.
+    
+    Error logged in: %s')
 
     echo -e "${RED}\n$(printf "$message" "$log") ${NC}"
+
+    $time
 
 fi
 
@@ -2570,6 +3239,8 @@ fi
 # animações de transições de janelas, menus, etc.
 
 echo -e "\n$(gettext 'Disable animations when minimizing and restoring windows.')\n"
+
+$time
 
 # Embora o comando acima já desative as animações principais, se você quiser garantir 
 # que as animações ao minimizar e restaurar janelas também sejam desativadas, pode usar:
@@ -2587,13 +3258,24 @@ if [ $? -eq 0 ]; then
 
     echo -e "${GREEN}$(gettext "Window minimize and restore animations have been successfully disabled.") ${NC}"
 
+    $time
+
 else
 
     # Se houver algum erro
 
-    message=$(gettext 'An error occurred while trying to disable window minimize and restore animations. Check the log for more details.\n\nError logged in: %s')
+message=$(gettext 'An error occurred while trying to disable window minimize and restore animations. Check the log for more details.
+
+Error logged in: %s')
 
     echo -e "${RED}\n$(printf "$message" "$log") ${NC}"
+
+    $time
+    
+$notify_users  \
+notify-send -i "/usr/share/icons/gnome/32x32/status/dialog-error.png" -t "$((DELAY * 1000))" "$(gettext 'ubuntu-debullshit')" "\n$(printf "$message" "$log")\n"
+
+
 fi
 
 
@@ -2620,23 +3302,26 @@ fi
 
 # Desative as atualizações automáticas
 
-disable_automatic_updates() {
 
-echo "
-Se você se lembra de atualizar o sistema de vez em quando, desative a atualização automática.
+function disable_automatic_updates() {
 
-As atualizações automáticas serão desativadas, incluindo a desativação do serviço unattended-upgrades e a verificação de novas versões do Ubuntu.
-"
+echo -e "$(gettext '
+If you remember to update your system from time to time, disable automatic updates.
 
+Automatic updates will be disabled, including disabling the unattended-upgrades service and checking for new Ubuntu versions.
+')"
+
+$time
 
 # Desativar atualizações automáticas no Ubuntu
 
-echo "Desativando atualizações automáticas de pacotes e segurança...
+echo -e "$(gettext 'Disabling automatic package and security updates...
 
-O Ubuntu gerencia as atualizações automáticas por meio do unattended-upgrades, que é 
-responsável por instalar automaticamente atualizações de segurança e outras atualizações 
-importantes.
-"
+Ubuntu manages automatic updates through unattended-upgrades, which is
+responsible for automatically installing security and other important 
+updates.')"
+
+sleep 10
 
 # Editando o arquivo 20auto-upgrades para desabilitar as atualizações automáticas
 
@@ -2681,21 +3366,25 @@ echo "APT::Periodic::Unattended-Upgrade \"0\";" | sudo tee -a /etc/apt/apt.conf.
 
 # Parar e desabilitar o serviço unattended-upgrades
 
-echo "
-Desabilitar o serviço unattended-upgrades:
+echo -e "\n$(gettext 'Disable the unattended-upgrades service:
 
-Além de desabilitar a configuração para atualizações automáticas, podemos garantir que o 
-serviço que gerencia essas atualizações automáticas não seja executado.
-"
+In addition to disabling the configuration for automatic updates, we can ensure that the 
+service that manages these automatic updates is not running.')\n"
+
+sleep 10
 
 # Parando o serviço unattended-upgrades...
 
 echo -e "\n$(gettext 'Stopping service...')\n"
 
+$time
+
 systemctl stop unattended-upgrades     2>> "$log"
 
 
 echo -e "\n$(gettext 'Disabling the service so that it does not start automatically...')\n"
+
+$time
 
 systemctl disable unattended-upgrades  2>> "$log"
 
@@ -2710,6 +3399,8 @@ systemctl disable unattended-upgrades  2>> "$log"
 
 echo -e "\n$(gettext 'Disabling automatic checking for new versions...')\n"
 
+$time
+
 # Desativar atualizações automáticas no update-manager:
 
 # Se você usar o Atualizador de Software (Update Manager) e ele verificar por atualizações 
@@ -2718,13 +3409,18 @@ echo -e "\n$(gettext 'Disabling automatic checking for new versions...')\n"
 
 
 # Caminho do arquivo
+
 FILE="/etc/update-manager/release-upgrades"
+
 
 # Verificar se o arquivo existe
 
 if [ -e "$FILE" ]; then
 
-  echo "O arquivo $FILE existe."
+  # echo "O arquivo $FILE existe."
+
+  # $time
+
 
 #  Editar o arquivo de configurações
 
@@ -2732,17 +3428,31 @@ if [ -e "$FILE" ]; then
 
 sed -i 's/Prompt=lts/Prompt=never/' /etc/update-manager/release-upgrades
 
+
 # Isso evita que o Ubuntu faça verificações automáticas por novas versões do sistema operacional.
 
-echo "Atualizações automáticas desativadas com sucesso.
+echo -e "\n$(gettext 'Automatic updates successfully disabled.
 
-Esses passos garantirão que o Ubuntu não realize atualizações automáticas, dando a você controle total sobre quando as atualizações serão feitas.
-"
+These steps will ensure that Ubuntu does not perform automatic updates, giving you full control over when updates are made.')\n"
+
+# $time
+
+
+$notify_users  \
+notify-send -i "/usr/share/icons/gnome/32x32/status/dialog-error.png" -t "$((DELAY * 1000))" "$(gettext 'ubuntu-debullshit')" "\n$(gettext 'Automatic updates successfully disabled.
+
+These steps will ensure that Ubuntu does not perform automatic updates, giving you full control over when updates are made.')\n"
 
 
 else
 
-  echo "O arquivo $FILE não existe."
+
+  message=$(gettext "The file %s does not exist.")
+
+  echo -e "${RED}\n$(printf "$message" "$FILE") ${NC}"
+
+  $time
+
 
 fi
 
@@ -2757,7 +3467,7 @@ fi
 # ----------------------------------------------------------------------------------------
 
 
-disable_GNOME_extensions() {
+function disable_GNOME_extensions() {
 
 
 # * Desative as extensões (pelo menos as que não usa)
@@ -2803,10 +3513,21 @@ disable_GNOME_extensions() {
 
 
 
+if which gnome-extensions > /dev/null 2>&1; then
+
+   # echo "O comando 'gnome-extensions' existe."
+
+
+
+
+
 echo -e "${GREEN}$(gettext "Disable all GNOME extensions at once") ${NC}"
 
+$time
 
 echo -e "\n$(gettext 'Extensions that are active on your system:')\n" | tee -a "$log"
+
+$time
 
 gnome-extensions list | tee -a "$log"
 
@@ -2845,8 +3566,24 @@ done
 
 echo -e "\n$(gettext 'Extensions that are active on your system now:')\n" | tee -a "$log"
 
+$time
+
 gnome-extensions list | tee -a "$log"
 
+
+else
+
+
+
+      echo -e "${RED}\n$(gettext 'Error disabling all GNOME extensions... Check if the gnome-extensions command is on the system.') ${NC}"
+    
+     $time
+
+$notify_users  \
+notify-send -i "/usr/share/icons/gnome/32x32/status/dialog-error.png" -t "$((DELAY * 1000))" "$(gettext 'ubuntu-debullshit')" "\n$(gettext 'Error disabling all GNOME extensions... Check if the gnome-extensions command is on the system.')\n"
+
+
+fi
 
 
 # 5:43 - https://www.youtube.com/watch?v=wA1BIJYZbXI
@@ -2860,24 +3597,27 @@ gnome-extensions list | tee -a "$log"
 # Para desativar os espaços de trabalho dinâmicos no GNOME
 
 
-Static_Workspaces() {
+function Static_Workspaces() {
 
 
-echo "
-* Espaços de trabalho estáticos (fixar o número de espaços de trabalho e deixar como estáticos.)
+echo -e "\n$(gettext "* Static Workspaces (Fix the number of workspaces and leave them static.)
 
-Para configurar os Espaços de Trabalho Estáticos no Ubuntu (ou seja, fixar o número de 
-espaços de trabalho e torná-los estáticos), você precisará alterar as configurações do 
-GNOME Shell.
+To set up Static Workspaces in Ubuntu (i.e. fix the number of 
+workspaces and make them static), you will need to change the 
+GNOME Shell settings.
 
-Por padrão, o GNOME Shell permite que os espaços de trabalho se ajustem dinamicamente — ou 
-seja, o número de espaços de trabalho aumenta conforme você abre mais janelas e diminui 
-quando você fecha algumas delas. Para configurar isso para um número fixo de espaços de 
-trabalho.
+By default, GNOME Shell allows workspaces to adjust dynamically — that 
+is, the number of workspaces increases as you open more windows and decreases 
+as you close some of them. To set this to a fixed number of workspaces, 
+click on the GNOME Shell icon.")\n\n\n\n"
 
-"
+
+sleep 10
+
 
 echo -e "${GREEN}$(gettext "Disable dynamic workspaces (make them static)") ${NC}"
+
+$time
 
 
 # Para garantir que os Espaços de Trabalho sejam fixos e não se ajustem dinamicamente:
@@ -2890,6 +3630,7 @@ gsettings set org.gnome.desktop.wm.preferences dynamic-workspaces false  2>> "$l
 
 echo -e "\n$(gettext 'Set the fixed number of workspaces to two.')\n"
 
+$time
 
 #  Definir o número de espaços de trabalho fixos:
 
@@ -2907,6 +3648,8 @@ gsettings set org.gnome.desktop.wm.preferences num-workspaces 2  2>> "$log"
 echo -e "${RED}\n$(gettext 'This will ensure that the number of workspaces is fixed, and will not change 
 automatically based on the number of open windows.') \n\n${NC}"
 
+$time
+
 
 }
 
@@ -2915,7 +3658,7 @@ automatically based on the number of open windows.') \n\n${NC}"
 # ----------------------------------------------------------------------------------------
 
 
-startup_programs() {
+function startup_programs() {
 
 
 # Desativar programas que iniciam com o sistema.
@@ -3027,6 +3770,7 @@ Esse script oferece uma maneira simples de desativar serviços que você não pr
 
 echo -e "${GREEN}$(gettext "Disable programs that start with the system") ${NC}"
 
+$time
 
 # Como verificar os programas que iniciam automaticamente no Ubuntu:
 # 
@@ -3043,6 +3787,8 @@ echo -e "${GREEN}$(gettext "Disable programs that start with the system") ${NC}"
 
 echo -e "\n$(gettext 'Programs that start automatically with the system:')\n" | tee -a "$log"
 
+$time
+
 # O systemd é o sistema de inicialização que o Ubuntu usa para gerenciar os serviços do 
 # sistema. Alguns programas podem ser configurados para iniciar como serviços do sistema, 
 # e você pode listar esses serviços com o seguinte comando:
@@ -3050,6 +3796,8 @@ echo -e "\n$(gettext 'Programs that start automatically with the system:')\n" | 
 message=$(gettext 'Files in folder %s: ')
 
 echo -e "\n$(printf "$message" "$HOME/.config/autostart")\n" | tee -a "$log"
+
+$time
 
 
 ls -lh ~/.config/autostart/ | tee -a "$log"
@@ -3061,6 +3809,8 @@ echo "" | tee -a "$log"
 message=$(gettext 'Files in folder %s: ')
 
 echo -e "\n$(printf "$message" "/etc/xdg/autostart")\n" | tee -a "$log"
+
+$time
 
 ls -lh /etc/xdg/autostart/  | tee -a "$log"
 
@@ -3109,8 +3859,12 @@ for service in "${services[@]}"; do
 
   echo -e "\n$(printf "$message" "$service") \n" | tee -a "$log"
 
+  $time
+
 
   echo -e "\n$(gettext 'Stopping service...')\n"
+
+  $time
 
   systemctl stop "$service"      2>> "$log"     # Para o serviço imediatamente
 
@@ -3125,13 +3879,19 @@ if [ $? -eq 0 ]; then
 
     echo -e "${GREEN}\n$(printf "$message" "$service") \n${NC}"
 
+    $time
+
 else
 
     # Se houver algum erro
 
-    message=$(gettext "An error occurred while trying to stop service %s. Check the log for more details.\n\nError logged: %s")
+    message=$(gettext "An error occurred while trying to stop service %s. Check the log for more details.
+
+Error logged: %s")
 
     echo -e "${RED}\n$(printf "$message" "$service" "$log") ${NC}"
+
+    $time
 
 fi
 
@@ -3139,6 +3899,8 @@ fi
 
 
   echo -e "\n$(gettext 'Disabling the service so that it does not start automatically...')\n"
+
+  $time
 
   systemctl disable "$service"   2>> "$log"     # Desabilita o serviço para não iniciar automaticamente na inicialização
 
@@ -3154,13 +3916,19 @@ if [ $? -eq 0 ]; then
 
     echo -e "${GREEN}\n$(printf "$message" "$service") \n${NC}"
 
+    $time
+
 else
 
     # Se houver algum erro
 
-    message=$(gettext "An error occurred while trying to disable service %s. Check the log for more details.\n\nError logged: %s")
+    message=$(gettext "An error occurred while trying to disable service %s. Check the log for more details.
+
+Error logged: %s")
 
     echo -e "${RED}\n$(printf "$message" "$service" "$log") ${NC}"
+
+    $time
 
 fi
 
@@ -3241,7 +4009,7 @@ done
 # Redefinir o ambiente de desktop GNOME
 
 
-reset_GNOME(){
+function reset_GNOME(){
 
 
 # Verifica o nome de usuário
@@ -3254,6 +4022,8 @@ user=$(whoami)
 if [ "$user" == "root" ]; then
 
     echo -e "${RED}\n$(gettext 'The user is Root.') \n${NC}"
+
+    # $time
 
 $notify_users  \
 notify-send -i "/usr/share/icons/gnome/32x32/status/dialog-error.png" -t "$((DELAY * 1000))" "$(gettext 'Restore Gnome Interface')" "\n$(gettext 'The user is Root.')\n"
@@ -3284,6 +4054,7 @@ fi
 
     echo -e "${GREEN}$(gettext 'The user is common and does not have Root or sudo permissions.')  ${NC}"
 
+    $time
 
 
 # Como redefinir o ambiente Gnome Desktop no Ubuntu
@@ -3303,13 +4074,16 @@ fi
 # dconf reset -f /org/gnome/   2>> "$log" 
 
 
-# Para listar os usuários comuns do sistema e mostrá-los em uma tela do yad, para que você possa selecionar um e usá-lo em seu comando.
+# Para listar os usuários comuns do sistema e mostrá-los em uma tela do yad, para que 
+# você possa selecionar um e usá-lo em seu comando.
 
 # clear
 
 # Cria uma lista de usuários comuns
 
-# Podemos usar o comando who para obter uma lista dos usuários conectados, que geralmente será mais adequada para suas necessidades.
+# Podemos usar o comando who para obter uma lista dos usuários conectados, que geralmente 
+# será mais adequada para suas necessidades.
+
 
 # Lista os usuários ativos atualmente conectados
 
@@ -3317,11 +4091,76 @@ usuarios=$(who | awk '{print $1}' | sort | uniq)
 
 
 
+
+# Verifica se o yad está instalado
+
+if command -v yad &> /dev/null
+then
+
+
 # Exibe a lista de usuários no yad
 
-usuario_selecionado=$(echo "$usuarios" | yad --center --list --title="Selecione um Usuário" --column="Usuário" --width=600 --height=500 --separator="\n" --button="Selecionar":0 --button="Cancelar":1)
+usuario_selecionado=$(echo "$usuarios" | yad --center --list --title="$(gettext 'Select a user')" --column="$(gettext 'Users')" --width=600 --height=500 --separator="\n" --button="$(gettext 'Select')":0 --button="$(gettext 'Cancel')":1)
 
 # error: Erro ao chamar a linha de comandos “dbus-launch --autolaunch=9733713912251517def2795567c63105 --binary-syntax --close-stderr”: Processo filho concluiu com código 1
+
+
+# Verifica se o dialog está instalado
+
+elif command -v dialog &> /dev/null; then
+
+# Usar o 'dialog' para exibir a lista e capturar a seleção
+
+# usuario_selecionado=$(dialog   --backtitle 'ubuntu-debullshit' --stdout  --menu "$(gettext 'Select a user')" 0 0 0 $usuarios)
+
+# clear
+
+
+# Como funciona:
+# 
+# Agora, o dialog está sendo alimentado diretamente com o nome do usuário (como chave e valor) para que, quando o usuário fizer a seleção, ele retornará diretamente o nome do usuário escolhido.
+# 
+# Não há mais a necessidade de associar números às opções, o que simplifica a manipulação e mantém o valor desejado (nome do usuário).
+
+
+# Pega os nomes dos usuários logados (excluindo o root)
+usuarios=$(who | awk '{print $1}' | sort | uniq | grep -v '^root$')
+
+# Inicializar uma variável para armazenar as opções formatadas
+opcoes=""
+
+# Construir a lista de opções para o comando 'dialog'
+# Agora associamos diretamente os nomes dos usuários às opções, sem usar números
+while IFS= read -r usuario; do
+    opcoes+="$usuario $usuario "
+done <<< "$usuarios"
+
+# Exibe o menu para selecionar o usuário
+usuario_selecionado=$(dialog --backtitle 'ubuntu-debullshit' --stdout --menu "$(gettext 'Select a user')" 0 0 0 $opcoes)
+
+# Limpa a tela após o comando 'dialog'
+clear
+
+# Exibe uma notificação com o nome do usuário selecionado
+# DELAY=5  # Defina o tempo de delay para a notificação
+
+
+
+
+
+
+else
+
+
+clear
+
+        echo "$usuarios"
+        
+        echo -e "\nQual usuário deseja zera o Gnome?"
+        read usuario_selecionado
+
+
+fi
 
 
 
@@ -3343,18 +4182,30 @@ exit_code=$?
 
 if [ $exit_code -eq 0 ]; then
 
-    echo "O comando dconf reset -f /org/gnome/ foi executado com sucesso."
-    
+    echo -e "${GREEN}\n$(gettext 'GNOME settings reset successfully performed...') \n${NC}"
+
+    $time
+
 else
 
-    echo "Erro ao executar o comando dconf reset -f /org/gnome/. Código de saída: $exit_code"
+
+    echo -e "${RED}\n$(gettext 'Errors occurred while resetting GNOME settings...') $(gettext 'Exit code:') $exit_code \n${NC}"
     
     exit $exit_code
+
+    $time
+
 fi
 
   
 else
-    echo "Nenhum usuário selecionado."
+
+    echo -e "${RED}\n$(gettext 'No user selected....') \n${NC}"
+
+    $time
+
+    exit
+
 fi
 
 # Este script irá exibir uma lista dos usuários comuns no yad, permitir que você selecione um usuário e, em seguida, executar o comando dconf reset -f /org/gnome/ como o usuário selecionado.
@@ -3365,7 +4216,7 @@ fi
 
 
 $notify_users  \
-notify-send -i "/usr/share/icons/gnome/32x32/status/dialog-warning.png" -t "$((DELAY * 1000))" "$(gettext 'Restore Gnome Interface')" "\n$(gettext 'Restart GNOME (or reboot your system) for the changes to take effect. You can restart GNOME with the command:
+notify-send -i "/usr/share/icons/gnome/32x32/status/dialog-warning.png" -t "$((DELAY * 1000))" "$(gettext 'Restore Gnome Interface') - $usuario_selecionado" "\n$(gettext 'Restart GNOME (or reboot your system) for the changes to take effect. You can restart GNOME with the command:
 
 # killall -3 gnome-shell')\n"
 
@@ -3436,7 +4287,7 @@ notify-send -i "/usr/share/icons/gnome/32x32/status/dialog-warning.png" -t "$((D
 # Para desmarcar o repositório, basta comentar essa linha (adicionando # no início) ou removê-la.
 
 
-desmarcar_repositorio_canonical() {
+function desmarcar_repositorio_canonical() {
 
 
 
@@ -3482,16 +4333,20 @@ desmarcar_repositorio() {
 
 
 # Executa a função
+
 desmarcar_repositorio
 
 
     check_internet
 
+
     echo -e "${GREEN}\n$(gettext 'Updating repositories...') \n${NC}"
+
+    $time
 
     apt update 2>> "$log" 
 
-    sleep 1
+    $time
 
 
 $notify_users  \
@@ -3527,27 +4382,38 @@ notify-send -i "/usr/share/icons/gnome/32x32/status/dialog-information.png" -t "
 #     Mostrar essa informação ao usuário utilizando yad ou notify-send .
 
 
-test_latency(){
+function test_latency(){
+
+
+# O script verificará se o arquivo /etc/apt/sources.list existe ou se o diretório 
+# /etc/apt/sources.list.d/ existe, e executará o bloco echo caso nenhuma das condições 
+# seja verdadeira.
+
+if [ -e "/etc/apt/sources.list" ] || [ -d "/etc/apt/sources.list.d/" ]; then
+
+  # Se a condição for verdadeira, o código será executado aqui
+
 
     check_internet
 
 
 # Função para medir a latência de um servidor
 
-test_latency() {
+function test_latency() {
 
     server=$1
 
     # Usando ping para medir a latência (4 pacotes e tempo máximo de resposta)
 
     latency=$(ping -c 4 -q $server | awk -F'/' 'END {print $5}')
+
     echo "$latency"
 }
 
 
 # Função para listar os servidores configurados nos arquivos sources.list e sources.list.d
 
-get_repositories() {
+function get_repositories() {
 
     # Usando grep para procurar todas as URLs dos repositórios
 
@@ -3567,14 +4433,18 @@ best_latency=9999
 
 # Loop para testar a latência de cada servidor na lista
 
-echo -e "$(gettext 'Testing server latency...')"
+echo -e "\n\n$(gettext 'Testing server latency...')"
+
+$time
 
 for server in "${servers[@]}"; do
 
 
     message=$(gettext "Testing latency of %s...")
 
-    echo -e "$(printf "$message" "$server")"
+    echo -e "\n$(printf "$message" "$server")\n"
+
+    $time
 
     latency=$(test_latency $server)
 
@@ -3595,20 +4465,64 @@ done
 
 message=$(gettext "The fastest repository server is: %s with latency of %s ms.")
 
-echo -e "$(printf "$message" "$best_server" "$best_latency")"
+echo -e "\n$(printf "$message" "$best_server" "$best_latency")"
+
+$time
 
 echo -e "\n$(gettext 'Repositories configured in the system:')\n"
+
+$time
 
 get_repositories
 
 
 # Exibe o servidor de menor latência usando o yad
 
-    message=$(gettext "The fastest repository server for your connection is:\n\n%s\n\nWith latency of: %s ms.")
+    message=$(gettext "The fastest repository server for your connection is:
+
+%s
+
+With latency of: %s ms.")
+
+
+
+# Verifica se o yad está instalado
+
+if command -v yad &> /dev/null
+then
+
 
 yad --center --info --title="$(gettext 'Best repository server')" \
     --text="$(printf "$message" "$best_server" "$best_latency")" \
+    --buttons-layout=center \
+    --width=600 --height=300 \
     --button="$(gettext 'OK'):0"
+
+
+# Verifica se o dialog está instalado
+
+elif command -v dialog &> /dev/null; then
+
+
+
+dialog --backtitle 'ubuntu-debullshit' --msgbox "\n$(printf "$message" "$best_server" "$best_latency")\n" 8 50
+
+
+clear
+
+
+
+else
+
+
+clear
+
+        echo -e "\n$(printf "$message" "$best_server" "$best_latency")\n"
+
+
+fi
+
+
 
 
 # Explicação do que foi feito:
@@ -3651,6 +4565,22 @@ yad --center --info --title="$(gettext 'Best repository server')" \
 # É completamente dinâmico, adaptando-se automaticamente aos repositórios configurados no sistema.
 
 
+
+else
+
+
+  echo -e "${RED}\n$(gettext 'No repositories or folders were found...') \n${NC}"
+
+  $time
+
+  # sudo mkdir -p /etc/apt/sources.list.d/
+  
+  
+fi
+
+
+# https://www.thelinuxrain.org/articles/the-buttons-of-yad
+
 }
 
 
@@ -3660,7 +4590,7 @@ yad --center --info --title="$(gettext 'Best repository server')" \
 # Configura o Firewall
 
 
-conf_firewall() {
+function conf_firewall() {
 
 
 
@@ -3682,9 +4612,12 @@ conf_firewall() {
 # usuários, a Canonical descontinuou essa funcionalidade em versões posteriores do Ubuntu.
 
 
+# Função para configurar o firewall UFW
 
-Firewall_UFW() {
+function Firewall_UFW() {
 
+# Aqui abordamos as principais etapas de configuração do UFW para bloquear conexões indesejadas e 
+# aumentar a privacidade do sistema.
 
 # Para configurar o firewall do Ubuntu com uma proteção total de privacidade via script, 
 # podemos usar o ufw (Uncomplicated Firewall), que é a ferramenta de firewall mais simples 
@@ -3749,23 +4682,71 @@ Firewall_UFW() {
 
 
 
-# Ativa o UFW (Uncomplicated Firewall)
 
-echo -e "$(gettext 'Activating UFW...')"
+# ----------------------------------------------------------------------------------------
 
-ufw enable  | tee -a "$log"
+# Desativa o UFW se necessário
 
+# O comando sudo ufw disable desativa o firewall. Isso pode ser perigoso, dependendo do 
+# contexto, especialmente se você está tentando configurar um firewall seguro. Certifique-se 
+# de que isso seja realmente necessário. Caso queira garantir que as regras anteriores sejam 
+# limpas, é melhor usar o ufw reset.
+
+sudo ufw  disable
+
+sudo ufw status verbose
+
+# ----------------------------------------------------------------------------------------
 
 # Limpa as regras existentes, se houver
 
 echo -e "$(gettext 'Cleaning up existing rules...')"
 
-ufw reset | tee -a "$log"
+$time
 
+# Aqui usamos o "yes" para resetar as regras do firewall, mas a execução de ufw reset deve ser feita com 
+# cuidado, pois pode apagar todas as configurações personalizadas.
+
+# Quando você executa o comando ufw reset, o ufw (Uncomplicated Firewall) irá perguntar se você deseja 
+# continuar com a operação, porque isso apagará todas as regras de firewall configuradas anteriormente e 
+# as redefinirá para os padrões de instalação. A mensagem que você viu, 
+# "Resetting all rules to installed defaults. Proceed with operation (y|n)?", está pedindo confirmação para você
+# prosseguir com a redefinição das regras.
+
+# É possível rodar o comando ufw reset automaticamente com a resposta "y" (sim), sem precisar de confirmação 
+# manual. Para fazer isso, você pode usar o comando yes no Linux, que envia automaticamente "y" para 
+# qualquer comando que precise de uma confirmação.
+
+yes |ufw reset | tee -a "$log"
+
+# O comando yes irá automaticamente responder "y" para a pergunta de confirmação do ufw, permitindo que 
+# o comando seja executado sem a necessidade de interação manual.
+
+# Nota: Use com cautela, pois isso vai resetar todas as regras do ufw, removendo qualquer configuração 
+# personalizada de firewall que você tenha feito.
+
+# ----------------------------------------------------------------------------------------
+
+# Ativa o Firewall
+
+
+# Ativa o UFW (Uncomplicated Firewall)
+
+echo -e "$(gettext 'Activating UFW...')"
+
+$time
+
+sudo ufw enable
+
+sudo ufw status verbose
+
+# ----------------------------------------------------------------------------------------
 
 # Define a política padrão para bloquear todas as conexões de entrada e permitir todas as de saída
 
 echo -e "$(gettext 'Setting default policies: block inbound, allow outbound...')"
+
+$time
 
 ufw default deny incoming    | tee -a "$log"
 
@@ -3774,21 +4755,27 @@ ufw default allow outgoing   | tee -a "$log"
 
 # ----------------------------------------------------------------------------------------
 
+# Permitir tráfego HTTP, HTTPS, DNS
+
 
 # A linha ufw deny from any provavelmente está bloqueando o tráfego essencial. Para 
 # permitir o tráfego de entrada para serviços essenciais (como DNS, HTTP, HTTPS), pode 
 # especificar regras mais granulares. Pode, por exemplo, permitir conexões de entrada 
 # para os serviços que precisa e ainda negar o acesso não autorizado.
 
-ufw allow from any to any port 80  proto tcp   # Para tráfego HTTP
+
+ufw allow from any to any port 80 proto tcp     # Para tráfego HTTP
+
 ufw allow from any to any port 443 proto tcp   # Para tráfego HTTPS
-ufw allow from any to any port 53  proto udp   # Para DNS
+
+ufw allow from any to any port 53 proto udp   # Para DNS
 
 
 # Configuração de serviços específicos que queremos permitir
 
 echo -e "$(gettext 'Enabling essential system services...')"
 
+$time
 
 # Permitir SSH para acesso remoto (ajuste se necessário)
 # sudo ufw allow ssh
@@ -3803,13 +4790,19 @@ echo -e "$(gettext 'Enabling essential system services...')"
 # ----------------------------------------------------------------------------------------
 
 
+# Bloqueia IPs específicos (anúncios, rastreamento)
+
+
 # Bloqueia conexões de saída para servidores de anúncios conhecidos (IP da Canonical, Amazon, e outros servidores de rastreamento)
 # Aqui, vamos bloquear os servidores conhecidos por fazer rastreamento de dados.
 
 echo -e "$(gettext 'Blocking ad servers and tracking...')"
 
+$time
 
 # Exemplo de servidores conhecidos da Canonical (substitua ou adicione mais conforme necessário)
+
+#     BLOCKED_IPS=("91.189.92.11" "54.239.28.85" "127.0.0.1")
 
 BLOCKED_IPS=(
   "91.189.92.11"  # IP do servidor de anúncios da Canonical
@@ -3824,18 +4817,33 @@ for ip in "${BLOCKED_IPS[@]}"; do
 
   echo "$ip" | tee -a "$log"
 
+  $time
+
   ufw deny out to $ip   | tee -a "$log"
 
 done
 
-
-
+# ----------------------------------------------------------------------------------------
 
 # Bloquear todas as conexões de entrada de qualquer IP que não seja local
 
 echo -e "$(gettext 'Blocking incoming connections, allowing only the local interface (loopback)...')"
 
+$time
+
+# Permite tráfego local
+
 ufw allow from 127.0.0.1  | tee -a "$log"
+
+# ----------------------------------------------------------------------------------------
+
+# Nega tráfego de entrada
+
+
+# A regra "ufw deny from any" no final pode ser redundante, 
+# dependendo da ordem das regras. Certifique-se de que você 
+# já tenha especificado as regras para serviços essenciais, como 
+# HTTP, HTTPS, e DNS, antes de aplicar uma regra de bloqueio global.
 
 
 # Regra de deny from any:
@@ -3843,7 +4851,7 @@ ufw allow from 127.0.0.1  | tee -a "$log"
 # Bloqueia todas as conexões de entrada (para todas as interfaces) vindas de qualquer IP 
 # externo. Essa regra pode estar impedindo conexões que você precisa para acessar a internet.
 
-ufw deny from any        | tee -a "$log"
+ufw deny from any  | tee -a "$log"
 
 
 # Regra de negação geral (ufw deny from any): Isso deve vir por último, pois ela bloqueia 
@@ -3851,30 +4859,82 @@ ufw deny from any        | tee -a "$log"
 # bloqueando tráfego legítimo (como HTTP, HTTPS e DNS) que você quer permitir.
 
 
+# ----------------------------------------------------------------------------------------
 
 
 # Verifica o status do firewall para garantir que as regras estão ativas
 
-echo -e "$(gettext 'Checking Firewall status...')"
+echo -e "\n$(gettext 'Checking Firewall status...')\n"
 
-ufw status verbose   | tee -a "$log"
+$time
 
-sleep 2
 
+# Condição de verificação do status do UFW
+
+# Para garantir que o notify-send seja executado somente quando necessário.
+
+if [ "$(sudo ufw status verbose | grep Status | cut -d: -f2 | xargs)" == "inactive" ]; then
+
+  echo -e "\nUFW - $(gettext 'Firewall is disabled. Please check the configuration.')\n" >> "$log"
+  
+  echo -e "${RED}\n$(gettext 'Firewall is disabled. Please check the configuration.') \n${NC}"
+
+  $time
+
+$notify_users  \
+notify-send -i "/usr/share/icons/gnome/32x32/status/security-medium.png" -t "$((DELAY * 1000))" "$(gettext 'Warning: UFW is down!')" "\n$(gettext 'Firewall is disabled. Please check the configuration.')\n"
+
+
+else
+
+
+echo -e "\nUFW - $(gettext 'Firewall configured for maximum privacy!')\n\n" >> "$log"
+  
 echo -e "${GREEN}\n$(gettext 'Firewall configured for maximum privacy!') \n${NC}"
 
-echo -e "${RED}\n$(gettext 'sudo ufw  disable.') \n${NC}"
-    
+# Para listar as regras do ufw (Uncomplicated Firewall)
+
+
+# Este comando exibe as regras configuradas no firewall de forma detalhada. O verbose adiciona informações adicionais, como a interface de rede, os protocolos usados e as portas associadas a cada regra.
+
+sudo ufw status verbose  | tee -a "$log"
+
+
+# Se você quiser apenas ver uma lista simplificada das regras ativas, pode usar:
+
+# sudo ufw status
+
+# Isso vai mostrar as regras de maneira mais compacta, como "Allow" ou "Deny" para determinadas portas ou endereços IP.
+
+
+# sudo ufw show raw: Exibe as regras de firewall de forma mais bruta, sem formatação.
+
+# sudo ufw app list: Lista aplicativos que podem ser usados para configurar regras de firewall via ufw.
+
+# Esses comandos são úteis para visualizar o status e as regras do firewall configuradas no seu sistema.
+
+
+
+
+
+echo -e "\n\n\n" >> "$log"
+
+echo -e "${RED}\n$(gettext '# sudo ufw  disable') \n${NC}"
+
+
+$notify_users  \
+notify-send -i "/usr/share/icons/gnome/32x32/status/security-medium.png" -t "$((DELAY * 1000))" "$(gettext 'Firewall for Total Privacy Protection')" "\n$(gettext 'Firewall configured for maximum privacy!')\n"
+
+fi
+
+
 # ----------------------------------------------------------------------------------------
 
 
-
-$notify_users \
-notify-send  "$(gettext 'Firewall for Total Privacy Protection')" "\n$(gettext 'Firewall configured for maximum privacy!')\n"
+sleep 10
 
 
-# ----------------------------------------------------------------------------------------
-
+# Podemos agrupar as regras de firewall em funções separadas para tornar o script mais modular e reutilizável.
 
 }
 
@@ -3882,12 +4942,12 @@ notify-send  "$(gettext 'Firewall for Total Privacy Protection')" "\n$(gettext '
 # ----------------------------------------------------------------------------------------
 
 
-Firewall_iptables() {
+function Firewall_iptables() {
 
 
 # Função para verificar se o iptables está instalado
 
-check_iptables() {
+function check_iptables() {
 
     # Verifica se o comando iptables está disponível
 
@@ -3895,11 +4955,15 @@ check_iptables() {
 
         echo -e "$(gettext 'iptables is already installed.')"
 
+        $time
+
     else
 
         check_internet
 
         echo -e "$(gettext 'iptables is not installed. Installing now...')"
+
+        $time
 
         # Atualiza o repositório de pacotes e instala o iptables
 
@@ -3908,16 +4972,27 @@ check_iptables() {
         apt install -y iptables
 
         echo -e "$(gettext 'iptables installed successfully!')"
+
+        $time
+
     fi
 }
 
 
 # Função para configurar as regras básicas do iptables (Firewall)
 
-configure_iptables() {
+function configure_iptables() {
 
     echo -e "$(gettext 'Setting up basic iptables rules to protect your privacy...')"
 
+    $time
+
+# ----------------------------------------------------------------------------------------
+
+        iptables -F
+        iptables -X
+        iptables -Z
+    
 # ----------------------------------------------------------------------------------------
 
     # Definindo a política padrão
@@ -3933,8 +5008,12 @@ configure_iptables() {
 
     echo -e "$(gettext 'Setting default policies: block all and allow local connections...')"
 
-    iptables -P INPUT   DROP
+    $time
+
+    iptables -P INPUT   ACCEPT
+
     iptables -P FORWARD DROP
+
     iptables -P OUTPUT  ACCEPT
 
 # ----------------------------------------------------------------------------------------
@@ -3949,7 +5028,10 @@ configure_iptables() {
 
     echo -e "$(gettext 'Allow local traffic (loopback)...')"
 
+    $time
+
     iptables -A INPUT  -i lo -j ACCEPT
+
     iptables -A OUTPUT -o lo -j ACCEPT
 
 # ----------------------------------------------------------------------------------------
@@ -3961,6 +5043,8 @@ configure_iptables() {
 # esta linha:
 
     # echo "Permitir SSH..."
+
+    # $time
 
     # iptables -A INPUT -p tcp --dport 22 -j ACCEPT
 
@@ -3976,11 +5060,13 @@ configure_iptables() {
 # resolva nomes de domínio.
 
 
-    echo -e "$(gettext 'Allow essential outbound traffic...')"
+#     echo -e "$(gettext 'Allow essential outbound traffic...')"
 
-    iptables -A OUTPUT -p tcp --dport 80  -j ACCEPT  # Para HTTP
-    iptables -A OUTPUT -p tcp --dport 443 -j ACCEPT  # Para HTTPS
-    iptables -A OUTPUT -p udp --dport 53  -j ACCEPT  # Para DNS
+#     $time
+
+#     iptables -A OUTPUT -p tcp --dport 80  -j ACCEPT  # Para HTTP
+#     iptables -A OUTPUT -p tcp --dport 443 -j ACCEPT  # Para HTTPS
+#     iptables -A OUTPUT -p udp --dport 53  -j ACCEPT  # Para DNS
 
 
 # ----------------------------------------------------------------------------------------
@@ -3997,6 +5083,8 @@ configure_iptables() {
         message=$(gettext 'Blocking tracking IP: %s')
 
         echo -e "$(printf "$message" "$ip")" | tee -a "$log"
+
+        $time
 
         iptables -A OUTPUT -d $ip -j DROP
 
@@ -4017,6 +5105,8 @@ configure_iptables() {
 
     echo -e "$(gettext 'Saving rules...')"
 
+    $time
+
     sudo sh -c 'iptables-save > /etc/iptables/rules.v4'
 
 
@@ -4032,6 +5122,11 @@ configure_iptables() {
 
 
 # ----------------------------------------------------------------------------------------
+
+iptables --version  >>  "$log"
+
+iptables -L >> "$log"
+
 
     echo -e "${GREEN}\n$(gettext 'Iptables rules configured successfully!') \n${NC}"
 
@@ -4086,7 +5181,7 @@ configure_iptables
 
 # Função para verificar se o ufw está instalado
 
-check_ufw() {
+function check_ufw() {
 
 
     # Verifica se o ufw está instalado
@@ -4101,6 +5196,7 @@ check_ufw() {
 
         # echo -e "${RED}\n$(gettext 'UFW is not installed. Installing now...') \n${NC}"
 
+        # $time
 
         # check_internet
 
@@ -4114,7 +5210,11 @@ check_ufw() {
 
         # echo -e "${GREEN}\n$(gettext 'UFW installed successfully!') \n${NC}"
 
+        # $time
 
+        
+        # Chama a função para configurar o firewall (iptables)
+        
         Firewall_iptables
 
 
@@ -4123,11 +5223,20 @@ check_ufw() {
 
         echo -e "${GREEN}\n$(gettext 'UFW is already installed.') \n${NC}"
 
+        $time
+
+        # Chama a função para configurar o firewall (UFW)
+
         Firewall_UFW
 
 
     fi
 
+    
+# https://www.cyberciti.biz/faq/how-to-delete-a-ufw-firewall-rule-on-ubuntu-debian-linux/
+# https://medium.com/better-programming/understanding-ufw-8d70d5d8f9d2
+# https://blog.ferenz.com.br/ufw-firewall-sintaxes-e-configuracao/
+# https://www.digitalocean.com/community/tutorials/how-to-set-up-a-firewall-with-ufw-on-ubuntu
 
 }
 
@@ -4160,7 +5269,7 @@ check_ufw
 
 
 
-deb_upgrades() {
+function deb_upgrades() {
 
 
     check_internet
@@ -4171,12 +5280,13 @@ deb_upgrades() {
 
 echo -e "${GREEN}\n$(gettext 'Update the system') \n${NC}"
 
+$time
 
 # Para garantir que você tenha a lista mais recente de pacotes disponíveis para o sistema.
 
 echo -e "$(gettext 'Updating package list...')"
 
-sleep 1
+$time
 
 apt update 
 
@@ -4185,7 +5295,7 @@ apt update
 
 echo -e "$(gettext 'Updating installed packages...')"
 
-sleep 1
+$time
 
 apt upgrade -y
 
@@ -4225,6 +5335,8 @@ apt full-upgrade -y
 
 echo -e "$(gettext 'Cleaning up unnecessary packages...')"
 
+$time
+
 # Após atualizar, você pode limpar pacotes antigos ou não necessários usando:
 
 apt autoremove -y
@@ -4235,6 +5347,7 @@ apt autoremove -y
 
 echo -e "$(gettext 'Cleaning up downloaded packages...')"
 
+$time
 
 # Você também pode limpar os pacotes baixados durante a atualização, para liberar espaço 
 # no disco, com o comando:
@@ -4253,7 +5366,7 @@ apt clean
 
 
 
-reduza_uso_de_swap() {
+function reduza_uso_de_swap() {
 
 
 # Diminuir a taxa de uso de swap
@@ -4262,13 +5375,15 @@ reduza_uso_de_swap() {
 echo -e "${GREEN}\n$(gettext 'Reduce swap access (Ubuntu defaults to 60.)') \n${NC}"
 
 
+$time
+
 # ----------------------------------------------------------------------------------------
 
 # Definindo as variáveis
 
-SWAPPINESS=10
+SWAPPINESS="10"
 
-VFS_CACHE_PRESSURE=50
+VFS_CACHE_PRESSURE="50"
 
 
 # O sistema usa bastante swap quando tem pouca memória RAM (é o meu caso), ou quando você 
@@ -4407,6 +5522,8 @@ if [ -z "$SYSCTL_CONF" ]; then
 
   echo -e "${RED}\n$(gettext 'The file does not exist.') ${NC}"
 
+  $time
+
 
 else
 
@@ -4420,11 +5537,15 @@ if grep -q "vm.swappiness" "$SYSCTL_CONF"; then
 
     echo -e "$(gettext 'vm.swappiness found, updating value...')"
 
+    $time
+
     sed -i "s/^vm.swappiness=.*/vm.swappiness=$SWAPPINESS/" "$SYSCTL_CONF"
 
 else
 
     echo -e "$(gettext 'vm.swappiness not found, adding to file...')"
+
+    $time
 
     echo "vm.swappiness=$SWAPPINESS" >> "$SYSCTL_CONF"
 
@@ -4438,11 +5559,15 @@ if grep -q "vm.vfs_cache_pressure" "$SYSCTL_CONF"; then
 
     echo -e "$(gettext 'vm.vfs_cache_pressure found, updating value...')"
 
+    $time
+
     sed -i "s/^vm.vfs_cache_pressure=.*/vm.vfs_cache_pressure=$VFS_CACHE_PRESSURE/" "$SYSCTL_CONF"
 
 else
 
     echo -e "$(gettext 'vm.vfs_cache_pressure not found, adding to file...')"
+
+    $time
 
     echo "vm.vfs_cache_pressure=$VFS_CACHE_PRESSURE" >> "$SYSCTL_CONF"
 
@@ -4477,6 +5602,7 @@ sysctl -p "$SYSCTL_CONF"
 
 echo -e "${GREEN}\n$(gettext 'Swap settings adjusted successfully!') \n${NC}"
 
+$time
 
 
 fi
@@ -4654,7 +5780,7 @@ fi
 # ----------------------------------------------------------------------------------------
 
 
-print_banner() {
+function print_banner() {
 
 clear
 
@@ -4667,6 +5793,9 @@ clear
                                                                                                       
 
 
+$(gettext 'Version'): $version
+
+
 $(gettext 'Download Ubuntu'): https://ubuntu.com/download
 
 $(gettext 'kernel'): `uname -r`
@@ -4677,16 +5806,18 @@ $(gettext 'RAM consumption'): `free -h | grep Mem | awk '{print $3}'`
 
  "
 
+$time
+
 }
 
 # ----------------------------------------------------------------------------------------
 
-show_menu() {
+function show_menu() {
 
 
 
 
-YAD_OFF(){
+function YAD_OFF(){
 
 echo -e "\n$(gettext 'Choose what to do:') \n"
 
@@ -4725,7 +5856,7 @@ read choice
 }
 
 
-YAD_OFF2(){
+function YAD_OFF2(){
 
 choice=$(dialog \
 --backtitle 'ubuntu-debullshit' \
@@ -4760,12 +5891,24 @@ choice=$(dialog \
 50 "$(gettext 'Exit')" --stdout)
 
 
+
+# dialog \
+# --backtitle 'ubuntu-debullshit' \
+# --radiolist "$(gettext 'Choose what to do:')" 40 80 30 \
+# "25" "$(gettext 'Configure the Firewall')" OFF \
+# "26" "$(gettext 'Update the system')" OFF \
+# "27" "$(gettext 'Reduza o acesso ao swap')" OFF \
+# "50" "$(gettext 'Exit')" ON --stdout
+
+
 clear
+
 
 }
 
 
-YAD_ON(){
+
+function YAD_ON(){
 
 choice=$(yad --center --window-icon="$ICON" --title="$(gettext 'ubuntu-debullshit!')"  --list --radiolist \
 --column=$(gettext 'Option')  --column=$(gettext ' ') --column="$(gettext 'Choose what to do:')" \
@@ -4810,6 +5953,7 @@ choice=$(echo "$choice" | cut -d'|' -f2)
 
 
 # Verifica se o yad está instalado
+
 if command -v yad &> /dev/null
 then
     # Se o yad estiver instalado, chama a função
@@ -4856,14 +6000,19 @@ fi
 # ----------------------------------------------------------------------------------------
 
 
-main() {
+function main() {
 
 
     check_root_user
 
     check_programs
+
+
+    # Chama a função para identificar a distribuição
+
+    identificar_distro
     
-     check_distro
+    check_distro
 
      
     intro
@@ -5008,7 +6157,44 @@ if [ -f "$file_path" ]; then
 
     # O arquivo $file_path existe.
 
+
+
+# Verifica se o yad está instalado
+
+if command -v yad &> /dev/null
+then
+
     yad --center --window-icon="$ICON" --text-info --title="ubuntu-debullshit - $(gettext 'Help')" --filename="$file_path" --buttons-layout=center  --button="$(gettext 'OK')":0 --width="1200" --height="800"
+
+
+# Verifica se o dialog está instalado
+
+elif command -v dialog &> /dev/null; then
+
+
+
+# dialog --backtitle 'ubuntu-debullshit' --msgbox "\n$(cat $file_path)\n" 40 100
+
+
+dialog --backtitle 'ubuntu-debullshit' --textbox $file_path 40 100
+
+
+clear
+
+
+
+else
+
+
+clear
+
+        more $file_path
+        
+
+fi
+
+
+
 
 else
     
@@ -5220,7 +6406,7 @@ fi
 # ----------------------------------------------------------------------------------------
 
 
-auto() {
+function auto() {
 
 
     check_internet
@@ -5394,9 +6580,12 @@ auto() {
     install_icons
 
 
+
+
     msg "$(gettext 'Cleaning up')"
 
     cleanup
+
 }
 
 # ----------------------------------------------------------------------------------------

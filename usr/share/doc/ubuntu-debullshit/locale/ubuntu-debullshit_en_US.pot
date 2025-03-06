@@ -2,7 +2,13 @@
 # Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
 # This file is distributed under the same license as the PACKAGE package.
 # FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
-#
+# 
+# 
+# A string no msgid e no msgstr precisa ser contínua, sem quebras de linha 
+# não intencionais. As quebras de linha físicas no arquivo .pot podem ser 
+# representadas por \n dentro da string.
+
+
 #: ubuntu-debullshit.sh:387
 #, fuzzy
 msgid ""
@@ -20,6 +26,20 @@ msgstr ""
 "Description: English translation of ubuntu-debullshit.\n"
 
 
+
+# ----------------------------------------------------------------------------------------
+
+
+# Para identificar a distribuição
+
+msgid  "Distribution"
+msgstr ""
+
+msgid  "Distribution unknown or not listed."
+msgstr ""
+
+msgid  "Unable to identify distribution."
+msgstr ""
 
 # ----------------------------------------------------------------------------------------
 
@@ -251,6 +271,9 @@ msgstr ""
 msgid  "Disable all GNOME extensions at once"
 msgstr ""
 
+msgid  "Error disabling all GNOME extensions... Check if the gnome-extensions command is on the system."
+msgstr ""
+
 msgid  "Disable dynamic workspaces (make them static)"
 msgstr ""
 
@@ -266,7 +289,7 @@ msgstr ""
 msgid  "Programs that start automatically with the system:"
 msgstr ""
 
-msgid  "Disabling service: %s"
+msgid   "Disabling service: %s"
 msgstr ""
 
 msgid  "Service %s has been stopped successfully."
@@ -438,6 +461,11 @@ msgstr ""
 msgid  "UFW is already installed."
 msgstr ""
 
+msgid  "Warning: UFW is down!"
+msgstr ""
+
+msgid  "Firewall is disabled. Please check the configuration."
+msgstr ""
 
 # ----------------------------------------------------------------------------------------
 
@@ -541,6 +569,98 @@ msgid  "RAM consumption"
 msgstr ""
 
 
+msgid  "No repositories or folders were found..."
+msgstr ""
+
+
+msgid  "Select a user"
+msgstr ""
+
+msgid  "Users"
+msgstr ""
+
+msgid  "Select"
+msgstr ""
+
+
+msgid  "GNOME settings reset successfully performed..."
+msgstr ""
+
+msgid  "Errors occurred while resetting GNOME settings..."
+msgstr ""
+
+msgid  "Exit code:"
+msgstr ""
+
+msgid  "No user selected...."
+msgstr ""
+
+
+msgid  "\nIf you remember to update your system from time to time, disable automatic updates.\n\nAutomatic updates will be disabled, including disabling the unattended-upgrades service and checking for new Ubuntu versions.\n"
+msgstr ""
+
+msgid  "Disabling automatic package and security updates...\n\nUbuntu manages automatic updates through unattended-upgrades, which is\nresponsible for automatically installing security and other important \nupdates."
+msgstr ""
+
+
+
+msgid  "Disable the unattended-upgrades service:\n\nIn addition to disabling the configuration for automatic updates, we can ensure that the \nservice that manages these automatic updates is not running."
+msgstr ""
+
+msgid  "Automatic updates successfully disabled.\n\nThese steps will ensure that Ubuntu does not perform automatic updates, giving you full control over when updates are made."
+msgstr ""
+
+
+
+msgid  "Disable search\n\nGNOME Shell searches for files, calendar events, programs in \nGNOME Software (or Ubuntu Software), in the terminal, in addition to the standard search for installed programs.\n\n\nDisabling search will make the system much lighter, responding more quickly. \nEvaluate your needs and decide if it is worth it (ideal for very weak machines).\n\n\nDisable File History\n\nGNOME Shell stores the history of files used to place in recent items, in searches. If it is not important, disable it."
+
+msgstr ""
+
+
+msgid  "After performing these steps, you will have disabled search in Ubuntu, \nincluding file indexing, recent file history, and GNOME Shell search. This \nmay improve performance, but it also means that you will no longer be \nable to use the system's quick search to find files or applications."
+
+msgstr ""
+
+
+
+msgid  "Removing software stores and updaters\n\nUninstall the Software Stores (only if you know how to use APT).\n\nIf you usually manage your software through the command line, uninstall the \nmanager programs that also keep services (daemons) running all the time \non the system (not recommended).\n\n\nThis action will remove the store(s), the repository manager, the \nupdate manager and the update notifier."
+
+msgstr ""
+
+
+msgid  "Uninstall GNOME Online Accounts\n\nIntegration with online accounts (mounting Google Drive folders, email, calendar).\n\nThis will remove support for Online Accounts and also the service (daemon) that is running on the system."
+
+msgstr ""
+
+
+msgid  "Revert packages installed via PPAs\n\n\nWarning\n\nIf you are a winuser who is addicted to Baixaki and installs all kinds of \nthird-party junk on your Linux, such as PPAs, .deb packages, \nruns scripts and compilations without knowing whether it is for food or \ndrink, don't even try to use this option. Your system will most likely break."
+
+msgstr ""
+
+
+
+msgid  "The folder /etc/apt/sources.list.d does not exist..."
+msgstr ""
+
+
+msgid  "The folder /usr/share/icons/gnome/ does not exist."
+msgstr ""
+
+
+msgid  "Snap is not installed on your system.\n\nTo install Snap, use the command: # apt install -y snapd"
+msgstr ""
+
+msgid  "Snap is installed. Version:"
+msgstr ""
+
+
+msgid  "Version"
+msgstr ""
+
+
+msgid  "* Static Workspaces (Fix the number of workspaces and leave them static.)\n\nTo set up Static Workspaces in Ubuntu (i.e. fix the number of \nworkspaces and make them static), you will need to change the \nGNOME Shell settings.\n\nBy default, GNOME Shell allows workspaces to adjust dynamically — that \nis, the number of workspaces increases as you open more windows and decreases \nas you close some of them. To set this to a fixed number of workspaces, \nclick on the GNOME Shell icon."
+
+msgstr ""
 
 
 #: ubuntu-debullshit.sh:45 ubuntu-debullshit.sh:47

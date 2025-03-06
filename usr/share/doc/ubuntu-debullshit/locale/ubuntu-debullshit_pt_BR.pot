@@ -2,7 +2,7 @@
 # Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
 # This file is distributed under the same license as the PACKAGE package.
 # FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
-#
+# 
 #: ubuntu-debullshit.sh:387
 #, fuzzy
 msgid ""
@@ -46,6 +46,21 @@ msgstr ""
 # "As mudanças servem para que o sistema fique mais responsivo, mas pode sacrificar algumas comodidades que o \nGNOME Shell traz por padrão. Use se sua máquina realmente precisar, ou se você realmente não usa os recursos."
 # "O arquivo de log ficará em %s ao final dos processos para consulta de erros ou bugs."
 
+
+
+# ----------------------------------------------------------------------------------------
+
+
+# Para identificar a distribuição
+
+msgid  "Distribution"
+msgstr "Distribuição"
+
+msgid  "Distribution unknown or not listed."
+msgstr "Distribuição desconhecida ou não listada."
+
+msgid  "Unable to identify distribution."
+msgstr "Não foi possível identificar a distribuição."
 
 # ----------------------------------------------------------------------------------------
 
@@ -280,6 +295,9 @@ msgstr "Extensões que estão ativas no seu sistema agora:"
 msgid  "Disable all GNOME extensions at once"
 msgstr "Desativar todas as extensões de uma vez do GNOME"
 
+msgid  "Error disabling all GNOME extensions... Check if the gnome-extensions command is on the system."
+msgstr "Error ao desativar todas as extensões do GNOME... Verifique se o comando gnome-extensions esta no sistema."
+
 msgid  "Disable dynamic workspaces (make them static)"
 msgstr "Desabilitar espaços de trabalho dinâmicos (torná-los estáticos)"
 
@@ -295,7 +313,7 @@ msgstr "Desativar programas que iniciam com o sistema"
 msgid  "Programs that start automatically with the system:"
 msgstr "Programas iniciados automaticamente com o sistema:"
 
-msgid  "Disabling service: %s"
+msgid   "Disabling service: %s"
 msgstr "Desativando o serviço: %s"
 
 msgid  "Service %s has been stopped successfully."
@@ -464,6 +482,11 @@ msgstr "UFW instalado com sucesso!"
 msgid  "UFW is already installed."
 msgstr "UFW já está instalado."
 
+msgid  "Warning: UFW is down!"
+msgstr "Aviso: UFW está inativo!"
+
+msgid  "Firewall is disabled. Please check the configuration."
+msgstr "O firewall está desativado. Por favor, verifique a configuração."
 
 # ----------------------------------------------------------------------------------------
 
@@ -566,6 +589,102 @@ msgstr "Limpar o histórico de arquivos recentes"
 msgid  "RAM consumption"
 msgstr "Consumo de memória RAM"
 
+
+msgid  "No repositories or folders were found..."
+msgstr "Repositórios ou pasta não foram localizados..."
+
+
+msgid  "Select a user"
+msgstr "Selecione um usuário"
+
+msgid  "Users"
+msgstr "Usuários"
+
+msgid  "Select"
+msgstr "Selecionar"
+
+
+msgid  "GNOME settings reset successfully performed..."
+msgstr "As redefinições das configurações do GNOME foram executadas com sucesso..."
+
+msgid  "Errors occurred while resetting GNOME settings..."
+msgstr "Ocorreram erros ao redefinir as configurações do GNOME..."
+
+msgid  "Exit code:"
+msgstr "Código de saída:"
+
+msgid  "No user selected...."
+msgstr "Nenhum usuário selecionado...."
+
+
+msgid  "\nIf you remember to update your system from time to time, disable automatic updates.\n\nAutomatic updates will be disabled, including disabling the unattended-upgrades service and checking for new Ubuntu versions.\n"
+msgstr "\nSe você se lembra de atualizar o sistema de vez em quando, desative a atualização automática.\n\nAs atualizações automáticas serão desativadas, incluindo a desativação do serviço unattended-upgrades e a verificação de novas versões do Ubuntu.\n"
+
+msgid  "Disabling automatic package and security updates...\n\nUbuntu manages automatic updates through unattended-upgrades, which is\nresponsible for automatically installing security and other important \nupdates."
+msgstr "Desativando atualizações automáticas de pacotes e segurança...\n\nO Ubuntu gerencia as atualizações automáticas por meio do unattended-upgrades, que é\nresponsável por instalar automaticamente atualizações de segurança e outras atualizações\nimportantes."
+
+
+
+msgid  "Disable the unattended-upgrades service:\n\nIn addition to disabling the configuration for automatic updates, we can ensure that the \nservice that manages these automatic updates is not running."
+msgstr "Desabilitar o serviço unattended-upgrades:\n\nAlém de desabilitar a configuração para atualizações automáticas, podemos garantir que o \nserviço que gerencia essas atualizações automáticas não seja executado."
+
+msgid  "Automatic updates successfully disabled.\n\nThese steps will ensure that Ubuntu does not perform automatic updates, giving you full control over when updates are made."
+msgstr "Atualizações automáticas desativadas com sucesso.\n\nEsses passos garantirão que o Ubuntu não realize atualizações automáticas, dando a você controle total sobre quando as atualizações serão feitas."
+
+
+
+msgid  "Disable search\n\nGNOME Shell searches for files, calendar events, programs in \nGNOME Software (or Ubuntu Software), in the terminal, in addition to the standard search for installed programs.\n\n\nDisabling search will make the system much lighter, responding more quickly. \nEvaluate your needs and decide if it is worth it (ideal for very weak machines).\n\n\nDisable File History\n\nGNOME Shell stores the history of files used to place in recent items, in searches. If it is not important, disable it."
+
+msgstr "Desative a pesquisa\n\nO GNOME Shell faz pesquisas por arquivos, eventos no calendário, programas na \nGNOME Software (ou Ubuntu Software), no terminal, além da busca padrão pelos \nprogramas instalados.\n\n\nDesativar a pesquisa vai deixar o sistema bem mais leve, respondendo mais rapidamente. \nAvalie suas necessidades e decida se vale a pena (ideal para máquina muito fraca).\n\n\nDesative o Histórico de Arquivos\n\nO GNOME Shell armazena o histórico dos arquivos utilizados para colocar nos itens \nrecentes, em buscas. Se não for importante, desative."
+
+
+
+msgid  "After performing these steps, you will have disabled search in Ubuntu, \nincluding file indexing, recent file history, and GNOME Shell search. This \nmay improve performance, but it also means that you will no longer be \nable to use the system's quick search to find files or applications."
+
+msgstr "Após realizar esses passos, você terá desativado a pesquisa no Ubuntu, incluindo a indexação \nde arquivos, o histórico de arquivos recentes e a pesquisa no GNOME Shell. Isso pode melhorar \no desempenho, mas também significa que você não poderá mais usar a pesquisa rápida do sistema \npara encontrar arquivos ou aplicativos."
+
+
+
+msgid  "Removing software stores and updaters\n\nUninstall the Software Stores (only if you know how to use APT).\n\nIf you usually manage your software through the command line, uninstall the \nmanager programs that also keep services (daemons) running all the time \non the system (not recommended).\n\n\nThis action will remove the store(s), the repository manager, the \nupdate manager and the update notifier."
+
+msgstr "Removendo lojas de software e atualizador\n\nDesinstale as Lojas de Software (somente se você souber lidar com o APT).\n\nSe você costuma gerenciar seus softwares pela linha de comando, desinstale os \nprogramas gerenciadores que também mantêm serviços (daemons) rodando o tempo todo \nno sistema (não recomendado).\n\n\nEssa ação irá remover as lojinha(s), o gerenciador de repositórios, o \ngerenciador de atualizações e o notificador de atualizações."
+
+
+
+msgid  "Uninstall GNOME Online Accounts\n\nIntegration with online accounts (mounting Google Drive folders, email, calendar).\n\nThis will remove support for Online Accounts and also the service (daemon) that is running on the system."
+
+msgstr "Desinstale o GNOME Online Accounts\n\nIntegração com contas online (montagem de pastas do Google Drive, e-mail, calendário).\n\nIsso vai remover o suporte às Contas Online e também o serviço (daemon) que fica rodando no sistema."
+
+
+msgid  "Revert packages installed via PPAs\n\n\nWarning\n\nIf you are a winuser who is addicted to Baixaki and installs all kinds of \nthird-party junk on your Linux, such as PPAs, .deb packages, \nruns scripts and compilations without knowing whether it is for food or \ndrink, don't even try to use this option. Your system will most likely break."
+
+msgstr "Reverter pacotes instalados via PPAs\n\n\nAviso\n\nSe você é do tipo winuser dependente químico do Baixaki e instala tudo que é lixo de \nterceiros no seu Linux, como PPAs, pacotes .deb, roda scripts e compilações sem saber se \né para comer ou beber, nem tente usar esta opção. Seu sistema muito provavelmente irá quebrar."
+
+
+
+msgid  "The folder /etc/apt/sources.list.d does not exist..."
+msgstr "A pasta /etc/apt/sources.list.d não existe..."
+
+
+
+msgid  "The folder /usr/share/icons/gnome/ does not exist."
+msgstr "A pasta /usr/share/icons/gnome/ não existe."
+
+
+msgid  "Snap is not installed on your system.\n\nTo install Snap, use the command: # apt install -y snapd"
+msgstr "O Snap não está instalado no seu sistema.\n\nPara instalar o Snap, use o comando: # apt install -y snapd"
+
+msgid  "Snap is installed. Version:"
+msgstr "O Snap está instalado. Versão:"
+
+
+msgid  "Version"
+msgstr "Versão"
+
+
+msgid  "* Static Workspaces (Fix the number of workspaces and leave them static.)\n\nTo set up Static Workspaces in Ubuntu (i.e. fix the number of \nworkspaces and make them static), you will need to change the \nGNOME Shell settings.\n\nBy default, GNOME Shell allows workspaces to adjust dynamically — that \nis, the number of workspaces increases as you open more windows and decreases \nas you close some of them. To set this to a fixed number of workspaces, \nclick on the GNOME Shell icon."
+
+msgstr "* Espaços de trabalho estáticos (fixar o número de espaços de trabalho e deixar como estáticos.)\n\nPara configurar os Espaços de Trabalho Estáticos no Ubuntu (ou seja, fixar o número de \nespaços de trabalho e torná-los estáticos), você precisará alterar as configurações do \nGNOME Shell.\n\nPor padrão, o GNOME Shell permite que os espaços de trabalho se ajustem dinamicamente — ou \nseja, o número de espaços de trabalho aumenta conforme você abre mais janelas e diminui \nquando você fecha algumas delas. Para configurar isso para um número fixo de espaços de \ntrabalho."
 
 
 

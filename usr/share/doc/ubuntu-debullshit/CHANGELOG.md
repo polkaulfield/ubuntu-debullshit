@@ -6,20 +6,23 @@
 # Fernando Souza - https://github.com/tuxslack/
 # 
 
-### Bug
+### Bug conhecido
 -  Problema com o comando notify-send para enviar a notificação do usuário Root para um 
    usuário comum (Ex: BigLinux).
 
    Erro ao chamar a linha de comandos "dbus-launch --autolaunch=c0f819ea778135115579f38967c53b85 --binary-syntax --close-stderr": Processo filho concluiu com código 1
 
 
-
 ### Corrigido 
-- Bloqueio de acesso a internet quando configurava o Firewall.
+- Bloqueio de acesso a internet quando configurava o Firewall (ufw ou iptables) [conf_firewall].
+- Problema com a tradução do idioma Inglês para o Português do Brasil.
+- UFW - O firewall está desativado. Por favor, verifique a configuração [Firewall_UFW]. Começava o processo como ativado só que não final ficava como desativado. O "ufw enable" estava antes do "ufw reset"
 
 
 ### Adicionado
 - Implementação do Yad no script.
+- Melhorias na legibilidade do script (Algumas chamadas de "echo com o gettext" para garantir que sejam mais informativo).
+- Notificações são enviadas de forma condicional (notify-send).
 - Suporte para múltiplos idiomas (Inglês, Português).
 - Verificação de internet somente nas partes de instalação de pacotes e na atualização do sistema.
 - Verificação de programas instalados.
