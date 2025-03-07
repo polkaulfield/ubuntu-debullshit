@@ -6,7 +6,7 @@
 
 This script is for people who want a clean Gnome experience on Ubuntu. But still want the ease of use that Ubuntu provides with its distribution.
 
-Screenshot of the menu
+#### Screenshot of the menu
 
 <img src="https://raw.githubusercontent.com/tuxslack/ubuntu-debullshit/main/usr/share/doc/ubuntu-debullshit/menu2.png" width="500" />
   
