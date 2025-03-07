@@ -1,6 +1,12 @@
 # ubuntu-debullshit!
   
-#### An automated script to set-up Ubuntu as it should be. Tested on Ubuntu 22.04 and 23.04
+#### An automated script to set-up Ubuntu as it should be. Tested on Ubuntu 22.04, 23.04 and 24.04
+
+#### Who is this for?
+
+This script is for people who want a clean Gnome experience on Ubuntu. But still want the ease of use that Ubuntu provides with its distribution.
+
+Screenshot of the menu
 
 <img src="https://raw.githubusercontent.com/tuxslack/ubuntu-debullshit/main/usr/share/doc/ubuntu-debullshit/menu2.png" width="500" />
   
@@ -13,7 +19,7 @@
 * Installs [Extension Manager](https://github.com/mjakeman/extension-manager)
 * Disables the Ubuntu theming
 * Enables the libadwaita theme in gtk3 apps using [adw-gtk3](https://github.com/lassekongo83/adw-gtk3)
-* Installs the adwaita 46 icon theme and morewaita for extended icon support
+* Installs the adwaita icon theme and morewaita for extended icon support
 * Enables gnome integration with QT apps
 * Installs Firefox from the Mozilla Repository
 * Disables the data reporting component
@@ -28,9 +34,11 @@ TL;DR, you will end up with a clean GNOME desktop with flatpaks, similar to a fr
 
 #### Installation
 
-I recommend a minimal install of Ubuntu 23.04 to run this. 
+Use this script at your own risk.
 
-You can download the script from the repo or use this oneliner command, there are no dependencies required.
+I recommend a minimal install of the latest version of Ubuntu.
+
+You can download the script from the repo or use this command, there are dependencies required (yad, dialog, gnome-icon-theme, gettext, notify-send, msgfmt, sed).
 
 `$ git clone https://github.com/tuxslack/ubuntu-debullshit.git`
 
@@ -42,9 +50,19 @@ You can download the script from the repo or use this oneliner command, there ar
 
 After the install, reboot and enjoy a clean experience :)
 
-<a href='https://ko-fi.com/polkaulfield' target='_blank'><img height='35' style='border:0px;height:46px;' src='https://az743702.vo.msecnd.net/cdn/kofi3.png?v=0' border='0' alt='Buy Me a Coffee at ko-fi.com' />
 
 #### Uninstallation
 
 `$ sudo ./install.sh desinstalar`
+
+
+## Tested On
+Here is a list of tested Distros and versions.
+
+| Distro           | Tested |
+| ---------------- | :----: | 
+| **Ubuntu 24.04** | ✅     |
+| **Ubuntu 23.10** | ⛔     |
+| **Ubuntu 23.04** | ✅     |
+| **Ubuntu 22.04** | ✅     |
 
