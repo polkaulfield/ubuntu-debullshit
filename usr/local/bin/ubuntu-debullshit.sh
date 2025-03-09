@@ -86,6 +86,9 @@
 # https://www.bosontreinamentos.com.br/shell-script/formatar-e-exibir-texto-com-o-comando-printf-no-terminal-e-em-scripts/
 # https://www.bosontreinamentos.com.br/shell-script/ler-entrada-de-dados-com-comando-read-em-shell-scripting/
 # https://www.bosontreinamentos.com.br/shell-script/curso-de-shell-scripting-retornando-valores-em-funcoes-e-status-de-saida/
+# https://statplace.com.br/blog/internacionalizacao-i18n/
+# https://pt.wikipedia.org/wiki/Internacionaliza%C3%A7%C3%A3o_(inform%C3%A1tica)
+# https://poeditor.com/
 
 
 # ----------------------------------------------------------------------------------------
@@ -195,14 +198,46 @@ clear
 
 # Função para identificar a distribuição
 
+
+# Ubuntu 10.04 não tem o arquivo /etc/os-release
+
 identificar_distro() {
 
-    if [ -f /etc/os-release ]; then
 
-        # Lê o arquivo /etc/os-release
-        . /etc/os-release
+    # Verifica se pelo menos um dos arquivos (/etc/os-release ou /etc/lsb-release) existe.
 
-        case "$ID" in
+    if [[ -f /etc/os-release || -f /etc/lsb-release ]]; then
+
+        # Lê os arquivos /etc/os-release ou /etc/lsb-release
+
+if [[ -f /etc/os-release ]]; then
+
+    . /etc/os-release
+
+    DISTRIB_ID="$ID"  # Se você preferir usar o valor de $ID de /etc/os-release
+
+elif [[ -f /etc/lsb-release ]]; then
+
+    . /etc/lsb-release
+
+    DISTRIB_ID="$DISTRIB_ID"  # Use o valor de $DISTRIB_ID de /etc/lsb-release
+
+else
+
+
+    echo -e "${RED}\n$(gettext "None of the system files (/etc/os-release or /etc/lsb-release) were found.") \n ${NC}"
+
+    exit 1
+
+fi
+
+
+
+# Após carregar o arquivo e definir a variável, podemos usar a estrutura case para 
+# verificar o valor de $DISTRIB_ID.
+
+        case "$DISTRIB_ID" in
+
             void)
 
                 echo -e "${GREEN}\n$(gettext "Distribution"): Void Linux \n ${NC}"
@@ -234,12 +269,12 @@ notify_users="sudo -u $(logname) DISPLAY=$DISPLAY $DBUS_SESSION_BUS_ADDRESS"
                 
                 ;;
 
-            ubuntu)
+            ubuntu|Ubuntu)
 
                 echo -e "${GREEN}\n$(gettext "Distribution"): Ubuntu \n ${NC}"
                 ;;
 
-            debian)
+            Debian)
 
                 echo -e "${GREEN}\n$(gettext "Distribution"): Debian \n ${NC}"
                 ;;
@@ -315,29 +350,6 @@ notify_users="sudo -u $(who | awk '{print $1}' | head -n 1) DISPLAY=$DISPLAY DBU
 
 #     Isso significa que há um problema relacionado ao plugin de auditoria no sudo, que é responsável por registrar os comandos executados com privilégios de superusuário. O erro pode ser causado por uma configuração incorreta ou um problema de permissões.
 
-
-
-# ----------------------------------------------------------------------------------------
-
-# Verifique se os programas estao instalados no sistema.
-
-
-# O comando "yad"  é necessario quando o script precisa ser executado em um ambiente gráfico (por exemplo, GNOME, KDE, XFCE, Mate, OpenBox, Fluxbox, i3WM...).
-
-# which yad                 1> /dev/null 2> /dev/null || { echo "Programa Yad não esta instalado."           ; exit ; }
-
-
-# O comando "dialog"  é necessario quando o script precisa ser executado somente em "modo texto"
-
-# which dialog              1> /dev/null 2> /dev/null || { echo "Programa dialog não esta instalado."        ; exit ; }
-
-
-which gettext             1> /dev/null 2> /dev/null || { echo "Programa gettext não esta instalado."       ; exit ; }
-
-
-# O comando "notify-send"  é necessario quando o script precisa ser executado em um ambiente gráfico (por exemplo, GNOME, KDE, XFCE, Mate, OpenBox, Fluxbox, i3WM...).
-
-which notify-send         1> /dev/null 2> /dev/null || { echo "Programa notify-send não esta instalado."   ; exit ; }
 
 # ----------------------------------------------------------------------------------------
 
@@ -469,7 +481,7 @@ rm -Rf /tmp/introducao.txt
 
 # ----------------------------------------------------------------------------------------
 
-    # Removendo pacotes desnecessários
+    # Removendo pacotes desnecessários do sistema.
 
 
 function cleanup() {
@@ -515,11 +527,73 @@ function cleanup() {
 
 
 
+
     echo -e "${GREEN}\n$(gettext 'Removing residue from packages...')\n ${NC}"
 
     $time
 
-    apt autoremove -y 2>> "$log"
+
+# No Ubuntu, tanto o apt quanto o apt-get são ferramentas usadas para gerenciar pacotes, 
+# mas o apt é uma versão mais recente e consolidada, com comandos que visam ser mais 
+# amigáveis ao usuário. Ambas as ferramentas estão disponíveis na maioria das versões do 
+# Ubuntu, mas o apt foi projetado para ser uma interface de usuário mais simplificada e 
+# moderna em comparação com o apt-get, que ainda é amplamente utilizado e muito eficaz.
+
+
+# O -y faz com que o comando aceite automaticamente qualquer pergunta de confirmação 
+# durante o processo.
+
+# O --purge remove também arquivos de configuração associados aos pacotes removidos, além 
+# de não manter pacotes antigos ou desnecessários.
+
+
+# ----------------------------------------------------------------------------------------
+
+# Função para verificar a presença de um comando
+
+verificar_comando() {
+    comando=$1
+    if command -v "$comando" &> /dev/null; then
+
+    #    echo "$comando está instalado."
+
+    apt_1="$1"
+
+    # else
+
+    #    echo "$comando NÃO está instalado."
+
+    fi
+}
+
+# Verificar presença dos comandos
+
+verificar_comando "apt"
+verificar_comando "apt-get"
+
+# ----------------------------------------------------------------------------------------
+
+
+    $apt_1 autoremove --purge  -y 2>> "$log"
+
+
+
+# apt-get autoremove --purge -y 
+# Lendo listas de pacotes... Pronto
+# Construindo árvore de dependências       
+# Lendo informação de estado... Pronto
+# 0 pacotes atualizados, 0 pacotes novos instalados, 0 a serem removidos e 0 não atualizados.
+
+
+
+# apt vs. apt-get:
+# 
+# apt é uma ferramenta mais recente e consolidada que foi projetada para fornecer uma 
+# interface mais amigável e simplificada para o gerenciamento de pacotes. Ela combina 
+# funcionalidades de vários comandos antigos, como apt-get e apt-cache, em um único comando.
+# 
+# apt-get é uma ferramenta mais antiga, que ainda é amplamente utilizada, especialmente 
+# em scripts, mas sua interface é um pouco mais "bruta" em comparação com o apt.
 
 
 }
@@ -570,6 +644,9 @@ fi
 
 # ----------------------------------------------------------------------------------------
 
+# Verifique se os programas estao instalados no sistema.
+
+
 # Verifica a existência de cada comando listado e sai do script caso algum deles não seja 
 # encontrado. O uso do loop elimina a necessidade de escrever o comando which repetidamente.
 
@@ -579,6 +656,29 @@ function check_programs(){
 
 
 # apt install -y preload
+
+# ----------------------------------------------------------------------------------------
+
+
+# Requer: gettext, yad, dialog e notify-send
+
+
+# O comando "yad"  é necessario quando o script precisa ser executado em um ambiente gráfico (por exemplo, GNOME, KDE, XFCE, Mate, OpenBox, Fluxbox, i3WM...).
+
+# which yad                 1> /dev/null 2> /dev/null || { echo "Programa Yad não esta instalado."           ; exit ; }
+
+
+# O comando "dialog"  é necessario quando o script precisa ser executado somente em "modo texto"
+
+# which dialog              1> /dev/null 2> /dev/null || { echo "Programa dialog não esta instalado."        ; exit ; }
+
+
+# O comando "notify-send"  é necessario quando o script precisa ser executado em um ambiente gráfico (por exemplo, GNOME, KDE, XFCE, Mate, OpenBox, Fluxbox, i3WM...).
+
+# which notify-send         1> /dev/null 2> /dev/null || { echo "Programa notify-send não esta instalado."   ; exit ; }
+
+
+which gettext             1> /dev/null 2> /dev/null || { echo "Programa gettext não esta instalado."       ; exit ; }
 
 
 # ----------------------------------------------------------------------------------------
@@ -615,10 +715,8 @@ done
 # ----------------------------------------------------------------------------------------
 
 
-# yad dialog
 
-
-for cmd in  sysctl pgrep rm fc-list gettext gsettings notify-send gpg sed sudo curl dd tee wget reboot break flatpak dbus-launch ; do
+for cmd in  sysctl pgrep rm fc-list gsettings gpg sed sudo curl dd tee wget reboot break flatpak dbus-launch dconf ; do
 
 
     # O comando which pode falhar em alguns sistemas ou não estar presente por padrão.
@@ -913,6 +1011,33 @@ fi
 
 }
 
+
+# ----------------------------------------------------------------------------------------
+
+# Remove muitos pacotes deb pré-instalados
+
+
+function remove_ubuntu_default_apps() {
+
+
+# Martin Erik Rieland Bindslev Bisgaard  <https://github.com/SirBisgaard>
+
+
+    echo -e "${GREEN}\n$(gettext 'Removing Ubuntu default apps') \n ${NC}"
+
+    apt remove -y \
+gnome-clocks gnome-calculator gnome-characters gnome-font-viewer gnome-keyring gnome-keyring-pkcs11 gnome-logs gnome-text-editor gnome-power-manager eog baobab evince evolution* empathy empathy-common software-center
+
+
+# apt-get remove --purge -y pacote
+
+
+    # Remova os resíduos.
+
+    cleanup
+
+
+}
 
 
 
@@ -1245,6 +1370,8 @@ fi
 
 # ----------------------------------------------------------------------------------------
 
+# Para atualizar o sistema
+
 function update_system() {
 
     check_internet
@@ -1255,8 +1382,9 @@ function update_system() {
 
 }
 
-
 # ----------------------------------------------------------------------------------------
+
+# Instalando flatpak e flathub
 
 function setup_flathub() {
 
@@ -1299,9 +1427,49 @@ else
 
 fi
 
-    apt install --install-suggests -y gnome-software  2>> "$log"
+
+# No Ubuntu, os pacotes gnome-software e gnome-software-plugin-flatpak estão relacionados 
+# ao GNOME Software, que é a ferramenta gráfica de gerenciamento de software utilizada no 
+# ambiente de desktop GNOME. Cada um desses pacotes tem uma função específica:
+# 
+#     gnome-software:
+# 
+#         Este pacote é o principal para o GNOME Software, que fornece uma interface 
+# gráfica para instalar, atualizar e gerenciar aplicativos no Ubuntu. Ele oferece uma 
+# maneira simples de procurar e instalar programas, além de permitir a gestão de atualizações 
+# do sistema e software. Funciona como uma loja de aplicativos no ambiente GNOME, similar 
+# a outras lojas de aplicativos em diferentes sistemas operacionais.
+#         Ele permite a instalação de programas a partir de repositórios do Ubuntu, pacotes 
+# Snap, Flatpak, entre outros.
+# 
+#     gnome-software-plugin-flatpak:
+# 
+#         Este pacote é um plugin adicional para o GNOME Software, permitindo que ele 
+# suporte e gerencie pacotes Flatpak. Flatpak é uma tecnologia de empacotamento de software 
+# que permite a distribuição de aplicativos de forma independente da distribuição Linux, 
+# o que facilita o uso de aplicativos em diferentes distros.
+# 
+#         Com o gnome-software-plugin-flatpak instalado, o GNOME Software pode exibir, 
+# instalar e atualizar aplicativos distribuídos como Flatpaks, diretamente pela interface 
+# gráfica.
+# 
+# Resumindo: gnome-software é a ferramenta principal de gerenciamento de aplicativos no 
+# GNOME, e gnome-software-plugin-flatpak adiciona suporte para instalação e gerenciamento 
+# de pacotes Flatpak através dessa ferramenta.
+
+
+    apt install --no-install-recommends -y gnome-software  gnome-software-plugin-flatpak 2>> "$log"
+
 
 }
+
+
+
+
+    
+
+
+
 
 # ----------------------------------------------------------------------------------------
 
@@ -1315,9 +1483,30 @@ function gsettings_wrapper() {
     fi
 
     sudo -Hu $(logname) dbus-launch gsettings "$@"  2>> "$log"
+
 }
 
+
 # ----------------------------------------------------------------------------------------
+
+
+function gnome_extensions_wrapper() {
+
+    check_internet
+
+    if ! command -v dbus-launch; then
+
+        apt install -y dbus-x11 2>> "$log"
+
+    fi
+
+    sudo -Hu $(logname) dbus-launch gnome-extensions "$@"  2>> "$log"
+
+}
+
+
+# ----------------------------------------------------------------------------------------
+
 
 function set_fonts() {
 
@@ -1375,8 +1564,86 @@ function setup_vanilla_gnome() {
 # Ajustes com o GNOME Tweaks
 
 
-    apt install -y gnome-session fonts-cantarell adwaita-icon-theme gnome-backgrounds gnome-tweaks vanilla-gnome-default-settings gnome-shell-extension-manager -y && apt purge -y ubuntu-session yaru-theme-gnome-shell yaru-theme-gtk yaru-theme-icon yaru-theme-sound       2>> "$log"
+ # Ubuntu 24.04 - vanilla-gnome-desktop will give "pipewire-alsa : Conflicts: pulseaudio" 
 
+
+# Por que o conflito acontece
+# 
+#  PipeWire e PulseAudio são ambos sistemas de servidor de áudio, mas o PipeWire foi 
+# projetado para substituir o PulseAudio em muitos cenários. Quando o pacote pipewire-alsa 
+# é instalado, ele fornece a interface ALSA (Advanced Linux Sound Architecture) para o 
+# PipeWire, que tem como objetivo substituir o servidor de áudio PulseAudio.
+# 
+#  Pulseaudio é o servidor de áudio mais antigo e amplamente utilizado em muitas 
+# distribuições Linux, incluindo o Ubuntu. Porém, o PipeWire tem como objetivo gerenciar o 
+# áudio de maneira mais moderna, especialmente com suporte aprimorado para recursos de 
+# áudio modernos, como Bluetooth e áudio de alta definição.
+# 
+# O Conflito:
+# 
+# Quando você tenta instalar ou configurar o pacote vanilla-gnome-desktop, o pacote 
+# pipewire-alsa entra em conflito com pulseaudio, ou seja, ambos não podem ser instalados 
+# simultaneamente. No Ubuntu 24.04, com o GNOME, o sistema pode estar configurado para usar 
+# PulseAudio por padrão, a menos que você o configure para usar PipeWire explicitamente.
+# 
+# 
+# Como resolver o conflito
+# 
+#     Se você deseja usar o PipeWire (recomendado para setups mais novos):
+# 
+#         Remova o PulseAudio e instale o PipeWire para resolver o conflito.
+#         Você pode fazer isso rodando os seguintes comandos:
+# 
+# sudo apt remove -y pulseaudio
+# 
+# sudo apt install -y pipewire pipewire-alsa pipewire-pulse
+# 
+# Isso vai remover o PulseAudio e instalar o PipeWire, configurando o PipeWire para assumir 
+# as funções do PulseAudio (pipewire-pulse).
+# 
+# 
+# 
+# Se você preferir continuar com o PulseAudio (para setups mais antigos ou por questões de compatibilidade):
+# 
+#     Basta não instalar o pipewire-alsa. Se ele já estiver instalado, você pode removê-lo com o comando:
+# 
+# sudo apt remove -y pipewire-alsa
+# 
+# Isso vai manter o PulseAudio em uso e evitar qualquer conflito.
+# 
+# 
+# Para garantir que o PipeWire esteja gerenciando corretamente o áudio após a mudança:
+# 
+#     Depois de instalar o PipeWire, você pode querer reiniciar o sistema ou reiniciar os serviços de áudio:
+# 
+# systemctl --user restart pipewire
+# systemctl --user restart pipewire-pulse
+# 
+# 
+# Verifique se tudo está funcionando corretamente:
+# 
+#     Você pode verificar se o PipeWire está gerenciando o áudio corretamente utilizando o 
+# pavucontrol (PulseAudio Volume Control) ou pw-top (para PipeWire). Se tudo estiver 
+# configurado corretamente, você verá o PipeWire gerenciando os dispositivos e fluxos de 
+# áudio.
+# 
+# 
+# Conclusão:
+# 
+#     Se você deseja migrar para um setup com PipeWire, certifique-se de remover o PulseAudio 
+# e instalar os pacotes relevantes do PipeWire, incluindo pipewire-alsa e pipewire-pulse, 
+# para evitar o conflito.
+# 
+#     Se você prefere continuar com o PulseAudio, apenas evite instalar o pipewire-alsa, e 
+# tudo continuará funcionando normalmente.
+# 
+
+
+#   apt install -y fonts-inter papirus-icon-theme gnome-sushi
+
+    apt install -y gnome-session fonts-cantarell adwaita-icon-theme gnome-backgrounds gnome-tweaks vanilla-gnome-default-settings gnome-shell-extension-manager && apt remove purge -y ubuntu-session yaru-theme-gnome-shell yaru-theme-gtk yaru-theme-icon yaru-theme-sound   2>> "$log"
+
+  
 
 
 # Remova os resíduos.
@@ -1390,6 +1657,73 @@ cleanup
     restore_background   2>> "$log"
 
 }
+
+
+# ----------------------------------------------------------------------------------------
+
+
+# Essa função configura várias preferências e extensões do ambiente de trabalho GNOME.
+# 
+# 
+# Resumo
+# 
+# A função configura o GNOME com um tema escuro, usa o tema de ícones Papirus, ajusta a 
+# fonte e o plano de fundo da área de trabalho, e habilita/desativa várias extensões para 
+# personalizar a interface e a experiência de uso.
+
+
+function setup_desktop() { 
+
+
+# Temas e Aparência:
+# 
+# gtk-theme:    Define o tema GTK (interface gráfica) para adw-gtk3-dark, que é um 
+# tema escuro.
+# 
+# color-scheme: Define o esquema de cores preferido como prefer-dark, o que faz o GNOME 
+# usar um tema escuro por padrão.
+# 
+# icon-theme:   Define o tema de ícones para Papirus, um conjunto de ícones populares 
+# para ambientes GNOME.
+
+
+    gsettings_wrapper set org.gnome.desktop.interface gtk-theme    adw-gtk3-dark
+    gsettings_wrapper set org.gnome.desktop.interface color-scheme prefer-dark
+    gsettings_wrapper set org.gnome.desktop.interface icon-theme   Papirus
+
+
+
+# Fonte e Plano de Fundo:
+# 
+# font-name: Altera a fonte padrão para 'Inter Variable' com tamanho 11.
+# 
+# picture-uri: Define o fundo da área de trabalho para um arquivo específico de imagem (no caso, blobs-l.svg).
+# 
+# picture-uri-dark: Define a mesma imagem de fundo para o modo escuro.
+
+    gsettings_wrapper set org.gnome.desktop.interface  font-name        'Inter Variable 11'
+    gsettings_wrapper set org.gnome.desktop.background picture-uri      'file:///usr/share/backgrounds/gnome/blobs-l.svg'
+    gsettings_wrapper set org.gnome.desktop.background picture-uri-dark 'file:///usr/share/backgrounds/gnome/blobs-l.svg'
+
+
+
+# Extensões GNOME:
+# 
+# ding@rastersoft.com: Habilita a extensão ding, que provavelmente adiciona algum recurso ou funcionalidade extra ao GNOME.
+# 
+# ubuntu-appindicators@ubuntu.com: Desativa a extensão relacionada aos indicadores de aplicativos do Ubuntu.
+# 
+# ubuntu-dock@ubuntu.com: Desativa a extensão que fornece o dock (barra de ícones) do Ubuntu.
+# 
+# tiling-assistant@ubuntu.com: Desativa a extensão que facilita o gerenciamento de janelas em mosaico no Ubuntu.
+
+    gnome_extensions_wrapper enable  ding@rastersoft.com
+    gnome_extensions_wrapper disable ubuntu-appindicators@ubuntu.com 
+    gnome_extensions_wrapper disable ubuntu-dock@ubuntu.com
+    gnome_extensions_wrapper disable tiling-assistant@ubuntu.com
+
+}
+
 
 # ----------------------------------------------------------------------------------------
 
@@ -1528,6 +1862,10 @@ fi
 
 # ----------------------------------------------------------------------------------------
 
+
+# Adicionando o repositório julianfairfax
+
+
 function setup_julianfairfax_repo() {
 
     check_internet
@@ -1597,10 +1935,13 @@ fi
 
 
 
-
 }
 
+
 # ----------------------------------------------------------------------------------------
+
+
+# Instalar adw-gtk3
 
 function install_adwgtk3() {  
   
@@ -1630,7 +1971,10 @@ function install_adwgtk3() {
     fi
 }
 
+
 # ----------------------------------------------------------------------------------------
+
+
 
 function install_icons() {
 
@@ -1701,11 +2045,31 @@ wget -O /tmp/adwaita-icon-theme.deb -c "$file_url"  2>> "$log"
 fi
 
 
+
+# ou 
+
+# apt install -y adwaita-icon-theme
+
+
+
+# Papirus, Papirus-Dark, and Papirus-Light
+# 
+# Source: https://github.com/PapirusDevelopmentTeam/papirus-icon-theme
+# 
+#    apt-get update
+#
+#    apt-get install -y papirus-icon-theme
+
+
+
     apt install -y morewaita  2>> "$log"
+
  
 }
 
+
 # ----------------------------------------------------------------------------------------
+
 
 
 function restore_firefox() {
@@ -1748,9 +2112,9 @@ else
 
     $time
 
-    apt purge -y firefox         2>> "$log"
+    apt remove purge -y firefox   2>> "$log"
 
-    snap remove --purge firefox  2>> "$log"
+    snap remove --purge firefox   2>> "$log"
 
 
 
@@ -1869,7 +2233,12 @@ fi
 }
 
 
+
 # ----------------------------------------------------------------------------------------
+
+
+# Para reiniciar o sistema
+
 
 function ask_reboot() {
 
@@ -5616,6 +5985,275 @@ fi
 
 }
 
+# ----------------------------------------------------------------------------------------
+
+
+# Configurar a ordem dos botões da janela (minimizar, maximizar e fechar)
+# 
+# 
+# Para identificar a versão do Ubuntu e, se for uma versão que utiliza o GNOME 2 com 
+# Metacity, ele executará o comando gconftool-2 para ajustar o layout dos botões da janela.
+# 
+# O comando gconftool-2 é uma ferramenta usada para modificar configurações do sistema em 
+# versões antigas do Ubuntu que utilizavam o GNOME 2 como ambiente de desktop. Especificamente, 
+# ele é útil para ajustar configurações do GNOME 2, como o layout dos botões da janela.
+# 
+# Após o Ubuntu 11.04 (Natty Narwhal), o Ubuntu fez a transição para o Unity como o ambiente 
+# de desktop padrão, e o GNOME 3 substituiu o GNOME 2 como o ambiente de desktop para outras 
+# variantes, como o Ubuntu GNOME. O Unity e o GNOME 3 não utilizam o Metacity como gerenciador 
+# de janelas e, por isso, o comando gconftool-2 deixou de ser relevante nessas versões.
+# 
+# Conclusão:
+# 
+# O comando funciona em versões anteriores ao Ubuntu 11.04, como o Ubuntu 10.04 e versões 
+# mais antigas, que usavam o GNOME 2 com o Metacity. Para versões mais recentes do Ubuntu 
+# (Ubuntu 11.04 e posteriores), você precisaria usar outras ferramentas, como dconf-editor 
+# ou comandos específicos do GNOME Shell, para ajustar o comportamento dos botões na barra 
+# de título das janelas.
+
+
+function  layout_buttons_window(){
+
+
+# $ lsb_release -a
+# No LSB modules are available.
+# Distributor ID:	Ubuntu
+# Description:	Ubuntu 10.04 LTS
+# Release:	10.04
+# Codename:	lucid
+
+
+
+# Obtendo a versão do Ubuntu:
+# 
+# O comando lsb_release -r retorna a versão do Ubuntu, que é extraída com o awk para pegar 
+# apenas o número da versão.
+
+UBUNTU_VERSION=$(lsb_release -r | awk '{print $2}')
+
+# Compara a versão do Ubuntu
+
+# Converte a versão para um número para comparação
+
+# A versão do Ubuntu é transformada para um número sem ponto (sed 's/\.//') para facilitar a comparação.
+
+UBUNTU_VERSION_NUMBER=$(echo $UBUNTU_VERSION | sed 's/\.//')
+
+# Define a versão mínima do Ubuntu que pode usar o gconftool-2 (10.04)
+
+# A versão mínima compatível com o comando gconftool-2 é o Ubuntu 10.04 (número 1004), e a 
+# comparação é feita entre a versão do sistema e a versão mínima.
+
+MIN_VERSION=1004
+
+
+# Execução do comando:
+#
+# Se a versão for compatível (menor ou igual a 10.04), o script verifica se o gconftool-2 
+# está instalado. Caso esteja, o comando gconftool-2 é executado para ajustar o layout 
+# dos botões.
+
+
+# echo -e "$UBUNTU_VERSION_NUMBER  \n$MIN_VERSION"
+
+
+if [ "$UBUNTU_VERSION_NUMBER" -le "$MIN_VERSION" ]; then
+
+
+    echo -e "${GREEN}\n$(gettext 'This version of Ubuntu supports the gconftool-2 command.') \n${NC}"
+
+    $time
+
+  
+  # Verifica se o gconftool-2 está instalado
+
+  if command -v gconftool-2 &> /dev/null; then
+
+    # Executa o comando para ajustar os botões da janela e redireciona os erros para o log
+
+# Esse comando vai capturar o nome do usuário atualmente logado e armazená-lo na variável 
+# usuario_comum. Isso é útil para garantir que o comando seja executado para o usuário atual.
+
+
+# A variável usuario_comum pode estar vazia, especialmente se o comando logname falhar 
+# (se o script for executado em um ambiente que não tem um usuário logado).
+
+# Aspas ao redor das variáveis: Sempre que você usa variáveis em comandos, é uma boa 
+# prática colocar as variáveis entre aspas para evitar problemas com espaços em nomes de 
+# arquivos ou usuários.
+
+
+# Captura o nome do usuário atual
+
+usuario_comum="$(logname)"
+
+# Verifica se o nome do usuário foi encontrado
+
+# Isso ajuda a evitar erros inesperados 
+
+if [ -z "$usuario_comum" ]; then
+
+    # echo "Erro: Não foi possível determinar o nome do usuário atual."
+
+    exit 1
+fi
+
+
+
+# Se estiver usando o GNOME com o Mutter, usar o comando gsettings:
+
+# sudo -u "$usuario_comum" gsettings set org.gnome.metacity.general button-layout 'menu:minimize,maximize,close' 2>> "$log" 
+
+
+
+# Executa o comando gconftool-2 para o usuário comum
+
+sudo -u "$usuario_comum" \
+gconftool-2 --type string --set /apps/metacity/general/button_layout "menu:minimize,maximize,close" 2>> "$log" 
+
+
+# Verifica se o comando foi bem-sucedido
+
+if [[ $? -eq 0 ]]; then
+
+    # Comando executado com sucesso!
+
+
+# ----------------------------------------------------------------------------------------
+
+# Aplicação da Configuração
+
+# Às vezes, as alterações feitas via gconftool-2 ou gsettings podem não ser aplicadas 
+# imediatamente e podem exigir um reinício da sessão ou do gerenciador de janelas.
+
+# Solução:
+
+# Tente reiniciar a sessão gráfica ou o gerenciador de janelas. Se estiver usando o 
+# Metacity, você pode reiniciar o Metacity da seguinte forma:
+
+
+# Verifica se o processo Metacity está rodando
+
+if pgrep -x "metacity" > /dev/null; then
+
+    # Se o Metacity estiver rodando, reinicia o Metacity
+
+    # echo "Metacity está rodando. Reiniciando..."
+
+    # Reinicia o Metacity
+
+    killall -9 metacity && metacity &
+
+# else
+#    echo "Metacity não está rodando."
+
+fi
+
+
+
+# Ou, se estiver usando o GNOME Shell (Mutter), você pode reiniciar o GNOME Shell:
+
+# gnome-shell --replace &
+
+
+# ----------------------------------------------------------------------------------------
+
+
+    echo -e "${GREEN}\n$(gettext 'Adjusted button layout.') \n${NC}"
+
+    $time
+
+$notify_users  \
+notify-send -i "/usr/share/icons/gnome/32x32/status/dialog-information.png" -t "$((DELAY * 1000))" "$(gettext '') - $usuario_selecionado" "\n$(gettext 'Adjusted button layout.')\n"
+
+
+
+
+else
+
+    message=$(gettext 'Error executing command to adjust window buttons. See log file %s for details.')
+
+    echo -e "${RED}\n$(printf "$message" "$log") ${NC}"
+
+    $time
+
+$notify_users  \
+notify-send -i "/usr/share/icons/gnome/32x32/status/dialog-warning.png" -t "$((DELAY * 1000))" "$(gettext 'ubuntu-debullshit')" "\n$(printf "$message" "$log")\n"
+
+
+fi
+
+
+
+
+
+  else
+
+    # Caso o gconftool-2 não esteja instalado, o script avisa ao usuário que ele deve 
+    # instalar o pacote.
+
+
+    echo -e "${RED}\n$(gettext 'gconftool-2 is not installed. Install it using: sudo apt-get install -y gconftool-2') ${NC}"
+
+    $time
+
+$notify_users  \
+notify-send -i "/usr/share/icons/gnome/32x32/status/dialog-warning.png" -t "$((DELAY * 1000))" "$(gettext 'ubuntu-debullshit') - $usuario_selecionado" "\n$(gettext 'gconftool-2 is not installed. Install it using: sudo apt-get install -y gconftool-2')\n"
+
+
+  fi
+
+
+
+else
+
+
+    echo -e "${RED}\n$(gettext 'This version of Ubuntu does not support the gconftool-2 command.') ${NC}"
+
+    $time
+
+$notify_users  \
+notify-send -i "/usr/share/icons/gnome/32x32/status/dialog-warning.png" -t "$((DELAY * 1000))" "$(gettext 'ubuntu-debullshit')" "\n$(gettext 'This version of Ubuntu does not support the gconftool-2 command.')\n"
+
+
+fi
+
+
+ 
+
+
+#     Saída:
+# 
+#         O script informa ao usuário se a versão do Ubuntu é compatível ou não e se o comando foi executado com sucesso.
+
+
+# Esse script ajudará a identificar se a versão do Ubuntu é compatível com o uso do comando gconftool-2 e executará a modificação do layout dos botões se possível.
+
+
+
+} 
+
+
+
+# ----------------------------------------------------------------------------------------
+
+# Vamos instalar as aplicações do GNOME diretamente do Flathub.
+
+function setup_gnome_apps() {
+
+     # Please create a PR with missing gnome apps
+
+     flatpak install flathub -y org.gnome.TextEditor org.gnome.clocks org.gnome.Logs org.gnome.Calculator org.gnome.Calendar org.gnome.Contacts org.gnome.Epiphany org.gnome.Loupe org.gnome.Music org.gnome.Papers org.gnome.Photos org.gnome.Showtime org.gnome.Snapshot org.gnome.Weather org.gnome.Maps org.gnome.seahorse.Application org.gnome.baobab org.gnome.SimpleScan
+
+
+# Explicação:
+# 
+#  flatpak install flathub: Instala os pacotes do repositório Flathub.
+# 
+#  -y: Aceita automaticamente todas as permissões sem pedir confirmação ao usuário.
+
+
+}
 
 # ----------------------------------------------------------------------------------------
 
@@ -5802,7 +6440,7 @@ $(gettext 'kernel'): `uname -r`
 
 $(gettext 'Processor architecture'): `uname -m`
 
-$(gettext 'RAM consumption'): `free -h | grep Mem | awk '{print $3}'`
+$(gettext 'RAM consumption'): `free -h 2>/dev/null | grep Mem | awk '{print $3}'`
 
  "
 
@@ -5847,6 +6485,10 @@ echo -e "\n$(gettext 'Choose what to do:') \n"
     echo "25 - $(gettext 'Configure the Firewall')"
     echo "26 - $(gettext 'Update the system')"
     echo "27 - $(gettext 'Reduza o acesso ao swap')"
+    echo "28 - $(gettext 'Removing Ubuntu default apps')"
+    echo "29 - $(gettext 'Configure the order of window buttons (minimize, maximize, and close)')"
+    echo "30 - $(gettext 'Setting up Gnome desktop')"
+    echo "31 - $(gettext 'Installing Gnome apps from flathub')"
     echo "50 - $(gettext 'Exit')"
     echo
 
@@ -5888,6 +6530,10 @@ choice=$(dialog \
 25 "$(gettext 'Configure the Firewall')" \
 26 "$(gettext 'Update the system')" \
 27 "$(gettext 'Reduza o acesso ao swap')" \
+28 "$(gettext 'Removing Ubuntu default apps')" \
+29 "$(gettext 'Configure the order of window buttons (minimize, maximize, and close)')" \
+30 "$(gettext 'Setting up Gnome desktop')" \
+31 "$(gettext 'Installing Gnome apps from flathub')" \
 50 "$(gettext 'Exit')" --stdout)
 
 
@@ -5938,10 +6584,13 @@ false 24 "$(gettext 'What is the best repository?')" \
 false 25 "$(gettext 'Configure the Firewall')" \
 false 26 "$(gettext 'Update the system')" \
 false 27 "$(gettext 'Reduza o acesso ao swap')" \
+false 28 "$(gettext 'Removing Ubuntu default apps')" \
+false 29 "$(gettext 'Configure the order of window buttons (minimize, maximize, and close)')" \
+false 30 "$(gettext 'Setting up Gnome desktop')" \
+false 31 "$(gettext 'Installing Gnome apps from flathub')" \
 true  50 "$(gettext 'Exit')" \
 --buttons-layout=center  --button="$(gettext 'OK')":0 \
---width="700" --height="767")
-
+--width="700" --height="795")
 
 
 # --button="$(gettext 'Cancel')":1
@@ -6005,14 +6654,15 @@ function main() {
 
     check_root_user
 
-    check_programs
-
 
     # Chama a função para identificar a distribuição
 
     identificar_distro
     
-    check_distro
+    # check_distro
+
+
+    check_programs
 
      
     intro
@@ -6121,9 +6771,16 @@ fi
         9)
             update_system
 
+
+            # Adicionando o repositório julianfairfax
+
             setup_julianfairfax_repo
 
+
+            # Instalar adw-gtk3
+
             install_adwgtk3
+
 
             install_icons
 
@@ -6381,6 +7038,50 @@ fi
 
             ;;
 
+        28)
+
+            # Remove muitos aplicativos deb pré-instalados.
+
+            remove_ubuntu_default_apps
+
+            msg "$(gettext 'Done!')"
+
+            ;;
+
+        29)
+
+            # Configurar a ordem dos botões da janela (minimizar, maximizar e fechar)
+
+            layout_buttons_window
+
+            msg "$(gettext 'Done!')"
+
+            ;;
+
+
+        30)
+
+            # Configurando o ambiente de trabalho Gnome
+
+            setup_desktop
+
+            msg "$(gettext 'Done!')"
+
+            ;;
+
+
+        31)
+
+            # Instalando aplicativos Gnome do flathub
+
+            msg 'Installing Gnome apps from flathub'
+
+            setup_gnome_apps
+
+            msg "$(gettext 'Done!')"
+
+            ;;
+
 
         50)
             # Sair
@@ -6412,9 +7113,25 @@ function auto() {
     check_internet
 
 
+    # Atualizando o sistema
+
     msg "$(gettext 'Updating system')"
 
     update_system
+
+
+    # Configurar a ordem dos botões da janela (minimizar, maximizar e fechar)
+
+    # msg "$(gettext 'Configure the order of window buttons (minimize, maximize, and close)')"
+
+    # layout_buttons_window
+
+
+    # Removendo aplicativos padrão do Ubuntu
+
+    msg "$(gettext 'Removing Ubuntu default apps')"
+
+    remove_ubuntu_default_apps
 
 
     msg "$(gettext 'Disabling ubuntu report')"
@@ -6427,6 +7144,8 @@ function auto() {
     remove_appcrash_popup
 
 
+    # Removendo anúncios de terminal (se estiverem habilitados)
+
     msg "$(gettext 'Removing terminal ads (if they are enabled)')"
 
     disable_terminal_ads
@@ -6436,6 +7155,8 @@ function auto() {
 
     remove_telemetry
 
+
+    # Removendo snap
 
     msg "$(gettext 'Deleting everything snap related')"
 
@@ -6499,16 +7220,16 @@ function auto() {
 
     # Remover PPA (Personal Package Archive) do sistema
 
-    msg "$(gettext "Remove PPA (Personal Package Archive) from the system")"
+    # msg "$(gettext "Remove PPA (Personal Package Archive) from the system")"
 
-    remover_PPA
+    # remover_PPA
 
 
     # Redefinir o ambiente de desktop GNOME
 
-    msg $(gettext 'Restore Gnome Interface')
+    # msg $(gettext 'Restore Gnome Interface')
 
-    reset_GNOME
+    # reset_GNOME
 
 
 
@@ -6522,9 +7243,9 @@ function auto() {
 
     # Busca a menor latência para os repositórios
 
-    msg  "$(gettext 'What is the best repository?')"
+    # msg  "$(gettext 'What is the best repository?')"
   
-    test_latency
+    # test_latency
 
 
     # Configura o Firewall
@@ -6549,11 +7270,14 @@ function auto() {
 
 
 
+    # Instalando flatpak e flathub
 
     msg "$(gettext 'Setting up flathub')"
 
     setup_flathub
 
+
+    # Instalando o Firefox do repositório da Mozilla
 
     msg "$(gettext 'Restoring Firefox from mozilla repository')"
 
@@ -6565,10 +7289,14 @@ function auto() {
     setup_vanilla_gnome
 
 
+    # Adicionando o repositório julianfairfax
+
     msg "$(gettext 'Adding julianfairfax repo')"
 
     setup_julianfairfax_repo
 
+
+    # Instalar adw-gtk3
 
     msg "$(gettext 'Install adw-gtk3 and set dark theme')"
 
@@ -6577,10 +7305,26 @@ function auto() {
 
     msg "$(gettext 'Installing GNOME 46 and morewaita icons')"
 
+    # msg 'Installing vanilla icons and Papirus icons'
+
     install_icons
 
 
+    # Configurando o ambiente de trabalho Gnome
 
+    # msg "$(gettext 'Setting up Gnome desktop')"
+
+    # setup_desktop
+
+
+    # Instalando aplicativos Gnome do flathub
+
+    # msg 'Installing Gnome apps from flathub'
+
+    # setup_gnome_apps
+
+
+    # Limpeza
 
     msg "$(gettext 'Cleaning up')"
 

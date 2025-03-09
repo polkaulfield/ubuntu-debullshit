@@ -688,6 +688,52 @@ msgstr "* Espaços de trabalho estáticos (fixar o número de espaços de trabal
 
 
 
+msgid  "Removing Ubuntu default apps"
+msgstr "Removendo aplicativos padrão do Ubuntu"
+
+
+# ----------------------------------------------------------------------------------------
+
+# Configurar a ordem dos botões da janela (minimizar, maximizar e fechar)
+
+
+msgid  "Configure the order of window buttons (minimize, maximize, and close)"
+msgstr "Configurar a ordem dos botões da janela (minimizar, maximizar e fechar)"
+
+msgid  "This version of Ubuntu supports the gconftool-2 command."
+msgstr "Esta versão do Ubuntu é compatível com o comando gconftool-2."
+
+msgid  "Adjusted button layout."
+msgstr "Layout dos botões ajustado."
+
+msgid  "gconftool-2 is not installed. Install it using: sudo apt-get install -y gconftool-2"
+msgstr "gconftool-2 não está instalado. Instale-o utilizando: sudo apt-get install -y gconftool-2"
+
+msgid  "This version of Ubuntu does not support the gconftool-2 command."
+msgstr "Esta versão do Ubuntu não é compatível com o comando gconftool-2."
+
+
+# ----------------------------------------------------------------------------------------
+
+
+
+msgid  "Setting up Gnome desktop"
+msgstr "Configurando o ambiente de trabalho Gnome"
+
+
+msgid  "Installing Gnome apps from flathub"
+msgstr "Instalando aplicativos Gnome do flathub"
+
+
+msgid  "None of the system files (/etc/os-release or /etc/lsb-release) were found."
+msgstr "Nenhum dos arquivos (/etc/os-release ou /etc/lsb-release) de sistema foi encontrados."
+
+
+msgid  "Error executing command to adjust window buttons. See log file %s for details."
+msgstr "Erro ao executar o comando para ajustar os botões da janela. Veja o arquivo de log %s para detalhes."
+
+
+
 #: ubuntu-debullshit.sh:45 ubuntu-debullshit.sh:47
 msgid  "Error"
 msgstr "Erro"

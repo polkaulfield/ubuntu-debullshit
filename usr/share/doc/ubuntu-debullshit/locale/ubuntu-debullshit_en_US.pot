@@ -663,6 +663,51 @@ msgid  "* Static Workspaces (Fix the number of workspaces and leave them static.
 msgstr ""
 
 
+msgid  "Removing Ubuntu default apps"
+msgstr ""
+
+
+# ----------------------------------------------------------------------------------------
+
+# Configurar a ordem dos botões da janela (minimizar, maximizar e fechar)
+
+
+msgid  "Configure the order of window buttons (minimize, maximize, and close)"
+msgstr ""
+
+msgid  "This version of Ubuntu supports the gconftool-2 command."
+msgstr ""
+
+msgid  "Adjusted button layout."
+msgstr ""
+
+msgid  "gconftool-2 is not installed. Install it using: sudo apt-get install -y gconftool-2"
+msgstr ""
+
+msgid  "This version of Ubuntu does not support the gconftool-2 command."
+msgstr ""
+
+
+# ----------------------------------------------------------------------------------------
+
+
+msgid  "Setting up Gnome desktop"
+msgstr ""
+
+
+msgid  "Installing Gnome apps from flathub"
+msgstr ""
+
+
+msgid  "None of the system files (/etc/os-release or /etc/lsb-release) were found."
+msgstr ""
+
+
+msgid  "Error executing command to adjust window buttons. See log file %s for details."
+msgstr ""
+
+
+
 #: ubuntu-debullshit.sh:45 ubuntu-debullshit.sh:47
 msgid  "Error"
 msgstr ""
