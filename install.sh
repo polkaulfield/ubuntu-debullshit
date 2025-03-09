@@ -19,9 +19,12 @@ clear
 which yad             1> /dev/null 2> /dev/null || { echo "Programa Yad não esta instalado."      ; exit ; }
 
 which gettext         1> /dev/null 2> /dev/null || { yad --center --image=dialog-error --timeout=10 --no-buttons --title "Aviso" --text "Programa gettext não esta instalado." --width 450 --height 100 2>/dev/null   ; exit ; }
-which notify-send     1> /dev/null 2> /dev/null || { yad --center --image=dialog-error --timeout=10 --no-buttons --title "Aviso" --text "Programa notify-send não esta instalado." --width 450 --height 100 2>/dev/null   ; exit ; }
-which find            1> /dev/null 2> /dev/null || { yad --center --image=dialog-error --timeout=10 --no-buttons --title "Aviso" --text "Programa find não esta instalado."        --width 450 --height 100 2>/dev/null   ; exit ; }
+
 which msgfmt          1> /dev/null 2> /dev/null || { yad --center --image=dialog-error --timeout=10 --no-buttons --title "Aviso" --text "Programa msgfmt não esta instalado. Falta o pacote gettext"        --width 450 --height 100 2>/dev/null   ; exit ; }
+
+which notify-send     1> /dev/null 2> /dev/null || { yad --center --image=dialog-error --timeout=10 --no-buttons --title "Aviso" --text "Programa notify-send não esta instalado." --width 450 --height 100 2>/dev/null   ; exit ; }
+
+which find            1> /dev/null 2> /dev/null || { yad --center --image=dialog-error --timeout=10 --no-buttons --title "Aviso" --text "Programa find não esta instalado."        --width 450 --height 100 2>/dev/null   ; exit ; }
 which sed             1> /dev/null 2> /dev/null || { yad --center --image=dialog-error --timeout=10 --no-buttons --title "Aviso" --text "Programa sed não esta instalado."        --width 450 --height 100 2>/dev/null   ; exit ; }
 
 
@@ -186,8 +189,8 @@ ajuda() {
   echo "
 "        | tee -a "$log"
 
-  echo "Exemplo: $0 instalar"           | tee -a "$log"
-  echo "Exemplo: $0 desinstalar"        | tee -a "$log"
+  echo "Exemplo: $0 instalar|install"           | tee -a "$log"
+  echo "Exemplo: $0 desinstalar|uninstall"      | tee -a "$log"
 
 }
 
@@ -214,11 +217,11 @@ shift
 
 case "$comando" in
 
-  instalar)
+  instalar|install)
     instalar "$@"
     ;;
 
-  desinstalar)
+  desinstalar|uninstall)
     desinstalar "$@"
     ;;
 
