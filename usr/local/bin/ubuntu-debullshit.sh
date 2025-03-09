@@ -4134,6 +4134,255 @@ Atenção:
 Esse script oferece uma maneira simples de desativar serviços que você não precisa em seu sistema, o que pode ajudar a melhorar o desempenho ou reduzir o consumo de recursos.
 
 
+
+Os serviços:
+
+
+1. acpid:
+
+Gerencia os eventos de ACPI (Advanced Configuration and Power Interface), como pressões de teclas de energia, hibernação, e outros eventos relacionados ao gerenciamento de energia.
+2. acpi-support:
+
+Scripts relacionados ao gerenciamento de energia, como suspender, hibernar e ajustar configurações de energia em sistemas baseados em ACPI.
+3. alsa-mixer-save:
+
+Responsável por salvar as configurações de som do ALSA (Advanced Linux Sound Architecture).
+4. anacron:
+
+Executa tarefas programadas, mesmo que o sistema não tenha sido iniciado no horário programado, diferentemente do cron.
+5. apparmor:
+
+Implementa uma política de controle de acesso obrigatório (MAC) para proteger programas contra ações não autorizadas.
+6. apport:
+
+Ferramenta para coleta de relatórios de falhas do sistema. Ele gera relatórios de erro para ajudar a diagnosticar problemas.
+7. atd:
+
+Gerencia a execução de tarefas agendadas no futuro (similar ao cron, mas com tarefas únicas).
+8. avahi-daemon:
+
+Implementa o mDNS (Multicast DNS) e o Zeroconf, permitindo a descoberta de serviços em redes locais.
+9. binfmt-support:
+
+Suporta a execução de binários em formatos diferentes, como binários do Windows ou outros sistemas operacionais.
+10. bluetooth:
+
+Gerencia os dispositivos Bluetooth no sistema.
+11. bootlogd:
+
+Registra mensagens do processo de inicialização do sistema.
+12. brltty:
+
+Fornece suporte a dispositivos Braille para deficientes visuais.
+13. casper:
+
+Usado em distribuições live, ele gerencia a inicialização do Ubuntu a partir de mídias como CDs e DVDs.
+14. console-setup:
+
+Configura o teclado e o console (como a resolução de tela e o layout de teclado).
+15. cron:
+
+Agendador de tarefas do sistema. Executa comandos em horários pré-definidos.
+16. cryptdisks:
+
+Gerencia discos criptografados, iniciando os processos de criptografia no boot.
+17. cryptdisks-early:
+
+Similar ao cryptdisks, mas com a finalidade de configurar criptografia mais cedo no processo de inicialização.
+18. cryptdisks-enable:
+
+Habilita o suporte para criptografia de discos durante a inicialização.
+19. cryptdisks-udev:
+
+Configura dispositivos de disco criptografados com a ferramenta udev (gerenciador de dispositivos).
+20. cups:
+
+Sistema de impressão. Gerencia impressoras e filas de impressão.
+21. dbus:
+
+Sistema de mensagens para comunicação entre processos no Linux. Usado por muitos aplicativos.
+22. dmesg:
+
+Exibe mensagens do buffer do kernel, geralmente usadas para depuração de hardware e sistema.
+23. dns-clean:
+
+Limpa as configurações DNS, geralmente após a configuração de rede.
+24. ecryptfs-utils-restore:
+
+Restaura os arquivos criptografados com o ecryptfs.
+25. ecryptfs-utils-save:
+
+Salva as configurações de criptografia do ecryptfs.
+26. failsafe-x:
+
+Fornece uma configuração gráfica mínima de segurança caso o X11 (servidor gráfico) falhe.
+27. fancontrol:
+
+Controla a velocidade dos ventiladores do sistema para otimizar o resfriamento.
+28. gdm:
+
+Gerenciador de exibição do GNOME. Controla o login gráfico do sistema.
+29. grub-common:
+
+Arquivos e configurações comuns do GRUB (bootloader), usado para inicializar o sistema.
+30. halt:
+
+Finaliza o sistema de forma controlada, desligando-o.
+31. hostname:
+
+Define o nome do host (nome do computador na rede).
+32. hwclock:
+
+Gerencia o relógio de hardware do sistema.
+33. hwclock-save:
+
+Salva as configurações do relógio de hardware.
+34. irqbalance:
+
+Distribui as interrupções do sistema entre os processadores para otimizar o desempenho.
+35. kerneloops:
+
+Envia relatórios de falhas do kernel para ajudar no desenvolvimento.
+36. killprocs:
+
+Encerra todos os processos do sistema durante o desligamento ou reinicialização.
+37. lm-sensors:
+
+Detecta e monitora sensores de temperatura, voltagem e velocidade dos ventiladores.
+38. module-init-tools:
+
+Carrega e descarrega módulos do kernel.
+39. networking:
+
+Configura e inicia a rede no sistema durante a inicialização.
+40. network-interface:
+
+Configura interfaces de rede específicas no sistema.
+41. network-interface-security:
+
+Configura a segurança das interfaces de rede.
+42. network-manager:
+
+Gerencia conexões de rede de forma dinâmica e simples, como Wi-Fi e Ethernet.
+43. ondemand:
+
+Gerencia a frequência do processador, ajustando-a de acordo com a carga do sistema.
+44. pcmciautils:
+
+Gerencia dispositivos PCMCIA (geralmente usados em laptops mais antigos).
+45. plymouth:
+
+Gerencia animações gráficas durante o processo de inicialização do sistema.
+46. plymouth-log:
+
+Registra eventos e mensagens relacionadas ao Plymouth (boot splash).
+47. plymouth-splash:
+
+Exibe a animação ou tela de inicialização do sistema.
+48. plymouth-stop:
+
+Encerra o Plymouth após o sistema iniciar.
+49. pppd-dns:
+
+Configura as configurações DNS para conexões PPP (dial-up, VPN).
+50. procps:
+
+Fornece ferramentas de monitoramento de processos, como o comando ps.
+51. pulseaudio:
+
+Gerencia o áudio do sistema, permitindo controle sobre dispositivos e fluxos de áudio.
+52. rc:
+
+Script de inicialização usado para iniciar e parar serviços conforme os runlevels.
+53. rc.local:
+
+Script que permite adicionar comandos personalizados para a inicialização.
+54. rcS:
+
+Script de inicialização de serviços que são executados durante o processo de inicialização do sistema.
+55. README:
+
+Arquivo de documentação sobre o processo de inicialização.
+56. reboot:
+
+Reinicia o sistema de forma controlada.
+57. rsync:
+
+Ferramenta de sincronização de arquivos e diretórios.
+58. rsyslog:
+
+Daemons para registrar logs do sistema.
+59. saned:
+
+Serviço que fornece suporte a scanners via rede.
+60. screen-cleanup:
+
+Limpa a tela ao encerrar o processo screen.
+61. sendsigs:
+
+Envia sinais para encerrar processos de forma controlada.
+62. single:
+
+Inicializa o sistema no modo de manutenção com um único usuário.
+63. skeleton:
+
+Arquivo de esqueleto para o gerenciamento de processos e serviços.
+64. speech-dispatcher:
+
+Oferece suporte a leitura de texto para deficientes visuais.
+65. stop-bootlogd:
+
+Encerra o bootlogd, que grava logs de inicialização.
+66. stop-bootlogd-single:
+
+Encerra o bootlogd em modo de inicialização única.
+67. ubiquity:
+
+Instalação gráfica do Ubuntu.
+68. udev:
+
+Gerencia a criação de dispositivos no sistema e suas configurações.
+69. udev-finish:
+
+Finaliza o processo de inicialização de dispositivos do udev.
+70. udevmonitor:
+
+Monitora eventos do udev para dispositivos.
+71. udevtrigger:
+
+Aciona eventos do udev para dispositivos conectados.
+72. ufw:
+
+Ferramenta de firewall simples (Uncomplicated Firewall).
+73. umountfs:
+
+Desmonta sistemas de arquivos durante o desligamento.
+74. umountnfs.sh:
+
+Desmonta compartilhamentos NFS (Network File System) durante o desligamento.
+75. umountroot:
+
+Desmonta a raiz do sistema de arquivos ao desligar.
+76. unattended-upgrades:
+
+Realiza atualizações automáticas de segurança.
+77. urandom:
+
+Gera números aleatórios de alta qualidade para o sistema.
+78. vboxadd:
+
+Adiciona suporte para VirtualBox em máquinas virtuais.
+79. vboxadd-service:
+
+Inicia o serviço adicional do VirtualBox.
+80. wpa-ifupdown:
+
+Gerencia conexões Wi-Fi com o ifupdown.
+81. x11-common:
+
+Configurações comuns para o servidor gráfico X11.
+
+
 "
 
 
@@ -4168,11 +4417,16 @@ echo -e "\n$(printf "$message" "$HOME/.config/autostart")\n" | tee -a "$log"
 
 $time
 
-
 ls -lh ~/.config/autostart/ | tee -a "$log"
 
 
 echo "" | tee -a "$log"
+
+
+ls  ~/.config/autostart/ | wc -l | tee -a "$log"
+
+echo "" | tee -a "$log"
+
 
 
 message=$(gettext 'Files in folder %s: ')
@@ -4181,12 +4435,63 @@ echo -e "\n$(printf "$message" "/etc/xdg/autostart")\n" | tee -a "$log"
 
 $time
 
+
 ls -lh /etc/xdg/autostart/  | tee -a "$log"
 
+echo "" | tee -a "$log"
+
+ls  /etc/xdg/autostart/ | wc -l | tee -a "$log"
+
+
+echo "" | tee -a "$log"
+
+# Para exibir informações sobre os processos em execução no sistema.
+
+echo "" | tee -a "$log"
+echo "" | tee -a "$log"
+
+ps -aux | tee -a "$log"
+
+# O que cada parte faz:
+#
+# ps: Este é o comando principal, usado para exibir informações sobre os processos em execução no sistema.
+# -a: Mostra todos os processos de outros usuários (não apenas os processos do usuário atual).
+# -u: Exibe a informação no formato legível por humanos (com mais detalhes, como o usuário que iniciou o processo).
+# -x: Exibe os processos que não estão conectados a um terminal (processos em segundo plano ou serviços).
+
+
+echo "" | tee -a "$log"
+
+
+# ----------------------------------------------------------------------------------------
+
+# Ubuntu 10.04 (usa o SysVinit em vez do systemd usado nas versões mais recentes)
+
+# Este comando lista todos os serviços e mostra seu status. Para ver quais serviços estão 
+# habilitados para iniciar automaticamente:
+
+# sudo service --status-all | tee -a "$log"
+
+# Os serviços que estão com um + à esquerda estão em execução, enquanto os serviços com - 
+# estão parados. O comando não mostra diretamente quais estão configurados para iniciar 
+# automaticamente, mas é possível ver quais estão em execução.
+
+
+# No Ubuntu 10.04, podemos usar o rc.d para ver quais serviços estão configurados para 
+# iniciar automaticamente.
+
+# echo "" | tee -a "$log"
+
+# ls -lh /etc/init.d/ | tee -a "$log"
+
+# ls -1 /etc/init.d/ | tee -a "$log"
+
+# ----------------------------------------------------------------------------------------
+
+# Esse comando lista os serviços do sistema que estão configurados para iniciar automaticamente.
 
 systemctl list-unit-files --type=service | grep enabled  | tee -a "$log"
 
-# Esse comando lista os serviços do sistema que estão configurados para iniciar automaticamente.
 
 # Exemplos de programas que geralmente estão na inicialização do Ubuntu:
 
@@ -6590,7 +6895,7 @@ false 30 "$(gettext 'Setting up Gnome desktop')" \
 false 31 "$(gettext 'Installing Gnome apps from flathub')" \
 true  50 "$(gettext 'Exit')" \
 --buttons-layout=center  --button="$(gettext 'OK')":0 \
---width="700" --height="795")
+--width="700" --height="858")
 
 
 # --button="$(gettext 'Cancel')":1
