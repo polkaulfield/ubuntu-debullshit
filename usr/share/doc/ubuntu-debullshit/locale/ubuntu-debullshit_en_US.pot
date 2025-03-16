@@ -70,6 +70,36 @@ msgstr ""
 msgid  "The log file will be in %s at the end of the processes for checking errors or bugs."
 msgstr ""
 
+msgid  "You can access the Frequently Asked Questions (FAQ) file in PDF format at: %s"
+msgstr ""
+
+# ----------------------------------------------------------------------------------------
+
+
+# Para otimizar o Ubuntu com GNOME
+
+
+msgid  "Disabling login sound..."
+msgstr ""
+
+msgid  "Disabling desktop icons..."
+msgstr ""
+
+msgid  "Disabling heavy GNOME visual features..."
+msgstr ""
+
+msgid  "Tweaking GNOME Shell features..."
+msgstr ""
+
+msgid  "Disabling GNOME notifications..."
+msgstr ""
+
+msgid  "Optimization is complete. Restart your computer to apply all changes."
+msgstr ""
+
+msgid  "The gsettings command is not installed on your system."
+msgstr ""
+
 # ----------------------------------------------------------------------------------------
 
 msgid  "Command %s not found."
@@ -569,6 +599,14 @@ msgid  "RAM consumption"
 msgstr ""
 
 
+msgid  "Processes running on the system"
+msgstr ""
+
+
+msgid  "Disk space occupied"
+msgstr ""
+
+
 msgid  "No repositories or folders were found..."
 msgstr ""
 
@@ -691,6 +729,79 @@ msgstr ""
 # ----------------------------------------------------------------------------------------
 
 
+# Para criar um perfil do AppArmor para o Firefox
+
+
+msgid  "AppArmor is loaded into the kernel."
+msgstr ""
+
+msgid  "AppArmor is not loaded in the kernel."
+msgstr ""
+
+msgid  "AppArmor is active."
+msgstr ""
+
+msgid  "Error: Firefox not found on the system."
+msgstr ""
+
+msgid  "Error: AppArmor profiles directory not found!"
+msgstr ""
+
+msgid  "Firefox profile successfully created and uploaded to AppArmor!"
+msgstr ""
+
+msgid  "Error: Failed to load Firefox profile in AppArmor."
+msgstr ""
+
+msgid  "AppArmor is not active."
+msgstr ""
+
+msgid  "Profile %s already exists on %s."
+msgstr ""
+
+msgid  "Profile %s does not exist on %s."
+msgstr ""
+
+# ----------------------------------------------------------------------------------------
+
+
+# Para remover pacotes inseguros no Ubuntu
+
+
+msgid  "Starting to remove insecure packages on the system..."
+msgstr ""
+
+msgid  "The following packages will be removed:"
+msgstr ""
+
+msgid  "Do you want to continue with removing these packages? (y/n):"
+msgstr ""
+
+msgid  "Operation cancelled."
+msgstr ""
+
+msgid  "Removing the package"
+msgstr ""
+
+msgid  "Package %s is not installed."
+msgstr ""
+
+msgid  "Package removal completed."
+msgstr ""
+
+msgid  "Restarting UFW Firewall..."
+msgstr ""
+
+msgid  "Removal of insecure packages on the system completed successfully."
+msgstr ""
+
+
+# ----------------------------------------------------------------------------------------
+
+
+
+# ----------------------------------------------------------------------------------------
+
 msgid  "Setting up Gnome desktop"
 msgstr ""
 
@@ -706,6 +817,13 @@ msgstr ""
 msgid  "Error executing command to adjust window buttons. See log file %s for details."
 msgstr ""
 
+
+msgid  "Package manager not found!"
+msgstr ""
+
+
+msgid  "List of services currently loaded at boot:"
+msgstr ""
 
 
 #: ubuntu-debullshit.sh:45 ubuntu-debullshit.sh:47

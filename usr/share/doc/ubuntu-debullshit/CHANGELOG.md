@@ -62,6 +62,18 @@
 - Configura o Firewall - ufw (Uncomplicated Firewall) ou iptables.
 - Atualiza o sistema de forma manual.
 - Executa ações especificas para determinadas versões do Ubuntu.
+- Criação de um perfil do AppArmor para o Firefox [AppArmor_Firefox] Obs: Colocado o perfil do Firefox em modo "complain" (observação) para teste.
+- Verificar qual o gerenciador de pacotes no Debian e derivados (apt-get ou apt) - $package_manager.
+- Lista os serviços e suas respectivas durações, permitindo identificar quais processos estão consumindo mais tempo para serem carregados com "systemd-analyze blame".
+
+- Criado o arquivo "Perguntas Frequentes-pt_BR.pdf - (FAQ)".
+
+  É um documento que reúne uma lista de perguntas comuns feitas sobre um determinado tema, 
+  com as respectivas respostas. O objetivo da FAQ é fornecer informações rápidas e claras 
+  para resolver dúvidas recorrentes de forma prática, sem a necessidade de recorrer ao 
+  suporte ou assistência adicional.
+
+- Criada a função "otimizar_GNOME" para otimizar o Ubuntu com GNOME.
 
 
 

@@ -72,7 +72,7 @@ instalar(){
 
 clear
 
-rm "$log"
+rm "$log"  2>/dev/null
 
 echo "Iniciando a instalação..." | tee -a "$log"
   
@@ -136,6 +136,8 @@ Para mais informações verifique o arquivo de log $log
 
 cat "$log"
 
+rm "$log"  2>/dev/null
+
 }
 
 
@@ -148,7 +150,7 @@ desinstalar(){
 
 clear
 
-rm "$log"
+rm "$log"  2>/dev/null
 
 echo "Iniciando a desinstalação..." | tee -a "$log"
   
@@ -172,6 +174,8 @@ Para mais informações verifique o arquivo de log $log
 "
 
 cat "$log"
+
+rm "$log"  2>/dev/null
 
 }
 
@@ -219,22 +223,27 @@ case "$comando" in
 
   instalar|install)
     instalar "$@"
+    
     ;;
 
   desinstalar|uninstall)
     desinstalar "$@"
+    
     ;;
 
   *)
+  
     ajuda
     exit 1
+    
     ;;
 
 esac
 
 # ----------------------------------------------------------------------------------------
 
-rm /tmp/ubuntu-debullshit.log
+
+rm "$log"  2>/dev/null
 
 exit 0
 

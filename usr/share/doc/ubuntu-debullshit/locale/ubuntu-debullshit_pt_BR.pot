@@ -92,8 +92,36 @@ msgid  "The log file will be in %s at the end of the processes for checking erro
 msgstr "O arquivo de log ficará em %s ao final dos processos para consulta de erros ou bugs."
 
 
+msgid  "You can access the Frequently Asked Questions (FAQ) file in PDF format at: %s"
+msgstr "Você pode acessar o arquivo Perguntas Frequentes (FAQ) no formato PDF em: %s"
+
 # ----------------------------------------------------------------------------------------
 
+# Para otimizar o Ubuntu com GNOME
+
+
+msgid  "Disabling login sound..."
+msgstr "Desabilitando o som de login..."
+
+msgid  "Disabling desktop icons..."
+msgstr "Desabilitando ícones na área de trabalho..."
+
+msgid  "Disabling heavy GNOME visual features..."
+msgstr "Desativando recursos visuais pesados do GNOME..."
+
+msgid  "Tweaking GNOME Shell features..."
+msgstr "Ajustando recursos do GNOME Shell..."
+
+msgid  "Disabling GNOME notifications..."
+msgstr "Desabilitando notificações do GNOME..."
+
+msgid  "Optimization is complete. Restart your computer to apply all changes."
+msgstr "A otimização foi concluída. Reinicie seu computador para aplicar todas as mudanças."
+
+msgid  "The gsettings command is not installed on your system."
+msgstr "O comando gsettings não está instalado no seu sistema."
+
+# ----------------------------------------------------------------------------------------
 
 msgid   "Command %s not found."
 msgstr "Comando %s não encontrado."
@@ -590,6 +618,14 @@ msgid  "RAM consumption"
 msgstr "Consumo de memória RAM"
 
 
+msgid  "Processes running on the system"
+msgstr "Processos em execução no sistema"
+
+
+msgid  "Disk space occupied"
+msgstr "Espaço em disco ocupado"
+
+
 msgid  "No repositories or folders were found..."
 msgstr "Repositórios ou pasta não foram localizados..."
 
@@ -716,6 +752,78 @@ msgstr "Esta versão do Ubuntu não é compatível com o comando gconftool-2."
 # ----------------------------------------------------------------------------------------
 
 
+# Para criar um perfil do AppArmor para o Firefox
+
+
+msgid  "AppArmor is loaded into the kernel."
+msgstr "AppArmor está carregado no kernel."
+
+msgid  "AppArmor is not loaded in the kernel."
+msgstr "AppArmor não está carregado no kernel."
+
+msgid  "AppArmor is active."
+msgstr "AppArmor está ativo."
+
+msgid  "Error: Firefox not found on the system."
+msgstr "Erro: Firefox não encontrado no sistema."
+
+msgid  "Error: AppArmor profiles directory not found!"
+msgstr "Erro: Diretório de perfis do AppArmor não encontrado!"
+
+msgid  "Firefox profile successfully created and uploaded to AppArmor!"
+msgstr "Perfil do Firefox criado e carregado no AppArmor com sucesso!"
+
+msgid  "Error: Failed to load Firefox profile in AppArmor."
+msgstr "Erro: Falha ao carregar o perfil do Firefox no AppArmor."
+
+msgid  "AppArmor is not active."
+msgstr "AppArmor não está ativo."
+
+msgid  "Profile %s already exists on %s."
+msgstr "O perfil %s já existe em %s."
+
+msgid  "Profile %s does not exist on %s."
+msgstr "O perfil %s não existe em %s."
+
+# ----------------------------------------------------------------------------------------
+
+
+# Para remover pacotes inseguros no Ubuntu
+
+
+msgid  "Starting to remove insecure packages on the system..."
+msgstr "Iniciando a remoção de pacotes inseguros no sistema..."
+
+msgid  "The following packages will be removed:"
+msgstr "Os seguintes pacotes serão removidos:"
+
+msgid  "Do you want to continue with removing these packages? (y/n):"
+msgstr "Deseja continuar com a remoção desses pacotes? (s/n):"
+
+msgid  "Operation cancelled."
+msgstr "Operação cancelada."
+
+msgid  "Removing the package"
+msgstr "Removendo o pacote"
+
+msgid  "Package %s is not installed."
+msgstr "O pacote %s não está instalado."
+
+msgid  "Package removal completed."
+msgstr "Remoção de pacotes completada."
+
+msgid  "Restarting UFW Firewall..."
+msgstr "Reiniciando o Firewall UFW..."
+
+msgid  "Removal of insecure packages on the system completed successfully."
+msgstr "Remoção de pacotes inseguros no sistema finalizada com sucesso."
+
+
+# ----------------------------------------------------------------------------------------
+
+
+
+# ----------------------------------------------------------------------------------------
 
 msgid  "Setting up Gnome desktop"
 msgstr "Configurando o ambiente de trabalho Gnome"
@@ -732,6 +840,13 @@ msgstr "Nenhum dos arquivos (/etc/os-release ou /etc/lsb-release) de sistema foi
 msgid  "Error executing command to adjust window buttons. See log file %s for details."
 msgstr "Erro ao executar o comando para ajustar os botões da janela. Veja o arquivo de log %s para detalhes."
 
+
+msgid  "Package manager not found!"
+msgstr "Gerenciador de pacotes não encontrado!"
+
+
+msgid  "List of services currently loaded at boot:"
+msgstr "Lista de serviços carregados durante a inicialização atualmente:"
 
 
 #: ubuntu-debullshit.sh:45 ubuntu-debullshit.sh:47

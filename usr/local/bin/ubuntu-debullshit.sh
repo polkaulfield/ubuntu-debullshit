@@ -10,6 +10,10 @@
 # Melhorando o desempenho do Ubuntu em computadores de baixa potência, também útil para  #
 # máquinas mais potentes.                                                                #
 #                                                                                        #
+# É focado na manutenção de servidores nos quais o Ubuntu com GNOME foi instalado, onde  #
+# não é possível realizar a formatação.                                                  #
+#                                                                                        #
+#                                                                                        #
 # Suporte a idiomas: Português (Brasil) e Inglês (Estados Unidos)                        #
 #                                                                                        #
 # Authors:                                                                               #
@@ -122,6 +126,12 @@ wallpaper="/usr/share/backgrounds/gnome/blobs-l.svg"
 
 
 time="sleep 1"
+
+
+# Exibe uma notificação com o nome do usuário selecionado
+
+DELAY=20  # Defina o tempo de delay para a notificação
+
 
 # ----------------------------------------------------------------------------------------
 
@@ -242,7 +252,7 @@ fi
 
                 echo -e "${GREEN}\n$(gettext "Distribution"): Void Linux \n ${NC}"
 
-                
+               
 # No Void Linux / SystemRescue 11.00
 
 # sudo: usuário desconhecido DISPLAY=:0.0
@@ -351,6 +361,75 @@ notify_users="sudo -u $(who | awk '{print $1}' | head -n 1) DISPLAY=$DISPLAY DBU
 #     Isso significa que há um problema relacionado ao plugin de auditoria no sudo, que é responsável por registrar os comandos executados com privilégios de superusuário. O erro pode ser causado por uma configuração incorreta ou um problema de permissões.
 
 
+
+
+    # Chama a função para identificar a distribuição
+
+    identificar_distro
+
+
+# ----------------------------------------------------------------------------------------
+
+
+# Função para verificar a presença de um comando
+
+
+# verificar_comando() {
+
+#    comando=$1
+
+#    if command -v "$comando" &> /dev/null; then
+
+#        echo "$comando está instalado."
+
+#    package_manager="$1"
+
+#     else
+
+#        echo "$comando NÃO está instalado."
+
+#    fi
+# }
+
+
+# Verificar presença dos comandos
+
+# verificar_comando "apt"
+# verificar_comando "apt-get"
+
+
+
+# Verifica o gerenciador de pacotes no Debian e derivados.
+
+if [[ "$(command -v apt-get)" ]]; then
+
+    package_manager="apt-get"
+
+
+elif [[ "$(command -v apt)" ]]; then
+
+    package_manager="apt"
+
+
+else
+
+
+
+    echo -e "${RED}$(gettext 'Package manager not found!') - [apt-get | apt] \n${NC}"
+
+    $time
+
+
+    $notify_users  \
+    notify-send -i "/usr/share/icons/gnome/32x32/status/software-update-urgent.png" -t "$((DELAY * 1000))" "$(gettext 'Error')" "\n$(gettext 'Package manager not found!') - [apt-get | apt] \n"
+
+    # A conexão está fechada
+
+    # exit 1
+
+fi
+
+
 # ----------------------------------------------------------------------------------------
 
 # Introdução ao Shell Script 
@@ -380,11 +459,6 @@ function intro(){
 
 
 
-
-message=$(gettext 'The log file will be in %s at the end of the processes for checking errors or bugs.')
-
-
-
 echo -e "$(gettext "Hardware where the optimization was performed:")
 
 " > /tmp/introducao.txt
@@ -406,6 +480,15 @@ echo -e "$(gettext "The changes are intended to make the system more responsive,
 GNOME Shell brings by default. Use it if your machine really needs it, or if you don't really use the resources.")
 " >> /tmp/introducao.txt
 
+
+
+message=$(gettext 'You can access the Frequently Asked Questions (FAQ) file in PDF format at: %s')
+
+echo -e "$(printf "$message" "/usr/share/doc/ubuntu-debullshit/Perguntas Frequentes-$(echo $LANG | cut -d. -f1).pdf") \n\n" >> /tmp/introducao.txt
+
+
+message=$(gettext 'The log file will be in %s at the end of the processes for checking errors or bugs.')
+
 echo "$(printf "$message"  "$log")" >> /tmp/introducao.txt
 
 
@@ -422,7 +505,7 @@ if [ -n "$DISPLAY" ]; then
 
     # yad --center --title="Aviso" --text="$introducao" --button="OK" --width=800 --height=500 --wrap 
 
-    yad --center --title="$(gettext 'Notice')" --text-info --wrap --editable --width="900" --height="400"  --buttons-layout=center --button="$(gettext 'OK')":0  --filename=/dev/stdin << EOF 
+    yad --center --title="$(gettext 'Notice')" --text-info --wrap --editable --width="1300" --height="500"  --buttons-layout=center --button="$(gettext 'OK')":0  --filename=/dev/stdin << EOF 
 $introducao 
 EOF
 
@@ -525,6 +608,9 @@ function cleanup() {
 # Esse comando é útil para manter seu sistema mais limpo e evitar o acúmulo de pacotes desnecessários.
 
 
+# Limpar pacotes órfãos e cache
+
+# echo "Limpando pacotes órfãos e cache..."
 
 
 
@@ -547,34 +633,10 @@ function cleanup() {
 # de não manter pacotes antigos ou desnecessários.
 
 
-# ----------------------------------------------------------------------------------------
-
-# Função para verificar a presença de um comando
-
-verificar_comando() {
-    comando=$1
-    if command -v "$comando" &> /dev/null; then
-
-    #    echo "$comando está instalado."
-
-    apt_1="$1"
-
-    # else
-
-    #    echo "$comando NÃO está instalado."
-
-    fi
-}
-
-# Verificar presença dos comandos
-
-verificar_comando "apt"
-verificar_comando "apt-get"
-
-# ----------------------------------------------------------------------------------------
 
 
-    $apt_1 autoremove --purge  -y 2>> "$log"
+
+    $package_manager autoremove --purge  -y 2>> "$log"
 
 
 
@@ -594,6 +656,10 @@ verificar_comando "apt-get"
 # 
 # apt-get é uma ferramenta mais antiga, que ainda é amplamente utilizada, especialmente 
 # em scripts, mas sua interface é um pouco mais "bruta" em comparação com o apt.
+
+
+
+    $package_manager clean 2>> "$log"
 
 
 }
@@ -655,7 +721,6 @@ function check_programs(){
 
 
 
-# apt install -y preload
 
 # ----------------------------------------------------------------------------------------
 
@@ -678,13 +743,13 @@ function check_programs(){
 # which notify-send         1> /dev/null 2> /dev/null || { echo "Programa notify-send não esta instalado."   ; exit ; }
 
 
-which gettext             1> /dev/null 2> /dev/null || { echo "Programa gettext não esta instalado."       ; exit ; }
+# which gettext             1> /dev/null 2> /dev/null || { echo "Programa gettext não esta instalado."       ; exit ; }
 
 
 # ----------------------------------------------------------------------------------------
 
 
-for cmd in snap apt dpkg systemctl ; do
+for cmd in snap $package_manager dpkg systemctl ; do
 
 
     command -v $cmd 1> /dev/null 2> /dev/null
@@ -716,7 +781,7 @@ done
 
 
 
-for cmd in  sysctl pgrep rm fc-list gsettings gpg sed sudo curl dd tee wget reboot break flatpak dbus-launch dconf ; do
+for cmd in  sysctl pgrep rm fc-list gsettings gpg sed sudo curl dd tee wget reboot break flatpak dbus-launch dconf apparmor_parser ; do
 
 
     # O comando which pode falhar em alguns sistemas ou não estar presente por padrão.
@@ -1014,10 +1079,499 @@ fi
 
 # ----------------------------------------------------------------------------------------
 
+
+# Para remover pacotes inseguros no Ubuntu
+
+
+
+# A remoção de certos itens pode ir contra boas práticas de governança em TI, especialmente 
+# se não for bem planejada e executada. A governança em TI visa garantir segurança, 
+# confiabilidade e eficiência no uso de recursos tecnológicos. Algumas ações que podem 
+# violar essas diretrizes incluem:
+# 
+# 1. Remover pacotes essenciais do sistema
+# 
+# Pacotes que são críticos para o funcionamento do sistema, como systemd, init, ou outros 
+# componentes fundamentais, devem ser mantidos. A remoção desses pacotes pode causar sérios 
+# problemas de estabilidade e segurança, o que vai contra os princípios de governança, 
+# como segurança e confiabilidade.
+# 
+# 2. Desabilitar logs do sistema
+# 
+# O Ubuntu, mantém arquivos de log importantes (como os localizados em /var/log). 
+# Desabilitar ou remover esses logs pode ser uma violação das práticas de auditoria e 
+# conformidade com regulamentos e leis, além de dificultar a solução de problemas e a 
+# identificação de ataques. A integridade dos logs é essencial para garantir a 
+# transparência e a segurança do ambiente de TI.
+# 
+# 3. Remover ou desabilitar ferramentas de monitoramento
+# 
+# Ferramentas de monitoramento e gerenciamento, como top, htop, netstat, ps e outras 
+# ferramentas essenciais de análise de performance e segurança, são importantes para 
+# garantir que a infraestrutura esteja funcionando corretamente e de maneira segura. Remover 
+# essas ferramentas pode prejudicar a capacidade de diagnosticar problemas de desempenho ou 
+# segurança, contrariando os princípios de monitoramento contínuo e gestão de riscos.
+# 
+# 4. Remover pacotes de segurança e atualizações automáticas
+# 
+# Desabilitar atualizações automáticas ou remover pacotes relacionados à segurança, como 
+# ufw (firewall), AppArmor, ou fail2ban, compromete diretamente a segurança do sistema. 
+# Governança em TI envolve garantir que as máquinas estejam sempre atualizadas com os 
+# patches de segurança mais recentes.
+# 
+# 5. Desabilitar ou remover ferramentas de backup
+# 
+# Ferramentas de backup, como rsync ou soluções mais complexas de backup, devem ser 
+# mantidas para garantir que os dados possam ser recuperados em caso de falha. Remover ou 
+# desabilitar essas ferramentas coloca os dados em risco e vai contra a política de 
+# continuidade de negócios.
+# 
+# 6. Remover pacotes de auditoria e conformidade
+# 
+# O Ubuntu inclui pacotes e ferramentas que permitem auditar a conformidade do sistema com 
+# políticas e regulamentos (por exemplo, auditd). A remoção dessas ferramentas pode 
+# comprometer a conformidade com normas como ISO 27001, LGPD (Lei Geral de Proteção de Dados), 
+# ou outras regulamentações que exijam auditoria e registro de ações.
+# 
+# 7. Alterar permissões de diretórios críticos sem controle adequado
+# 
+# Modificar permissões de diretórios críticos do sistema sem um processo controlado e 
+# documentado pode criar brechas de segurança. Por exemplo, conceder permissões excessivas 
+# para o diretório /etc/ ou /var/ pode resultar em riscos de escalação de privilégios e 
+# comprometer a segurança do sistema.
+# 
+# 8. Remover ou desabilitar SELinux/AppArmor
+# 
+# Desabilitar ou remover ferramentas de segurança como SELinux (Security-Enhanced Linux) 
+# ou AppArmor, que proporcionam controles de segurança adicionais para processos e 
+# usuários, pode enfraquecer as defesas do sistema. Isso vai contra os princípios de 
+# controle de acesso e isolamento em uma boa governança.
+# 
+# 9. Desabilitar ou remover controle de versão de configurações
+# 
+# A remoção de ferramentas de controle de versão como git ou a falta de controle 
+# centralizado de configurações pode dificultar a rastreabilidade e a auditoria de 
+# mudanças nas configurações do sistema. Rastreabilidade e controle de mudanças são 
+# fundamentais para uma boa governança.
+# 
+# 10. Desabilitar autenticação multifator (MFA) ou sistemas de autenticação forte
+# 
+# Remover ou desabilitar autenticação multifator ou outras soluções de autenticação forte 
+# pode comprometer a segurança de acesso e violar políticas de controle de acesso 
+# baseadas em identidade. Isso pode resultar em vulnerabilidades de acesso não autorizado.
+# 
+# 
+# 
+# Em uma boa política de governança de TI, as mudanças e remoções no sistema devem ser 
+# feitas com cautela e com base em uma análise de risco detalhada. Qualquer alteração que 
+# comprometa a segurança, confiabilidade, monitoramento e compliance do sistema vai contra 
+# as boas práticas de governança e pode causar danos de longo prazo.
+# 
+# 
+# ========================================================================================
+# 
+# 
+# Função 
+#
+# 
+# Remove pacotes que podem representar riscos de segurança em ambientes críticos no Ubuntu. 
+# 
+# Não apenas remove os pacotes, mas também faz uma verificação antes de prosseguir para 
+# garantir que você esteja ciente dos pacotes que serão removidos.
+# 
+# 
+# É importante identificar pacotes que podem representar riscos de segurança para ambientes 
+# críticos. Certos pacotes e serviços, se não configurados corretamente ou mal utilizados, 
+# podem comprometer a segurança do sistema e, por consequência, da infraestrutura de TI 
+# como um todo. 
+# 
+# Abaixo estão alguns exemplos de pacotes e serviços comuns que podem representar um risco 
+# de segurança:
+# 
+# 1. SSH (Secure Shell)
+# 
+#    Pacote: openssh-server
+# 
+#    Risco: O openssh-server permite a administração remota do sistema por meio do 
+# protocolo SSH. Se não for configurado corretamente (exemplo: sem autenticação por chave 
+# pública ou com senha fraca), pode ser um vetor de ataque para acesso não autorizado.
+# 
+#    Solução: Assegure-se de que a autenticação baseada em senha esteja desabilitada, 
+# forçando o uso de autenticação por chave pública. Considere o uso de autenticação 
+# multifator (MFA) e limitação de tentativas de login.
+# 
+# 2. FTP (File Transfer Protocol)
+# 
+#    Pacote: vsftpd / proftpd
+# 
+#    Risco: O FTP é um protocolo antigo e inseguro, pois transmite credenciais e dados em 
+# texto claro. Mesmo versões seguras, como o FTPS (FTP com TLS/SSL), ainda têm problemas 
+# de segurança se mal configuradas.
+# 
+#     Solução: Evite o uso de FTP sempre que possível. Prefira SFTP (parte do SSH) ou 
+# outros protocolos seguros, como SCP, para transferência de arquivos.
+# 
+# 3. Telnet
+# 
+#    Pacote: telnet
+# 
+#    Risco: O Telnet é um protocolo extremamente inseguro, pois também transmite dados em 
+# texto claro, incluindo credenciais de login. Seu uso pode representar um risco 
+# significativo em qualquer ambiente crítico.
+# 
+#    Solução: Remova o telnet ou desabilite seu serviço, e utilize SSH ou SFTP como 
+# alternativas seguras para comunicação remota.
+# 
+# 4. NFS (Network File System)
+# 
+#    Pacote: nfs-common / nfs-kernel-server
+# 
+#    Risco: O NFS é usado para compartilhamento de arquivos entre sistemas, mas pode ser 
+# vulnerável a ataques se não for configurado corretamente, permitindo que usuários não 
+# autorizados acessem dados críticos.
+# 
+#    Solução: Configure o NFS com autenticação adequada e limite o acesso a diretórios 
+# específicos. Montar NFS com opções seguras como noexec, nosuid e nodev pode ajudar a 
+# minimizar riscos.
+# 
+# 5. HTTP (Web Servers)
+# 
+#    Pacote: apache2 / nginx
+# 
+#    Risco: Servidores web mal configurados podem ser um ponto de entrada para ataques de 
+# injeção, exploração de vulnerabilidades ou ataques DDoS. Além disso, se não forem mantidos 
+# atualizados, podem expor o sistema a falhas de segurança conhecidas.
+# 
+#    Solução: Certifique-se de que o servidor web esteja configurado corretamente e que 
+# apenas os serviços necessários estejam ativos. Mantenha as versões do servidor web sempre 
+# atualizadas e implemente firewalls e monitoramento de tráfego.
+# 
+# 6. Sudoers e Permissões Elevadas
+# 
+#     Pacote: sudo
+# 
+#     Risco: Se o arquivo /etc/sudoers não for configurado corretamente, pode dar permissões 
+# elevadas de forma indevida, permitindo que usuários comuns executem comandos como Root, 
+# o que pode ser explorado em caso de comprometimento do sistema.
+# 
+#     Solução: Garanta que o arquivo /etc/sudoers esteja configurado de acordo com a 
+# política de mínimos privilégios. Utilize a ferramenta nano para editar o arquivo e evite 
+# permitir que usuários comuns executem comandos críticos sem necessidade.
+# 
+# 7. Serviços de Rede Desnecessários ou Inseguros
+# 
+#     Pacote: samba
+# 
+#     Risco: O samba é usado para compartilhar arquivos entre sistemas Linux e Windows. No 
+# entanto, se não for configurado corretamente, pode expor dados sensíveis ou permitir 
+# acesso não autorizado a sistemas críticos.
+# 
+#     Solução: Remova o pacote samba ou desative o serviço se não for necessário. Se for 
+# necessário, limite os acessos e configure autenticação forte.
+# 
+# 8. X11 (Servidor de Exibição Gráfico)
+# 
+#     Pacote: x11-common
+# 
+#     Risco: O X11 pode permitir execução de comandos remotos e interações com a interface 
+# gráfica de forma insegura, especialmente se você estiver usando uma conexão remota sem 
+# criptografia adequada.
+# 
+#     Solução: Se possível, remova o X11 em servidores, a menos que seja absolutamente 
+# necessário. Em sistemas que exigem gráficos, use soluções como X11 over SSH ou outras 
+# alternativas seguras.
+# 
+# 9. Desnecessidade de Serviços de Diagnóstico e Depuração
+# 
+#     Pacote: telnetd, debug, strace
+# 
+#     Risco: Ferramentas de diagnóstico e depuração podem ser extremamente úteis, mas 
+# também podem ser exploradas por atacantes para obter informações detalhadas sobre o 
+# funcionamento interno do sistema.
+# 
+#     Solução: Remova pacotes de depuração ou ferramentas de diagnóstico, a menos que 
+# sejam necessárias para operações específicas, e restrinja seu uso para administradores 
+# de sistemas.
+# 
+# 10. Apache ou PHP com Vulnerabilidades Conhecidas
+# 
+#     Pacote: libapache2-mod-php
+# 
+#     Risco: O PHP é frequentemente utilizado em sites dinâmicos, mas, se não for 
+# configurado corretamente ou mantido atualizado, pode ser vulnerável a injeções de 
+# código e execução remota de código.
+# 
+#     Solução: Mantenha o Apache e PHP sempre atualizados e use práticas de codificação 
+# segura. Desative funções perigosas no PHP, como exec() e shell_exec(), e configure o 
+# servidor para evitar a execução de scripts maliciosos.
+# 
+# 11. Misconfiguração de Firewall
+# 
+#     Pacote: ufw (Uncomplicated Firewall)
+# 
+#     Risco: Um firewall mal configurado pode expor o sistema a tráfego indesejado ou 
+# permitir ataques de escaneamento de portas e exposição de serviços.
+# 
+#     Solução: Configure o ufw corretamente para bloquear tráfego indesejado e limitar o 
+# acesso a serviços críticos. Utilize listas de controle de acesso (ACLs) para restringir 
+# a comunicação de redes externas.
+# 
+# 
+# Em ambientes críticos, a segurança é uma prioridade, e as boas práticas de governança 
+# de TI devem ser seguidas para minimizar riscos. A principal recomendação é sempre 
+# realizar uma auditoria de segurança periódica no ambiente, revisar os pacotes e 
+# serviços instalados, e desabilitar ou remover aqueles que não são estritamente necessários.
+# 
+# Práticas recomendadas:
+# 
+#     Desabilitar serviços não utilizados.
+#     Configurar corretamente pacotes e serviços essenciais.
+#     Implementar autenticação forte e políticas de acesso restrito.
+#     Manter todos os pacotes e sistemas sempre atualizados.
+#     Monitorar o tráfego e os logs de segurança regularmente.
+# 
+# 
+# Todas as alterações devem ser bem documentadas e sempre alinhadas à estratégia de 
+# governança de TI da organização.
+
+
+
+function remover_pacotes_inseguros() {
+
+
+
+# Essa parte do script é para remover pacotes que representam riscos de segurança em 
+# ambientes críticos.
+
+
+echo -e "\n$(gettext 'Starting to remove insecure packages on the system...') \n"
+
+
+# Função para verificar se o pacote está instalado
+
+
+# A função is_installed() Verifica se um pacote está instalado no sistema usando o 
+# comando dpkg.
+
+function is_installed() {
+
+  dpkg -l | grep -qw "$1"
+
+}
+
+
+# Pacotes a serem removidos
+
+PACKAGES=(
+
+  "telnet"
+  "vsftpd"
+  "proftpd"
+  "samba"
+  "x11-common"
+  "libapache2-mod-php"
+  "openssh-server"
+  "nfs-common"
+  "nfs-kernel-server"
+  "apache2"
+
+)
+
+
+
+# Vai mostrar os pacotes que serão removidos e solicitará sua confirmação antes de 
+# prosseguir. Digite s para confirmar a remoção ou n para cancelar.
+
+
+# Lista de pacotes: Inclui pacotes inseguros que você pode querer remover, como 
+# telnet, vsftpd, proftpd, samba, entre outros.
+
+# Exibindo pacotes que serão removidos
+
+
+echo -e "${GREEN}\n$(gettext 'The following packages will be removed:') \n ${NC}"
+
+for package in "${PACKAGES[@]}"; do
+
+  if is_installed "$package"; then
+
+    echo "- $package"
+
+  fi
+
+done
+
+
+
+# Confirmar remoção
+
+
+# Em modo texto
+
+read -p "$(gettext 'Do you want to continue with removing these packages? (y/n):')" confirm
+
+if [[ "$confirm" != "s" || "$confirm" != "y"  ]]; then
+
+    echo -e "${RED}\n$(gettext 'Operation cancelled.') \n${NC}"
+
+    exit 1
+
+fi
+
+
+
+# Remover pacotes inseguros
+
+# Verificação e remoção: Agora o script percorre cada pacote na lista e, se estiver 
+# instalado, executa o comando apt-get remove --purge para remover o pacote e 
+# apt-get autoremove para remover dependências desnecessárias.
+
+for package in "${PACKAGES[@]}"; do
+
+  if is_installed "$package"; then
+
+    echo -e "$(gettext 'Removing the package'): $package \n"
+
+    $package_manager remove --purge -y "$package"
+
+    $package_manager autoremove -y
+
+    $package_manager clean
+
+
+  else
+
+    message=$(gettext 'Package %s is not installed.')
+
+    echo -e "${RED}\n$(printf "$message" "$package") \n${NC}"
+
+
+  fi
+
+
+done
+
+
+    echo -e "${GREEN}\n$(gettext 'Package removal completed.') \n ${NC}"
+
+
+# Firewall: Se o pacote ufw (Uncomplicated Firewall) estiver instalado, ele será 
+# recarregado no final para garantir que as alterações na segurança sejam aplicadas.
+
+
+# Reiniciar o serviço de firewall após a remoção (caso o UFW seja utilizado)
+
+
+if is_installed "ufw"; then
+
+
+    echo -e "${GREEN}\n$(gettext 'Restarting UFW Firewall...') \n ${NC}"
+
+    ufw reload
+
+fi
+
+
+    echo -e "${GREEN}\n$(gettext 'Removal of insecure packages on the system completed successfully.') \n ${NC}"
+
+
+# Avisos:
+# 
+#  Faça backup: Antes de executar o script que remova pacotes, sempre faça backup de 
+# configurações e dados importantes.
+# 
+#  Testar em ambiente de desenvolvimento: Teste o script em um ambiente controlado 
+# (como uma máquina de desenvolvimento ou teste) antes de aplicá-lo em sistemas críticos.
+# 
+# Essa parte do script proporciona uma maneira simples de automatizar a remoção de pacotes 
+# inseguros em servidores Ubuntu, alinhando-se com as melhores práticas de governança de TI 
+# para ambientes críticos.
+
+
+# ----------------------------------------------------------------------------------------
+
+echo "
+Lista de todos os pacotes instalados no sistema. Procure por pacotes com versões antigas 
+ou inseguras.
+
+"  >> "$log"
+
+
+sudo apt list --installed >> "$log"
+
+
+echo "
+
+Para garantir que você tenha as últimas versões de pacotes e corrigir pacotes vulneráveis, execute:
+
+sudo apt update
+sudo apt upgrade -y 
+
+Se você estiver em uma distribuição baseada no Debian/Ubuntu, esse comando atualizará os 
+pacotes para suas versões mais recentes.
+
+
+Pacotes quebrados podem causar problemas de segurança e instabilidade. 
+
+sudo apt --fix-broken install
+
+Isso tenta corrigir pacotes quebrados ou dependências ausentes.
+
+
+Verifique se há pacotes com vulnerabilidades
+
+    Você pode usar ferramentas como dpkg ou apt para verificar pacotes vulneráveis:
+
+sudo apt list --upgradable
+
+Se algum pacote tiver atualizações de segurança, você pode atualizá-los manualmente com:
+
+sudo apt upgrade <nome-do-pacote>
+
+
+Verifique fontes de repositórios
+
+    Certifique-se de que seus repositórios estão corretos e seguros. Verifique o arquivo 
+/etc/apt/sources.list para garantir que os repositórios apontam para fontes confiáveis e 
+seguras.
+
+
+Ferramentas de auditoria de segurança
+
+    Ferramentas como o unattended-upgrades ou security updates podem ser configuradas para 
+garantir que seu sistema esteja sempre atualizado com os patches de segurança.
+
+"  >> "$log"
+
+
+
+
+
+# ----------------------------------------------------------------------------------------
+
+    # Remova os resíduos.
+
+    cleanup
+
+
+}
+
+
+# ----------------------------------------------------------------------------------------
+
 # Remove muitos pacotes deb pré-instalados
 
 
+# Remover pacotes desnecessários: Remove jogos e outros pacotes pesados que podem não ser 
+# necessários.
+
+
 function remove_ubuntu_default_apps() {
+
+
+# Desinstalar pacotes desnecessários para liberar espaço e recursos
+
+# echo "Removendo pacotes desnecessários..."
 
 
 # Martin Erik Rieland Bindslev Bisgaard  <https://github.com/SirBisgaard>
@@ -1025,11 +1579,11 @@ function remove_ubuntu_default_apps() {
 
     echo -e "${GREEN}\n$(gettext 'Removing Ubuntu default apps') \n ${NC}"
 
-    apt remove -y \
-gnome-clocks gnome-calculator gnome-characters gnome-font-viewer gnome-keyring gnome-keyring-pkcs11 gnome-logs gnome-text-editor gnome-power-manager eog baobab evince evolution* empathy empathy-common software-center
+    $package_manager remove --purge -y \
+gnome-games rhythmbox gnome-clocks gnome-calculator gnome-characters gnome-font-viewer gnome-keyring gnome-keyring-pkcs11 gnome-logs gnome-text-editor gnome-power-manager eog baobab evince evolution* empathy empathy-common software-center
 
 
-# apt-get remove --purge -y pacote
+# $package_manager remove --purge -y pacote
 
 
     # Remova os resíduos.
@@ -1056,7 +1610,7 @@ function disable_ubuntu_report() {
 
     $time
 
-    apt purge -y ubuntu-report    2>> "$log"
+    $package_manager purge -y ubuntu-report    2>> "$log"
 
 
     # Remova os resíduos.
@@ -1115,7 +1669,7 @@ echo -e "\n$(gettext 'Uninstalling package...')\n"
 
 $time
 
-apt purge -y  apport* apport-gtk apport-symptoms 2>> "$log"
+$package_manager purge -y  apport* apport-gtk apport-symptoms 2>> "$log"
 
 
 # Remova os resíduos.
@@ -1206,10 +1760,10 @@ then
 
     $time
 
-    apt purge -y snapd*  2>> "$log"
+    $package_manager purge -y snapd*  2>> "$log"
 
 
-    apt remove --purge -y gnome-software-plugin-snap  2>> "$log"
+    $package_manager remove --purge -y gnome-software-plugin-snap  2>> "$log"
 
 
 
@@ -1313,6 +1867,63 @@ fi
 
 
 
+
+
+# ----------------------------------------------------------------------------------------
+
+
+# Verificar se o módulo do kernel do AppArmor está carregado
+
+if lsmod | grep -q apparmor; then
+
+
+  echo -e "${GREEN}\n$(gettext 'AppArmor is loaded into the kernel.') \n ${NC}"
+
+  $time
+
+
+else
+
+
+  echo -e "${RED}\n$(gettext 'AppArmor is not loaded in the kernel.') \n${NC}"
+
+  $time
+
+
+fi
+
+
+
+# Verificar se o serviço do AppArmor está ativo
+
+if systemctl is-active --quiet apparmor; then
+
+
+  echo -e "${GREEN}\n$(gettext 'AppArmor is active.') \n ${NC}"
+
+  $time
+
+
+# Os programas em snap são confinados pelo apparmor
+
+apparmor_status | grep -v 'unconfined' | grep '/snap/' | tee -a "$log"
+
+
+else
+
+
+  echo -e "${RED}\n$(gettext 'AppArmor is not active.') \n${NC}"
+
+  $time
+
+
+fi
+
+
+# ----------------------------------------------------------------------------------------
+
+
+
 else
 
 
@@ -1335,7 +1946,9 @@ fi
 
 }
 
+
 # ----------------------------------------------------------------------------------------
+
 
 function disable_terminal_ads() {
 
@@ -1376,7 +1989,7 @@ function update_system() {
 
     check_internet
 
-    apt update 2>> "$log" && apt upgrade -y   2>> "$log"
+    $package_manager update 2>> "$log" && $package_manager upgrade -y   2>> "$log"
 
     $time
 
@@ -1420,7 +2033,7 @@ else
 
   $time
 
-  apt install -y flatpak  2>> "$log"
+  $package_manager install -y flatpak  2>> "$log"
 
   flatpak remote-add --if-not-exists flathub https://flathub.org/repo/flathub.flatpakrepo  2>> "$log"
 
@@ -1458,7 +2071,7 @@ fi
 # de pacotes Flatpak através dessa ferramenta.
 
 
-    apt install --no-install-recommends -y gnome-software  gnome-software-plugin-flatpak 2>> "$log"
+    $package_manager install --no-install-recommends -y gnome-software  gnome-software-plugin-flatpak 2>> "$log"
 
 
 }
@@ -1479,7 +2092,7 @@ function gsettings_wrapper() {
 
     if ! command -v dbus-launch; then
 
-        apt install -y dbus-x11  2>> "$log"
+        $package_manager install -y dbus-x11  2>> "$log"
     fi
 
     sudo -Hu $(logname) dbus-launch gsettings "$@"  2>> "$log"
@@ -1496,7 +2109,7 @@ function gnome_extensions_wrapper() {
 
     if ! command -v dbus-launch; then
 
-        apt install -y dbus-x11 2>> "$log"
+        $package_manager install -y dbus-x11 2>> "$log"
 
     fi
 
@@ -1558,7 +2171,7 @@ function setup_vanilla_gnome() {
 
     check_internet
 
-    apt install -y qgnomeplatform-qt5  2>> "$log"
+    $package_manager install -y qgnomeplatform-qt5  2>> "$log"
 
 
 # Ajustes com o GNOME Tweaks
@@ -1639,9 +2252,9 @@ function setup_vanilla_gnome() {
 # 
 
 
-#   apt install -y fonts-inter papirus-icon-theme gnome-sushi
+#   $package_manager install -y fonts-inter papirus-icon-theme gnome-sushi
 
-    apt install -y gnome-session fonts-cantarell adwaita-icon-theme gnome-backgrounds gnome-tweaks vanilla-gnome-default-settings gnome-shell-extension-manager && apt remove purge -y ubuntu-session yaru-theme-gnome-shell yaru-theme-gtk yaru-theme-icon yaru-theme-sound   2>> "$log"
+    $package_manager install -y gnome-session fonts-cantarell adwaita-icon-theme gnome-backgrounds gnome-tweaks vanilla-gnome-default-settings gnome-shell-extension-manager && $package_manager remove purge -y ubuntu-session yaru-theme-gnome-shell yaru-theme-gtk yaru-theme-icon yaru-theme-sound   2>> "$log"
 
   
 
@@ -1824,9 +2437,9 @@ else
 
     $time
 
-    apt update
+    $package_manager update
 
-    apt install -y $PACKAGE
+    $package_manager install -y $PACKAGE
 
     if [ $? -eq 0 ]; then
 
@@ -1870,7 +2483,7 @@ function setup_julianfairfax_repo() {
 
     check_internet
 
-    command -v curl || apt install -y curl 2>> "$log"
+    command -v curl || $package_manager install -y curl 2>> "$log"
 
 
     # Verificar se a pasta /etc/apt/sources.list.d/ existe
@@ -1922,14 +2535,14 @@ else
 
     curl -s https://julianfairfax.gitlab.io/package-repo/pub.gpg | gpg --dearmor | sudo dd of=/usr/share/keyrings/julians-package-repo.gpg   2>> "$log"
 
-    echo 'deb [ signed-by=/usr/share/keyrings/julians-package-repo.gpg ] https://julianfairfax.gitlab.io/package-repo/debs packages main' | sudo tee /etc/apt/sources.list.d/julians-package-repo.list
+    echo 'deb [ signed-by=/usr/share/keyrings/julians-package-repo.gpg ] https://julianfairfax.gitlab.io/package-repo/debs packages main' | sudo tee /etc/$package_manager/sources.list.d/julians-package-repo.list
 
 
     echo -e "${GREEN}$(gettext 'Updating package list...')  ${NC}"
 
     $time
 
-    apt update 2>> "$log"
+    $package_manager update 2>> "$log"
 
 fi
 
@@ -1948,7 +2561,7 @@ function install_adwgtk3() {
     check_internet
 
 
-    apt install -y adw-gtk3 2>> "$log"
+    $package_manager install -y adw-gtk3 2>> "$log"
 
     if command -v flatpak; then
 
@@ -2040,7 +2653,7 @@ wget -O /tmp/adwaita-icon-theme.deb -c "$file_url"  2>> "$log"
 
 
 
-    apt install -y /tmp/adwaita-icon-theme.deb   2>> "$log"
+    $package_manager install -y /tmp/adwaita-icon-theme.deb   2>> "$log"
 
 fi
 
@@ -2048,7 +2661,7 @@ fi
 
 # ou 
 
-# apt install -y adwaita-icon-theme
+# $package_manager install -y adwaita-icon-theme
 
 
 
@@ -2056,16 +2669,19 @@ fi
 # 
 # Source: https://github.com/PapirusDevelopmentTeam/papirus-icon-theme
 # 
-#    apt-get update
+#    $package_manager update
 #
-#    apt-get install -y papirus-icon-theme
+#    $package_manager install -y papirus-icon-theme
 
 
 
-    apt install -y morewaita  2>> "$log"
+    $package_manager install -y morewaita  2>> "$log"
 
  
 }
+
+
+# https://github.com/polkaulfield/ubuntu-debullshit/issues/6
 
 
 # ----------------------------------------------------------------------------------------
@@ -2112,7 +2728,7 @@ else
 
     $time
 
-    apt remove purge -y firefox   2>> "$log"
+    $package_manager remove purge -y firefox   2>> "$log"
 
     snap remove --purge firefox   2>> "$log"
 
@@ -2168,6 +2784,9 @@ fi
 
 
 
+
+
+
     # Importe a chave de assinatura do repositório APT da Mozilla:
 
     # wget -q https://packages.mozilla.org/apt/repo-signing-key.gpg -O- | sudo tee /etc/apt/keyrings/packages.mozilla.org.asc > /dev/null
@@ -2204,7 +2823,7 @@ Pin-Priority: 1000
 
 # Atualize a lista de pacotes e instale o pacote .deb do Firefox:
 
-apt update  2>> "$log" && apt install -y firefox  2>> "$log"
+$package_manager update  2>> "$log" && $package_manager install -y firefox  2>> "$log"
 
 
 
@@ -2216,11 +2835,17 @@ apt update  2>> "$log" && apt install -y firefox  2>> "$log"
 # instalar o pacote do idioma português brasileiro (se quiser outro, substitua pt-br 
 # pelo código de idioma):
 
-# apt-get install -y firefox-l10n-pt-br
+# $package_manager install -y firefox-l10n-pt-br
 
 # Para listar todos os pacotes de idioma disponíveis, você pode usar este comando após 
 # adicionar o repositório APT da Mozilla e executar sudo apt-get update: 
 # apt-cache search firefox-l10n 
+
+
+
+
+AppArmor_Firefox
+
 
 
 
@@ -2542,7 +3167,7 @@ echo -e "\n$(gettext 'Uninstalling package...')\n"
 
 $time
 
-apt purge -y whoopsie 2>> "$log"
+$package_manager purge -y whoopsie 2>> "$log"
 
 
 # Para verificar se o comando foi executado corretamente
@@ -2558,6 +3183,57 @@ fi
 
 
 # Remover o canonical-livepatch
+
+
+# O Livepatch pode consumir uma quantidade significativa de recursos de CPU e memória 
+# enquanto está aplicando patches no kernel em segundo plano. Isso pode afetar o desempenho 
+# em sistemas com recursos limitados.
+# 
+# Nem todas as versões do kernel são compatíveis com o Livepatch. Se você estiver usando 
+# um kernel personalizado ou não suportado, o Livepatch pode não funcionar corretamente, o 
+# que pode levar a falhas ao aplicar as atualizações.
+# 
+# Há o risco de falhas durante o processo de aplicação do patch, o que pode causar 
+# instabilidade no sistema ou até mesmo falhas de desempenho.
+# 
+# O Livepatch depende de servidores da Canonical para fornecer e aplicar patches. Se houver 
+# algum problema de conectividade com esses servidores (por exemplo, perda de conexão com a 
+# internet ou falha nos servidores da Canonical), o sistema pode não ser capaz de aplicar os 
+# patches de segurança críticos.
+# 
+# Se você tiver um kernel altamente personalizado ou modificado no seu sistema, os patches 
+# aplicados pelo Livepatch podem não funcionar corretamente, ou podem causar conflito com as 
+# alterações personalizadas que você fez.
+# 
+# O Livepatch está vinculado aos serviços da Canonical. Se, por algum motivo, a Canonical 
+# suspender o serviço ou houver falhas na plataforma de Livepatch, você pode ficar sem a 
+# capacidade de aplicar patches de kernel sem reiniciar o sistema.
+# 
+# O Livepatch aplica patches de segurança de forma transparente, mas ele não resolve todos 
+# os problemas que exigem uma reinicialização do sistema, como atualizações em módulos de 
+# drivers, mudanças no hardware ou configurações de sistema que não podem ser aplicadas ao 
+# vivo.
+# 
+# É importante realizar reinicializações periódicas para garantir que o sistema esteja em 
+# pleno funcionamento e atualizado.
+# 
+# O Livepatch só aplica atualizações críticas de segurança no kernel e não lida com 
+# atualizações de outros pacotes do sistema. Isso significa que você ainda precisará de 
+# outras ferramentas (como o apt ou unattended-upgrades) para manter o restante do sistema 
+# atualizado.
+# 
+# 
+# Embora o Livepatch no Ubuntu seja uma solução para manter o kernel do sistema atualizado 
+# sem reinicializar, ele não é isento de riscos. Esses riscos incluem problemas de 
+# compatibilidade com kernels personalizados, falhas durante a aplicação de patches, 
+# dependência de serviços remotos e a necessidade de reinicializações periódicas.
+# 
+# Em ambientes de produção ou sistemas críticos, é essencial testar o Livepatch cuidadosamente 
+# e acompanhar de perto a sua eficácia, especialmente se você usar kernels personalizados 
+# ou tiver configurações específicas. Além disso, sempre tenha um plano de contingência 
+# caso a ferramenta não consiga aplicar os patches de segurança corretamente.
+
+
 
 # O Canonical Livepatch é um serviço pago que aplica correções de segurança em tempo real 
 # no Ubuntu. Ele coleta dados, embora de forma limitada. Para desativá-lo ou removê-lo:
@@ -2584,7 +3260,7 @@ echo -e "\n$(gettext 'Uninstalling package...')\n"
 
 $time
 
-apt purge -y canonical-livepatch  2>> "$log"
+$package_manager purge -y canonical-livepatch  2>> "$log"
 
 
 
@@ -2675,7 +3351,7 @@ check_package() {
 
         # Remoção do unity-lens-shopping
 
-        apt-get remove -y unity-lens-shopping
+        $package_manager remove -y unity-lens-shopping
 
 
     else
@@ -3098,7 +3774,7 @@ echo -e "${GREEN}$(gettext 'Updating package list...')  ${NC}"
 $time
 
 
-apt update 2>> "$log"
+$package_manager update 2>> "$log"
 
 $time
 
@@ -3157,7 +3833,7 @@ for package in $(apt list --installed 2>/dev/null | grep -E 'ppa' | cut -d/ -f1)
 
     # EM FACE DE TESTE
 
-    # apt purge -y "$package" 2>> "$log"
+    # $package_manager purge -y "$package" 2>> "$log"
 
 
 done
@@ -3169,7 +3845,7 @@ done
 
 # Desinstalar o pacote software-properties-common:
 
-apt purge -y software-properties-common 2>> "$log"  && which add-apt-repository
+$package_manager purge -y software-properties-common 2>> "$log"  && which add-apt-repository
 
 
 
@@ -3184,7 +3860,7 @@ apt purge -y software-properties-common 2>> "$log"  && which add-apt-repository
 cleanup
 
 
-apt clean 2>> "$log"
+$package_manager clean 2>> "$log"
 
 
     echo -e "${GREEN}\n$(gettext 'Removal of packages installed by PPAs has been completed.')\n${NC}"
@@ -3229,7 +3905,7 @@ This will remove support for Online Accounts and also the service (daemon) that 
 
 sleep 10
 
-apt purge -y gnome-online-accounts 2>> "$log"
+$package_manager purge -y gnome-online-accounts 2>> "$log"
 
 
 # Remova os resíduos.
@@ -3258,7 +3934,7 @@ update manager and the update notifier.')\n\n"
 
 sleep 10
 
-apt purge -y ubuntu-software gnome-software software-properties-gtk update-manager  2>> "$log"
+$package_manager purge -y ubuntu-software gnome-software software-properties-gtk update-manager  2>> "$log"
 
 
 # Remova os resíduos.
@@ -3335,7 +4011,7 @@ $time
 
 # Se você quiser remover completamente o serviço de localização do seu sistema, pode desinstalar o pacote geoclue.
 
-apt purge -y geoclue* 2>> "$log"
+$package_manager purge -y geoclue* 2>> "$log"
 
 # Isso irá desinstalar o serviço de localização.
 
@@ -3574,6 +4250,8 @@ $time
 # que permite modificar as configurações do GNOME diretamente.
 
 
+# Desabilitando efeitos gráficos do GNOME...
+
 # Para desabilitar as animações no GNOME:
 
 gsettings set org.gnome.desktop.interface enable-animations false 2>> "$log"
@@ -3602,6 +4280,7 @@ else
     $time
 
 fi
+
 
 
 # Esse comando desativa as animações em toda a interface gráfica do GNOME, incluindo 
@@ -3669,7 +4348,22 @@ fi
 
 # ----------------------------------------------------------------------------------------
 
-# Desative as atualizações automáticas
+# Desative as atualizações automáticas (atualizador gráfico de distro)
+
+
+
+# Em servidores, podemos configurar as atualizações automáticas via gerenciador de tarefas.
+#
+# Em teoria, esses tais atualizadores gráficos consomem recursos do hardware e da internet.
+#
+#
+# Passos para configurar a atualização automática via cron
+#
+# sudo crontab -e
+#
+# Executada todos os dias à 1:00 da manhã.
+#
+# 0 1 * * * apt update && apt upgrade -y
 
 
 function disable_automatic_updates() {
@@ -3688,9 +4382,18 @@ echo -e "$(gettext 'Disabling automatic package and security updates...
 
 Ubuntu manages automatic updates through unattended-upgrades, which is
 responsible for automatically installing security and other important 
-updates.')"
+updates.')
 
-sleep 10
+---------------------------------------------------------
+
+# sudo crontab -e
+
+0 1 * * * $package_manager update && $package_manager upgrade -y
+
+"
+
+sleep 20
+
 
 # Editando o arquivo 20auto-upgrades para desabilitar as atualizações automáticas
 
@@ -4025,6 +4728,222 @@ $time
 
 
 # ----------------------------------------------------------------------------------------
+
+
+# Melhora a performance do sistema com recursos limitados ao desabilitar funcionalidades 
+# e otimizar serviços.
+
+# Para otimizar o Ubuntu com o ambiente de desktop GNOME em computadores com recursos 
+# limitados, podemos como desativar efeitos gráficos, reduzir a quantidade de serviços em 
+# segundo plano e alterar configurações de desempenho. 
+
+
+
+function otimizar_GNOME(){
+
+
+
+
+# Verificar se o comando 'gsettings' está disponível no sistema
+
+if ! command -v gsettings &> /dev/null
+then
+
+    # Caso não esteja, envia uma notificação
+
+
+      echo -e "${RED}\n$(gettext 'The gsettings command is not installed on your system.') ${NC}"
+    
+     $time
+
+$notify_users  \
+notify-send -i "/usr/share/icons/gnome/32x32/status/dialog-error.png" -t "$((DELAY * 1000))" "$(gettext 'Notice')" "\n$(gettext 'The gsettings command is not installed on your system.')\n"
+
+
+
+else
+
+
+   # echo "'gsettings' está instalado no sistema."
+
+
+
+# Desabilitar a tela de bloqueio automática: Isso ajuda a reduzir o uso de recursos, 
+# especialmente em máquinas com recursos limitados.
+# 
+# echo "Desabilitando a tela de bloqueio automática..."
+# gsettings set org.gnome.desktop.screensaver lock-enabled false
+
+
+# Desabilitar som de login: Desativa o som de login para economizar recursos.
+
+
+echo -e "\n$(gettext 'Disabling login sound...')\n"
+
+$time
+
+gsettings set org.gnome.desktop.sound event-sounds false 2>> "$log"
+
+
+# Desabilitar ícones na área de trabalho: Remove ícones da área de trabalho, o que pode ajudar a reduzir a sobrecarga visual e melhorar a performance.
+
+echo -e "\n$(gettext 'Disabling desktop icons...')\n"
+
+$time
+
+gsettings set org.gnome.desktop.background show-desktop-icons false 2>> "$log"
+
+
+
+# Ajuste visual: Ajusta configurações de recursos visuais pesados, como sombras e transparências.
+
+# Desativar os recursos visuais do GNOME (transparência, sombras, etc.)
+
+
+echo -e "\n$(gettext 'Disabling heavy GNOME visual features...')\n"
+
+$time
+
+gsettings set org.gnome.desktop.wm.preferences use-legacy-maximized true 2>> "$log"
+gsettings set org.gnome.desktop.wm.preferences theme "Adwaita"           2>> "$log"
+
+
+
+# Ajustar o GNOME Shell: Aumenta a eficiência do GNOME Shell, configurando o tamanho do ícone do dock e removendo a fixação do dock.
+
+# Ajustar a quantidade de recursos usados pelo GNOME Shell
+
+
+echo -e "\n$(gettext 'Tweaking GNOME Shell features...')\n"
+
+$time
+
+gsettings set org.gnome.shell.extensions.dash-to-dock dash-max-icon-size 32 2>> "$log"
+gsettings set org.gnome.shell.extensions.dash-to-dock dock-fixed false      2>> "$log"
+
+
+# Desabilitar notificações do GNOME
+
+# Desabilitar notificações: Desativa as notificações visuais, o que pode ajudar a reduzir a carga do sistema.
+
+# Desativa as notificações de banner: Evita que o Ubuntu mostre banners de notificação, o que pode ser considerado uma distração.
+
+
+echo -e "\n$(gettext 'Disabling GNOME notifications...')\n"
+
+$time
+
+gsettings set org.gnome.desktop.notifications show-banners false  2>> "$log"
+
+
+# Instalar pacotes para melhorar a performance: O preload e zswap ajudam a melhorar a 
+# performance do sistema, com o zswap ajudando a comprimir dados na memória.
+#
+# echo "Instalando pacotes para melhorar a performance..."
+#
+# $package_manager install -y preload zswap
+
+
+
+# Não é usado Wellbeing em servidor
+
+
+# O recurso "Wellbeing" (Bem-Estar), que lembra muito o Digital Wellbeing do Android.
+
+
+# O Wellbeing no contexto do Ubuntu refere-se a uma abordagem de bem-estar digital voltada 
+# para melhorar a experiência do usuário, considerando aspectos como saúde mental, física, 
+# e eficiência no uso de dispositivos e tecnologias.
+
+
+# Com o Wellbeing, você poderá definir limites de tempo de tela, receber lembretes para 
+# se movimentar e até ativar uma escala de cinza na tela após exceder o tempo de uso 
+# diário. É uma ótima maneira de combater a fadiga visual e o cansaço durante longas 
+# sessões de trabalho.
+
+
+
+# Desativar modo de não perturbe (Do Not Disturb)
+#
+# Desativa o Modo Não Perturbe: O modo "Do Not Disturb" impede que o sistema mostre notificações durante períodos de concentração.
+#
+gsettings set org.gnome.desktop.notifications do-not-disturb false   2>> "$log"
+
+
+# Desativar modo escuro (caso queira desativá-lo para um tema claro)
+#
+# Desativa o modo escuro: Define o tema para o tema claro, caso o sistema utilize o modo escuro como uma forma de reduzir o cansaço visual.
+#
+gsettings set org.gnome.desktop.interface gtk-theme 'Adwaita'        2>> "$log"
+
+
+# Desativar a opção de mostrar notificações de aplicativos
+#
+# Desativa notificações de aplicativos: Impede que os aplicativos mostrem notificações indesejadas.
+#
+gsettings set org.gnome.desktop.notifications enabled false          2>> "$log"
+
+
+# Desativar o "tracking" de atividades do sistema (reduzindo coleta de dados de bem-estar digital)
+#
+# Desativa coleta de dados do Apport (falhas de sistema): Desativa o envio de dados sobre falhas, o que pode ser considerado um aspecto relacionado à privacidade e bem-estar digital.
+#
+gsettings set com.ubuntu.update-notifier show-apport-crash false     2>> "$log"
+
+
+# Caso tenha um cronômetro ou lembrete, podemos desativá-los
+#
+# Exemplo: se você tiver configurado o GNOME timer (relacionado ao pomodoro ou outras técnicas)
+#
+# Desativa plugins de gerenciamento de energia: Caso você tenha ferramentas que controlam o tempo ou as pausas para bem-estar (como o cronômetro ou lembretes de pausas), desativa essas funções.
+#
+
+gsettings set org.gnome.settings-daemon.plugins.power active false   2>> "$log"
+
+
+
+# Considerações:
+# 
+# Essa função no script desativa várias funcionalidades que podem ser vistas como parte 
+# do "bem-estar digital" (no sentido de foco e ausência de distrações), mas lembre-se que 
+# o termo "Wellbeing" é amplo e pode significar diferentes coisas dependendo do contexto. 
+# Se você tem configurações específicas ou pacotes adicionais voltados para o bem-estar no 
+# seu sistema, você pode precisar ajustar essa parte do script para desativar essas 
+# funcionalidades.
+
+
+# echo "Configurações de bem-estar digital desativadas!"
+
+
+
+
+
+
+# Limpar pacotes órfãos e cache: Remove pacotes não utilizados e limpa o cache para liberar espaço em disco.
+ 
+cleanup
+
+
+# Reiniciar para aplicar as mudanças
+
+echo -e "${GREEN}$(gettext "Optimization is complete. Restart your computer to apply all changes.") ${NC}"
+
+$time
+
+
+
+
+fi
+
+
+}
+
+
+# https://diolinux.com.br/noticias/voce-precisa-saber-sobre-ubuntu-25-04.html
+
+
+# ----------------------------------------------------------------------------------------
+
 
 
 function startup_programs() {
@@ -4386,9 +5305,165 @@ Configurações comuns para o servidor gráfico X11.
 "
 
 
+
+# O avahi-daemon.service é um serviço no Linux que implementa o Avahi, um sistema de 
+# descoberta de serviços e recursos em redes locais (LAN) que utiliza o mDNS 
+# (Multicast DNS) e DNS-SD (DNS Service Discovery).
+# 
+# O que o Avahi faz:
+# 
+#   Descoberta de serviços: O Avahi permite que dispositivos em uma rede local descubram 
+# serviços disponíveis sem a necessidade de configuração manual de DNS ou servidores 
+# centralizados. Isso é útil em redes pequenas, como em uma casa ou escritório, onde você 
+# pode querer que dispositivos como impressoras, câmeras ou servidores de mídia sejam 
+# facilmente encontrados por outros dispositivos sem a necessidade de configuração explícita.
+# 
+#   mDNS e DNS-SD: O Avahi usa mDNS para resolver nomes de host sem um servidor DNS 
+# central. Isso significa que você pode acessar dispositivos usando nomes como 
+# computador.local em vez de precisar de um endereço IP ou de configurar um servidor DNS.
+# 
+#   Exemplo de uso: Um exemplo comum é a descoberta de impressoras em uma rede local. Se 
+# você tem uma impressora com suporte a mDNS, qualquer computador na mesma rede local 
+# pode detectá-la automaticamente, sem precisar configurar nada manualmente.
+# 
+# Como funciona:
+# 
+#   O avahi-daemon é o processo principal que executa esse serviço. Ele monitora e gerencia 
+# os serviços de rede e a comunicação entre dispositivos locais.
+# 
+#   Quando ativado, o avahi-daemon transmite pacotes de rede multicast para anunciar os 
+# serviços disponíveis e escuta pacotes multicast de outros dispositivos para descobrir 
+# novos serviços. Ele também pode resolver nomes de host para endereços IP dentro da 
+# rede local.
+# 
+# Exemplos de serviços que o Avahi pode anunciar:
+# 
+#     Impressoras
+#     Dispositivos de armazenamento em rede (NAS)
+#     Compartilhamento de arquivos (Samba)
+#     Servidores de mídia (DLNA)
+# 
+# Quando você pode precisar dele:
+# 
+#    Se você está configurando uma rede doméstica ou em pequenos escritórios, o Avahi 
+# pode ser útil para descobrir facilmente serviços e dispositivos em sua rede sem precisar 
+# fazer configurações complicadas.
+# 
+# Como verificar o status do serviço:
+# 
+# Você pode verificar se o avahi-daemon.service está ativo com o comando:
+# 
+# systemctl status avahi-daemon.service
+# 
+# Se ele não estiver em execução, você pode iniciar ou habilitar o serviço com:
+# 
+#     Para iniciar o serviço:
+# 
+# sudo systemctl start avahi-daemon.service
+# 
+# Para habilitar o serviço para iniciar automaticamente com o sistema:
+# 
+# sudo systemctl enable avahi-daemon.service
+# 
+# 
+# Desativar o avahi-daemon.service pode ter implicações em uma política de governança 
+# de TI, especialmente em relação à segurança, controle de rede e gestão de dispositivos. 
+# A decisão de desativá-lo deve ser baseada nos requisitos específicos da rede, no contexto 
+# de segurança e nas práticas organizacionais.
+# 
+# Aqui estão alguns pontos a considerar ao tomar a decisão de desativar o Avahi como parte 
+# de uma política de governança de TI:
+# 
+# 1. Segurança e Controle de Rede
+# 
+#    Redução da superfície de ataque: O Avahi usa mDNS e DNS-SD para permitir a descoberta 
+# automática de serviços em uma rede local. Embora isso seja útil para dispositivos como 
+# impressoras ou servidores de mídia, também pode representar uma porta de entrada para 
+# ataques de rede. Dispositivos maliciosos podem explorar esses protocolos para anunciar 
+# serviços falsos ou coletar informações sobre a rede.
+# 
+#    Exposição de dispositivos na rede: Com o Avahi ativo, qualquer dispositivo na rede 
+# pode anunciar serviços para outros dispositivos, o que pode aumentar a exposição de 
+# dispositivos e dados sensíveis. Se a governança de TI exige que apenas dispositivos 
+# autorizados sejam visíveis ou acessíveis na rede, desativar o Avahi pode ajudar a manter 
+# essa visibilidade restrita.
+# 
+# 2. Política de Privacidade e Conformidade
+# 
+#    Controle de dados e conformidade: Em empresas que lidam com informações sensíveis 
+# ou estão sujeitas a regulamentações de conformidade (como GDPR, HIPAA, etc.), a descoberta 
+# automática de serviços pode representar um risco, pois pode permitir que dispositivos 
+# ou serviços não autorizados sejam acessados sem o devido controle. A desativação do 
+# Avahi garante maior controle sobre quem e o quê está acessível na rede.
+# 
+#    Prevenção de acessos indesejados: Em uma rede corporativa, onde dispositivos e serviços 
+# devem ser explicitamente configurados e monitorados, o Avahi pode permitir que dispositivos 
+# não autorizados se comuniquem e compartilhem recursos sem permissão. Desativá-lo reduz 
+# esse risco.
+# 
+# 3. Gestão de Recursos de TI e Visibilidade
+# 
+#    Gerenciamento de dispositivos: Embora o Avahi seja útil em redes locais para facilitar 
+# a descoberta automática de dispositivos, em uma organização com uma política de governança 
+# de TI mais rigorosa, o controle sobre dispositivos conectados à rede pode ser uma 
+# prioridade. Desativar o serviço pode forçar os administradores a gerenciar explicitamente 
+# cada dispositivo e serviço conectado, garantindo que nada esteja acessível sem a 
+# aprovação e o controle adequados.
+# 
+#    Uso em ambientes de produção e redes corporativas: Em redes de produção corporativas, 
+# onde a visibilidade e o controle são essenciais, a descoberta automática de serviços pode 
+# criar complicações no gerenciamento de rede. O Avahi pode ser desativado para evitar 
+# problemas de configuração ou evitar que dispositivos ou serviços não autorizados apareçam 
+# ou sejam acessados inadvertidamente.
+# 
+# 4. Impacto nas Operações e Produtividade
+# 
+#     Acessibilidade e facilidade de uso: Em redes pequenas ou ambientes que exigem 
+# configuração rápida e fácil de dispositivos (como em um escritório doméstico ou uma 
+# pequena rede), o Avahi pode ser útil, permitindo a descoberta automática de serviços. 
+# No entanto, em grandes organizações, a governança pode priorizar a segurança sobre a 
+# conveniência, e o Avahi pode ser desativado para garantir que a rede seja mais controlada, 
+# com dispositivos e serviços explicitamente configurados.
+# 
+#    Impacto em dispositivos que dependem do Avahi: Alguns dispositivos (como impressoras, 
+# servidores de mídia ou dispositivos de rede) podem depender do Avahi para descobrir 
+# outros dispositivos na rede. Se esses dispositivos não forem gerenciados de forma 
+# centralizada, desativar o Avahi pode prejudicar a funcionalidade desses dispositivos. 
+# No entanto, isso pode ser mitigado por meio de configurações de rede alternativas e 
+# gerenciamento centralizado de dispositivos.
+# 
+# 5. Gerenciamento de Vulnerabilidades
+# 
+#    Mitigação de vulnerabilidades conhecidas: Como qualquer software, o Avahi pode ter 
+# vulnerabilidades de segurança que são exploradas por atacantes. Se um administrador de 
+# TI perceber que o Avahi apresenta riscos de segurança não atendidos (como falhas de 
+# segurança que poderiam ser exploradas por malware ou ataques de rede), desativá-lo 
+# pode ser uma medida preventiva importante para evitar a exploração dessas falhas.
+# 
+# Conclusão:
+# 
+# Desativar o avahi-daemon.service pode ser uma boa prática de governança de TI em ambientes 
+# onde controle rigoroso da rede, segurança e privacidade são prioridades. Isso ajuda a 
+# garantir que apenas serviços e dispositivos explicitamente autorizados estejam acessíveis, 
+# reduzindo o risco de exposição e ataque, especialmente em redes corporativas ou 
+# regulamentadas.
+# 
+# Por outro lado, se a facilidade de uso e a descoberta automática de serviços em uma 
+# rede local forem mais importantes, pode-se optar por manter o Avahi ativado, mas com 
+# restrições e controles adequados.
+# 
+# Em resumo, a decisão depende das necessidades e da estratégia de governança de TI da 
+# organização, levando em consideração os trade-offs entre facilidade de uso e segurança.
+
+
+
+
+
+
 echo -e "${GREEN}$(gettext "Disable programs that start with the system") ${NC}"
 
 $time
+
 
 # Como verificar os programas que iniciam automaticamente no Ubuntu:
 # 
@@ -4398,6 +5473,43 @@ $time
 #
 #   Abra o menu Atividades e digite "Aplicativos de Sessão" ou "Startup Applications".
 #   Isso abrirá uma janela com a lista de programas configurados para iniciar automaticamente.
+
+
+
+
+# Reduzir os processos e serviços em segundo plano
+# 
+# Alguns serviços em segundo plano consomem muitos recursos. Podemos desabilitar serviços 
+# que não são necessários.
+# 
+# Systemd-analyze: Esse comando ver quanto tempo o seu sistema está demorando para 
+# inicializar e quais serviços estão gastando mais tempo.
+#
+#
+# Desabilitar serviços desnecessários: Desative os serviços que você não precisa, 
+# por exemplo, o bluetooth ou impressoras, se não for necessário.
+
+
+# Redirecionando a saída do comando "systemd-analyze blame" para o arquivo de log.
+
+
+# Exibir o tempo que cada serviço do sistema leva para iniciar durante o processo de 
+# inicialização (boot).
+
+# Ele lista os serviços e suas respectivas durações, permitindo identificar quais processos 
+# estão consumindo mais tempo para serem carregados.
+
+
+echo "
+
+$(gettext 'List of services currently loaded at boot:')
+
+" >> "$log"
+
+
+systemd-analyze blame >> "$log"
+
+
 
 
 
@@ -4513,13 +5625,24 @@ services=(
   "cups.service"               # Desativa o serviço de impressão
   "apache2.service"            # Desativa o serviço Apache (se não precisar de servidor web)
   "snapd.service"              # Desativa o serviço Snap   (caso queira desabilitar o uso de pacotes Snap)
+  "avahi-daemon.service"       # Descoberta de serviços e recursos em redes locais
 )
+
 
 #  "firewalld.service"          # Desativa o firewall, caso não queira usar
 #  "udisks2.service"            # Desativa o gerenciamento de discos
 #  "ModemManager.service"       # Desativa o serviço de gerenciamento de modem
 #  "NetworkManager.service"     # Desativa o gerenciador de rede (cuidado, pode afetar a conectividade)
+ 
 
+
+
+
+
+
+# Desabilitar inicialização automática de serviços: Desativa serviços como Bluetooth, impressão e outros que podem não ser necessários para otimizar o desempenho.
+
+#  "Desabilitando inicialização automática de aplicativos..."
 
 
 
@@ -4668,6 +5791,36 @@ done
 
 
 
+# Lista de serviços carregados durante a inicialização, ordenados do mais lento para o 
+# mais rápido, com o tempo em que cada serviço foi executado.
+
+
+echo "
+
+$(gettext 'List of services currently loaded at boot:')
+
+" >> "$log"
+
+
+systemd-analyze blame >> "$log"
+
+
+
+# Exemplo de saída:
+# 
+# 10.123s apache2.service
+# 5.678s mysql.service
+# 3.456s network.service
+# ...
+
+
+# Cada linha mostra o tempo que um serviço levou para iniciar, ajudando a diagnosticar 
+# gargalos durante o processo de inicialização do sistema. Isso pode ser útil para otimizar 
+# o tempo de boot e identificar serviços que podem ser configurados de forma diferente ou 
+# desativados, caso não sejam necessários.
+
+
+
 }
 
 
@@ -4813,11 +5966,8 @@ done <<< "$usuarios"
 usuario_selecionado=$(dialog --backtitle 'ubuntu-debullshit' --stdout --menu "$(gettext 'Select a user')" 0 0 0 $opcoes)
 
 # Limpa a tela após o comando 'dialog'
+
 clear
-
-# Exibe uma notificação com o nome do usuário selecionado
-# DELAY=5  # Defina o tempo de delay para a notificação
-
 
 
 
@@ -4906,7 +6056,7 @@ notify-send -i "/usr/share/icons/gnome/32x32/status/dialog-warning.png" -t "$((D
 #     Dependendo da configuração, você pode manualmente voltar às configurações padrão.
 #
 #
-# apt install -y gnome-tweak-tool
+# $package_manager install -y gnome-tweak-tool
 #
 
 
@@ -4918,11 +6068,11 @@ notify-send -i "/usr/share/icons/gnome/32x32/status/dialog-warning.png" -t "$((D
 # 
 #     Abra o Terminal e remova o GNOME:
 # 
-# apt purge -y gnome-shell
+# $package_manager purge -y gnome-shell
 # 
 # Reinstale o GNOME:
 # 
-# apt install --reinstall -y gnome-shell
+# $package_manager install --reinstall -y gnome-shell
 # 
 # Após a reinstalação, reinicie o computador.
 
@@ -5018,7 +6168,7 @@ desmarcar_repositorio
 
     $time
 
-    apt update 2>> "$log" 
+    $package_manager update 2>> "$log" 
 
     $time
 
@@ -5641,9 +6791,9 @@ function check_iptables() {
 
         # Atualiza o repositório de pacotes e instala o iptables
 
-        apt update
+        $package_manager update
 
-        apt install -y iptables
+        $package_manager install -y iptables
 
         echo -e "$(gettext 'iptables installed successfully!')"
 
@@ -5792,7 +6942,7 @@ function configure_iptables() {
 
 # Caso esteja usando iptables-persistent, você pode instalar e configurar com:
 
-# apt install -y iptables-persistent
+# $package_manager install -y iptables-persistent
 
 
 # ----------------------------------------------------------------------------------------
@@ -5825,7 +6975,7 @@ notify-send -i "/usr/share/icons/gnome/32x32/status/security-medium.png" -t "$((
 # 
 #     Para instalar o iptables-persistent:
 # 
-#     apt install iptables-persistent
+#     $package_manager install iptables-persistent
 # 
 #     IP de rastreamento: Você pode adicionar mais IPs à lista BLOCKED_IPS caso queira 
 # bloquear outros servidores ou serviços específicos que considerem uma ameaça à privacidade.
@@ -5877,9 +7027,9 @@ function check_ufw() {
 
         # Atualiza o repositório de pacotes e instala o ufw
 
-        # apt update
+        # $package_manager update
 
-        # apt install -y ufw
+        # $package_manager install -y ufw
 
 
         # echo -e "${GREEN}\n$(gettext 'UFW installed successfully!') \n${NC}"
@@ -5956,13 +7106,17 @@ echo -e "${GREEN}\n$(gettext 'Update the system') \n${NC}"
 
 $time
 
+
+# Atualizando o sistema...
+
+
 # Para garantir que você tenha a lista mais recente de pacotes disponíveis para o sistema.
 
 echo -e "$(gettext 'Updating package list...')"
 
 $time
 
-apt update 
+$package_manager update 
 
 
 # Depois de atualizar a lista de pacotes, você pode atualizar todos os pacotes do sistema.
@@ -5971,7 +7125,7 @@ echo -e "$(gettext 'Updating installed packages...')"
 
 $time
 
-apt upgrade -y
+$package_manager upgrade -y
 
 
 # Isso irá atualizar todos os pacotes para as versões mais recentes disponíveis.
@@ -5990,7 +7144,7 @@ apt upgrade -y
 # Realiza uma atualização completa do sistema, atualizando, instalando e removendo pacotes 
 # conforme necessário, sem pedir confirmação ao usuário.
 
-apt full-upgrade -y
+$package_manager full-upgrade -y
 
 
 
@@ -6013,7 +7167,7 @@ $time
 
 # Após atualizar, você pode limpar pacotes antigos ou não necessários usando:
 
-apt autoremove -y
+$package_manager autoremove -y
 
 # Isso remove pacotes que foram instalados automaticamente, mas que já não são mais necessários.
 
@@ -6026,7 +7180,7 @@ $time
 # Você também pode limpar os pacotes baixados durante a atualização, para liberar espaço 
 # no disco, com o comando:
 
-apt clean
+$package_manager clean
 
 # Esses passos devem garantir que seu Ubuntu esteja atualizado corretamente! Se precisar 
 # de mais alguma coisa, é só avisar.
@@ -6560,8 +7714,428 @@ function setup_gnome_apps() {
 
 }
 
+
+
 # ----------------------------------------------------------------------------------------
 
+
+# O AppArmor é um recurso de segurança importante que foi incluído por padrão no Ubuntu 
+# desde o Ubuntu 7.10.
+#
+# O AppArmor bloqueia processos vulneráveis, restringindo os danos que vulnerabilidades 
+# de segurança nesses processos podem causar. O AppArmor também pode ser usado para 
+# bloquear o Mozilla Firefox para maior segurança, mas ele não faz isso por padrão.
+#
+# O AppArmor é similar ao SELinux, usado por padrão no Fedora e no Red Hat. Embora funcionem 
+# de forma diferente, tanto o AppArmor quanto o SELinux fornecem segurança de "controle de 
+# acesso obrigatório" (MAC). Na verdade, o AppArmor permite que os desenvolvedores do 
+# Ubuntu restrinjam as ações que os processos podem tomar.
+#
+#
+# O AppArmor é particularmente útil para restringir softwares que podem ser explorados, 
+# como navegadores da web.
+
+
+# Para criar um perfil do AppArmor para o Firefox
+
+
+function AppArmor_Firefox(){
+
+
+# Verificar se o módulo do kernel do AppArmor está carregado
+
+if lsmod | grep -q apparmor; then
+
+
+    echo -e "${GREEN}\n$(gettext 'AppArmor is loaded into the kernel.') \n${NC}"
+
+    $time
+
+else
+
+    echo -e "${RED}\n$(gettext 'AppArmor is not loaded in the kernel.') \n${NC}"
+
+    $time
+
+$notify_users  \
+notify-send -i "/usr/share/icons/gnome/32x32/status/dialog-warning.png" -t "$((DELAY * 1000))" "$(gettext 'ubuntu-debullshit')" "\n$(gettext 'AppArmor is not loaded in the kernel.')\n"
+
+
+
+echo "$(gettext 'AppArmor is not loaded in the kernel.')" >> "$log" 
+
+echo "
+
+# $package_manager update
+
+# $package_manager install -y apparmor
+
+" >> "$log" 
+
+
+fi
+
+
+
+# Verificar se o serviço do AppArmor está ativo
+
+if systemctl is-active --quiet apparmor; then
+
+
+echo -e "${GREEN}\n$(gettext 'AppArmor is active.') \n${NC}"
+
+$time
+
+
+
+else
+
+    echo -e "${RED}\n$(gettext 'AppArmor is not active.') \n${NC}"
+
+    $time
+
+$notify_users  \
+notify-send -i "/usr/share/icons/gnome/32x32/status/dialog-warning.png" -t "$((DELAY * 1000))" "$(gettext 'ubuntu-debullshit')" "\n$(gettext 'AppArmor is not active.')\n"
+
+
+
+echo "$(gettext 'AppArmor is not active.')" >> "$log"
+
+
+echo "
+
+Habilitar o AppArmor para iniciar automaticamente na inicialização:
+
+# systemctl enable apparmor
+
+Iniciar o serviço do AppArmor:
+
+# systemctl start apparmor
+
+Verificar se o AppArmor está em execução:
+
+# systemctl status apparmor
+
+" >> "$log"
+
+
+
+    exit
+
+
+fi
+
+
+
+# Caminho para o diretório de perfis do AppArmor
+
+PROFILE_DIR="/etc/apparmor.d"
+
+
+# Obter o caminho do executável do Firefox usando 'which'
+
+FIREFOX_PATH=$(which firefox)
+
+
+# Verificar se o Firefox está instalado
+
+if [ -z "$FIREFOX_PATH" ]; then
+
+
+    echo -e "${RED}\n$(gettext 'Error: Firefox not found on the system.') \n${NC}"
+
+    $time
+
+$notify_users  \
+notify-send -i "/usr/share/icons/gnome/32x32/status/dialog-warning.png" -t "$((DELAY * 1000))" "$(gettext 'ubuntu-debullshit')" "\n$(gettext 'Error: Firefox not found on the system.')\n"
+
+    exit 1
+
+fi
+
+
+# Nome do arquivo de perfil
+
+PROFILE_FILE="usr.bin.firefox"
+
+
+
+# Conteúdo do perfil do Firefox
+
+# Diretórios específicos: Considere se outras pastas podem ser necessárias no escopo da 
+# aplicação. Por exemplo, se o Firefox usa plugins adicionais, você pode precisar incluir 
+# permissões específicas para eles.
+# 
+# Teste o perfil: Depois de fazer ajustes, teste-o extensivamente com o comando aa-complain 
+# antes de aplicá-lo permanentemente com aa-enforce. Isso ajuda a identificar quaisquer 
+# acessos que possam ser bloqueados acidentalmente.
+#
+# Verifique os logs para ajustar o perfil.
+#
+# sudo tail -f /var/log/syslog
+
+
+PROFILE_CONTENT="
+# Perfil do AppArmor para o Firefox
+# Caminho do arquivo binário do Firefox: $FIREFOX_PATH
+
+$FIREFOX_PATH {
+
+    # Acesso aos arquivos necessários para o Firefox
+    # Permite leitura e execução do binário
+    $FIREFOX_PATH rix,
+
+    # Diretórios de configuração e dados (Está permitindo leitura, gravação e exclusão. - rwk)
+
+    /home/*/.mozilla/** rwk,
+    /home/*/.cache/mozilla/** rwk,
+
+
+    # Acesso à rede (é padrão e cobre IPv4 e IPv6.)
+
+    network inet stream,
+    network inet6 stream,
+
+
+    # Permite leitura dos certificados do sistema
+
+    /etc/ssl/certs/** r,
+
+    # Diretórios de sistema que o Firefox pode acessar
+
+    /usr/share/icons/** r,
+    /usr/share/applications/** r,
+
+
+    # Permite execução de bibliotecas
+
+    /usr/lib/firefox/*.so rix,
+    /lib/x86_64-linux-gnu/** r,
+
+    # Outros arquivos de configuração, se necessário
+
+    /etc/firefox/** r,
+
+
+    # Logs (Firefox precisa modificar os logs)
+
+    /var/log/** rw,
+
+
+    # Impede que o Firefox acesse arquivos críticos
+
+    /root/** r,
+}
+"
+
+
+
+# Verificar se o diretório de perfis do AppArmor existe
+
+# Os perfis são armazenados no diretório /etc/apparmor.d. Esses perfis são arquivos de texto simples que podem conter comentários.
+
+if [ ! -d "$PROFILE_DIR" ]; then
+
+    echo -e "${RED}\n$(gettext 'Error: AppArmor profiles directory not found!') \n${NC}"
+
+    $time
+
+$notify_users  \
+notify-send -i "/usr/share/icons/gnome/32x32/status/dialog-warning.png" -t "$((DELAY * 1000))" "$(gettext 'ubuntu-debullshit')" "\n$(gettext 'Error: AppArmor profiles directory not found!')\n"
+
+    exit 1
+
+fi
+
+
+# Verificar se o arquivo de perfil do AppArmor já existe
+
+if [ -f "$PROFILE_DIR/$PROFILE_FILE" ]; then
+
+
+    message=$(gettext 'Profile %s already exists on %s.')
+
+    echo -e "${GREEN}\n$(printf "$message" "$PROFILE_FILE" "$PROFILE_DIR") \n${NC}"
+
+    $time
+
+
+else
+
+    message=$(gettext 'Profile %s does not exist on %s.')
+
+    echo -e "${RED}\n$(printf "$message" "$PROFILE_FILE" "$PROFILE_DIR") \n${NC}"
+
+    $time
+
+
+    # Criar o perfil para o Firefox no diretório de perfis do AppArmor
+
+    echo "$PROFILE_CONTENT" | sudo tee "$PROFILE_DIR/$PROFILE_FILE" > /dev/null
+
+
+
+# Carregar o novo perfil no AppArmor
+
+
+# O comando apparmor_parser -r /etc/apparmor.d/usr.bin.firefox tem um propósito um pouco 
+# diferente de aa-complain ou aa-enforce. Aqui está uma explicação:
+
+# apparmor_parser -r: Esse comando recarrega o perfil especificado, ou seja, reanalisa e 
+# reaplica as configurações do perfil sem precisar reiniciar o sistema. O parâmetro -r 
+# significa "replace" (substituir), então qualquer modificação feita no arquivo do perfil 
+# será aplicada. Use-o quando você alterar um perfil existente e quiser atualizar 
+# imediatamente as configurações.
+# 
+# Esse comando substitui a versão antiga do perfil pelo que está atualmente salvo no 
+# arquivo. Ele não altera o modo (enforce ou complain) no qual o perfil está.
+# 
+# aa-complain e aa-enforce: Esses comandos, por outro lado, controlam o modo do perfil:
+# 
+# 
+# aa-complain coloca o perfil em modo de observação (logs sem bloqueio).
+# 
+# aa-enforce ativa as restrições do perfil.
+# 
+# Resumo: Enquanto apparmor_parser -r serve para recarregar o perfil após edições, os 
+# comandos aa-complain e aa-enforce são usados para alternar entre os modos de aplicação. 
+# Podem ser usados em conjunto: Podemos editar o perfil, recarregá-lo com apparmor_parser -r 
+# e então definir o modo desejado com aa-complain ou aa-enforce.
+
+
+echo "
+apparmor_parser -r $PROFILE_DIR/$PROFILE_FILE
+"
+
+sudo apparmor_parser -r "$PROFILE_DIR/$PROFILE_FILE"
+
+
+
+# Verificar se o comando apparmor_parser foi bem-sucedido
+
+if [ $? -eq 0 ]; then
+
+
+# Verificar se o perfil foi carregado corretamente
+
+echo -e "${GREEN}\n$(gettext 'Firefox profile successfully created and uploaded to AppArmor!') - $PROFILE_DIR/$PROFILE_FILE \n${NC}"
+
+$time
+
+
+$notify_users  \
+notify-send -i "/usr/share/icons/gnome/32x32/status/dialog-information.png" -t "$((DELAY * 1000))" "$(gettext 'ubuntu-debullshit') - $usuario_selecionado" "\n$(gettext 'Firefox profile successfully created and uploaded to AppArmor!') - $PROFILE_DIR/$PROFILE_FILE \n"
+
+
+else
+
+
+    echo -e "${RED}\n$(gettext 'Error: Failed to load Firefox profile in AppArmor.') \n${NC}"
+
+    $time
+
+$notify_users  \
+notify-send -i "/usr/share/icons/gnome/32x32/status/dialog-warning.png" -t "$((DELAY * 1000))" "$(gettext 'ubuntu-debullshit')" "\n$(gettext 'Error: Failed to load Firefox profile in AppArmor.')\n"
+
+
+    exit 1
+
+
+fi
+
+
+# Utilizar os comandos aa-complain e aa-enforce no Firefox é parte do processo de 
+# configurar o AppArmor de forma eficaz.
+
+
+# Colocar o perfil do Firefox em modo "complain" (observação):
+
+# O modo "complain" permite que você monitore as ações do Firefox sem realmente aplicar 
+# as restrições definidas no perfil. Ele registra no log qualquer tentativa de acesso que 
+# seria bloqueada, o que ajuda a ajustar o perfil antes de aplicá-lo.
+
+echo "
+sudo aa-complain $PROFILE_DIR/$PROFILE_FILE
+"
+
+sudo aa-complain "$PROFILE_DIR/$PROFILE_FILE"
+
+
+# Resultado: O AppArmor permitirá todas as ações do Firefox, mas registrará nos logs 
+# (geralmente em /var/log/syslog ou /var/log/audit/audit.log) o que teria sido bloqueado.
+
+
+
+# Colocar o perfil do Firefox em modo "enforce" (aplicação):
+
+# Depois de ajustar o perfil com base nos logs do modo "complain", você pode ativar o 
+# modo "enforce" para aplicar as restrições definidas no perfil.
+
+# echo "
+# sudo aa-enforce $PROFILE_DIR/$PROFILE_FILE
+# "
+
+# sudo aa-enforce $PROFILE_DIR/$PROFILE_FILE
+
+# Resultado: O perfil será aplicado, e qualquer tentativa do Firefox de acessar recursos 
+# fora das permissões será bloqueada.
+
+
+
+# Verificar o status atual do perfil do Firefox
+
+sudo aa-status  | tee -a "$log"
+
+
+# Mostrará todos os perfis carregados, destacando quais estão em "complain" e quais estão 
+# em "enforce".
+
+
+# Usar esses modos de forma iterativa, testando e ajustando, é a melhor maneira de 
+# garantir que o perfil do Firefox no AppArmor esteja seguro e funcional.
+
+
+
+
+
+
+
+
+
+# Visualizando as informações sobre o perfil do AppArmor para o Firefox.
+
+# sudo apparmor_status | grep firefox | tee -a "$log"
+
+
+apparmor_status | grep -v 'unconfined' | grep '/firefox/' | tee -a "$log"
+
+
+# O resultado será uma linha ou várias linhas mostrando que o Firefox está sendo 
+# controlado pelo AppArmor.
+
+
+
+fi
+
+
+
+
+
+
+}
+
+
+# https://help.ubuntu.com/community/AppArmor
+# https://wiki.archlinux.org/title/AppArmor
+# https://www.howtogeek.com/118222/htg-explains-what-apparmor-is-and-how-it-secures-your-ubuntu-system/
+
+
+# ----------------------------------------------------------------------------------------
+
+
+
+
+# ----------------------------------------------------------------------------------------
 
 # Fortalecer a Autenticação
 # 
@@ -6747,6 +8321,8 @@ $(gettext 'Processor architecture'): `uname -m`
 
 $(gettext 'RAM consumption'): `free -h 2>/dev/null | grep Mem | awk '{print $3}'`
 
+$(gettext 'Processes running on the system'): `ps -aux | wc -l`
+
  "
 
 $time
@@ -6895,7 +8471,7 @@ false 30 "$(gettext 'Setting up Gnome desktop')" \
 false 31 "$(gettext 'Installing Gnome apps from flathub')" \
 true  50 "$(gettext 'Exit')" \
 --buttons-layout=center  --button="$(gettext 'OK')":0 \
---width="700" --height="858")
+--width="700" --height="864")
 
 
 # --button="$(gettext 'Cancel')":1
@@ -6959,18 +8535,38 @@ function main() {
 
     check_root_user
 
-
-    # Chama a função para identificar a distribuição
-
-    identificar_distro
     
     # check_distro
 
 
-    check_programs
+    # check_programs
 
      
     intro
+
+    
+echo "
+ubuntu-debullshit
+
+$(gettext 'Version'): $version
+
+$(gettext 'kernel'): `uname -r`
+
+$(gettext 'Processor architecture'): `uname -m`
+
+$(gettext 'RAM consumption'): `free -h 2>/dev/null | grep Mem | awk '{print $3}'`
+
+$(gettext 'Processes running on the system'): `ps -aux | wc -l`
+
+
+# ----------------------------------------------------------------------------------------
+
+"  >> "$log"
+
+# $(gettext 'Disk space occupied'): 
+
+# `df -h | column -t`
+
 
 
     # Inicio do loop
@@ -7262,7 +8858,11 @@ fi
 
             # Desativar programas que iniciam com o sistema.
 
-            startup_programs            
+            startup_programs
+         
+            # Para otimizar o Ubuntu com GNOME
+
+            otimizar_GNOME
 
             msg "$(gettext 'Done!')"
 
@@ -7348,6 +8948,8 @@ fi
             # Remove muitos aplicativos deb pré-instalados.
 
             remove_ubuntu_default_apps
+
+            remover_pacotes_inseguros
 
             msg "$(gettext 'Done!')"
 
@@ -7438,6 +9040,8 @@ function auto() {
 
     remove_ubuntu_default_apps
 
+    # remover_pacotes_inseguros
+
 
     msg "$(gettext 'Disabling ubuntu report')"
 
@@ -7520,7 +9124,12 @@ function auto() {
 
     msg "$(gettext "Disable programs that start with the system")"
 
-    startup_programs            
+    startup_programs
+
+
+    # Para otimizar o Ubuntu com GNOME
+
+    # otimizar_GNOME
 
 
     # Remover PPA (Personal Package Archive) do sistema
