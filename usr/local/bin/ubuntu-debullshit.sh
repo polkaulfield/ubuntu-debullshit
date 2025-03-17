@@ -2591,7 +2591,214 @@ function install_adwgtk3() {
 
 function install_icons() {
 
+
+# ----------------------------------------------------------------------------------------
+
     check_internet
+
+
+# ----------------------------------------------------------------------------------------
+
+# Função para verificar se o tema Adwaita está instalado
+
+
+function check_adwaita() {
+
+    # Verifica se o pacote adwaita-icon-theme está instalado
+
+    if dpkg -l | grep -q "adwaita-icon-theme"; then
+
+        echo "$(gettext 'O tema Adwaita já está instalado no sistema.')"
+
+        # exit 0
+
+        else
+
+        echo "$(gettext 'O tema Adwaita NÃO está instalado no sistema.')"
+
+    fi
+
+}
+
+# ----------------------------------------------------------------------------------------
+
+
+# Função para tentar instalar o tema via APT
+
+function install_via_apt() {
+
+    echo "$(gettext 'Tentando instalar o tema Adwaita via APT...')"
+
+
+    # Atualiza os repositórios
+
+    $package_manager update
+
+
+    # Esse comando irá baixar e instalar o Adwaita Icon Theme diretamente dos repositórios oficiais do Ubuntu.
+
+    if $package_manager install -y adwaita-icon-theme; then
+
+        echo "$(gettext 'O tema Adwaita foi instalado com sucesso via APT!')"
+
+        # exit 0
+
+    else
+
+        echo "$(gettext 'Falha ao instalar o tema via APT. Tentando alternativas...')"
+
+    fi
+
+}
+
+# ----------------------------------------------------------------------------------------
+
+
+
+# Função para instalar usando o repositório do Debian
+
+
+function install_icon_repo_Debian() {
+
+
+
+# Em 13 de maio de 2023
+# 
+# O tema de ícones Adwaita não é o mais recente
+# 
+# O Ubuntu em seus servidores serve Adwaita-icon-theme ver 41 ou algo assim. Mas o mais 
+# recente é o 43, que realmente tem esses ícones modernos.
+# 
+# Você precisa buscar os pacotes do repositório sid debain.
+# 
+# Aqui está o link: http://ftp.de.debian.org/debian/pool/main/a/adwaita-icon-theme/adwaita-icon-theme_43-1_all.deb
+# 
+# Isso seria legal, vou dar uma olhada. Quero fazer o script com opções separadas, então 
+# uma dessas pode ser essa.
+# 
+# Adicionei sua sugestão, parece demais :D
+# 
+#
+# Fonte:
+# 
+# https://github.com/polkaulfield/ubuntu-debullshit/issues/6
+
+
+
+
+# Usar pacotes Debian no Ubuntu pode ser uma prática comum, mas há algumas considerações 
+# importantes sobre por que você pode querer ou não usar pacotes Debian diretamente no 
+# Ubuntu. Vamos analisar as razões pelas quais alguém pode escolher usar pacotes Debian no 
+# Ubuntu e as possíveis implicações disso.
+# 
+# Razões para usar pacotes Debian no Ubuntu:
+# 
+#     Disponibilidade de Pacotes:
+# 
+#     Pacotes mais recentes: Às vezes, o Ubuntu pode ter versões de pacotes desatualizadas 
+# ou não ter pacotes específicos nos seus repositórios. O Debian pode ter versões mais 
+# recentes ou pacotes que não estão disponíveis no Ubuntu.
+# 
+#     Pacotes ausentes: Se um pacote não estiver disponível no repositório oficial do 
+# Ubuntu, você pode buscar esse pacote no repositório Debian. Como o Ubuntu é baseado no 
+# Debian, muitas vezes, os pacotes Debian podem ser compatíveis com o Ubuntu.
+# 
+#     Compatibilidade:
+# 
+#     O Ubuntu é derivado do Debian, então muitos pacotes .deb do Debian funcionam bem no 
+# Ubuntu, já que ambos compartilham a mesma base de pacotes.
+# 
+#     Pacotes que não estão disponíveis nos repositórios padrão do Ubuntu podem ser 
+# instalados diretamente dos repositórios Debian, especialmente para usuários que 
+# precisam de pacotes específicos.
+# 
+#     Testes e experimentação:
+# 
+#     Desenvolvedores ou usuários avançados podem usar pacotes Debian para testar versões 
+# mais recentes de software ou para experimentar novos pacotes que ainda não foram incluídos 
+# nos repositórios do Ubuntu.
+# 
+# Potenciais riscos e problemas:
+# 
+# Apesar das vantagens, há também alguns riscos e desvantagens ao usar pacotes Debian no 
+# Ubuntu:
+# 
+#     Incompatibilidade de versões:
+# 
+#     O Ubuntu pode ter algumas modificações específicas em seus pacotes, tanto no código 
+# quanto na configuração, para garantir que tudo funcione bem no sistema. Usar pacotes 
+# Debian diretamente no Ubuntu pode resultar em problemas de compatibilidade entre versões 
+# de bibliotecas ou dependências.
+# 
+#     O Ubuntu, especialmente as versões LTS, tende a ser mais conservador quanto a 
+# atualizações de pacotes. Portanto, pacotes Debian mais recentes podem ter dependências 
+# que não são compatíveis com versões mais antigas no Ubuntu.
+# 
+#     Problemas de dependências:
+# 
+#     O Ubuntu e o Debian podem usar versões diferentes de algumas bibliotecas ou pacotes. 
+# Instalar pacotes de diferentes distribuições pode causar conflitos de dependências, que 
+# exigem ajustes manuais e podem quebrar o sistema ou afetar outros pacotes.
+# 
+#     Se um pacote Debian exigir versões diferentes de dependências que já estão 
+# instaladas no Ubuntu, pode haver falhas ou comportamento inesperado.
+# 
+#     Suporte e estabilidade:
+# 
+#     O Ubuntu tem seus próprios ciclos de lançamento e suporte, com atualizações de 
+# segurança e estabilidade feitas para garantir que todos os pacotes no repositório oficial 
+# sejam testados em conjunto. Usar pacotes Debian não testados no Ubuntu pode comprometer 
+# a estabilidade do sistema.
+# 
+#     O Ubuntu tem suporte comunitário e oficial para os pacotes dos seus repositórios, 
+# enquanto pacotes Debian que não estão no repositório do Ubuntu podem não ter suporte 
+# oficial no Ubuntu.
+# 
+#     Dependências específicas do Ubuntu:
+# 
+#     O Ubuntu pode usar versões específicas de certos pacotes e ferramentas que são 
+# diferentes do Debian. Isso pode criar problemas se você instalar pacotes Debian que não 
+# foram construídos ou testados para o ambiente específico do Ubuntu.
+# 
+# Como minimizar riscos ao usar pacotes Debian no Ubuntu:
+# 
+# Se você precisar usar pacotes Debian no Ubuntu, aqui estão algumas boas práticas para 
+# minimizar problemas:
+# 
+#     Verificar compatibilidade:
+# 
+#     Verifique se o pacote Debian é compatível com a versão do Ubuntu que você está 
+# usando, especialmente se o Ubuntu for uma versão LTS. Você pode verificar dependências 
+# e compatibilidade de versões antes de instalar.
+# 
+#     Instalar pacotes de forma isolada:
+# 
+#     Se possível, instale pacotes manualmente (baixando o arquivo .deb e usando dpkg 
+# ou apt) para que você possa controlar as dependências e ajustar caso ocorram problemas.
+# 
+#     Use ferramentas como dpkg para tentar resolver dependências manualmente. Exemplo:
+# 
+# sudo dpkg -i pacote.deb
+# 
+# sudo apt --fix-broken install
+# 
+# 
+# Verificar a origem dos pacotes:
+# 
+# Ao baixar pacotes diretamente de repositórios Debian, sempre tenha cuidado para garantir 
+# que você está baixando pacotes de fontes confiáveis, para evitar pacotes corrompidos ou 
+# maliciosos.
+# 
+# 
+# Conclusão:
+# 
+# Usar pacotes Debian no Ubuntu pode ser uma solução útil, especialmente se o pacote não 
+# estiver disponível no repositório do Ubuntu. No entanto, é importante estar ciente dos 
+# potenciais problemas de compatibilidade e estabilidade. Para evitar riscos, prefira sempre 
+# usar os repositórios oficiais do Ubuntu ou PPAs, mas, caso precise usar pacotes Debian, 
+# faça isso com cautela e verifique a compatibilidade e as dependências antes de instalar.
+
+
 
 
 # Para verificar se um site está fora do ar
@@ -2630,6 +2837,8 @@ else
 
 base_url="https://deb.debian.org/debian/pool/main/a/adwaita-icon-theme/"
 
+# https://github.com/GNOME/adwaita-icon-theme
+
 
 # Use wget para listar os arquivos na URL e depois grep para pegar o nome do arquivo .deb mais recente
 
@@ -2658,10 +2867,24 @@ wget -O /tmp/adwaita-icon-theme.deb -c "$file_url"  2>> "$log"
 fi
 
 
+}
 
-# ou 
 
-# $package_manager install -y adwaita-icon-theme
+# ----------------------------------------------------------------------------------------
+
+
+# Verifica se o tema já está instalado
+
+check_adwaita
+
+
+# Tenta instalar o tema via APT no Ubuntu ou via repositório do Debian
+
+install_via_apt || install_icon_repo_Debian
+
+
+# ----------------------------------------------------------------------------------------
+
 
 
 
@@ -2677,11 +2900,13 @@ fi
 
     $package_manager install -y morewaita  2>> "$log"
 
+
+# ----------------------------------------------------------------------------------------
+
  
 }
 
 
-# https://github.com/polkaulfield/ubuntu-debullshit/issues/6
 
 
 # ----------------------------------------------------------------------------------------
