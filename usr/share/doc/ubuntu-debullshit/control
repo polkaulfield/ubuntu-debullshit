@@ -1,0 +1,46 @@
+Package: ubuntu-debullshit
+Version: 1.0.1~beta-1
+Architecture: all
+Maintainer: Fernando Souza <https://github.com/tuxslack>
+Installed-Size: 967
+Depends: yad, dialog, gnome-icon-theme, gettext, notify-send, msgfmt, sed
+Recommends: 
+Suggests: 
+Breaks: ubuntu-debullshit (<< 1.0.1)
+Replaces: ubuntu-debullshit (<< 1.0.1)
+Provides: 
+Section: gnome
+Priority: optional
+Multi-Arch: 
+Homepage: https://github.com/tuxslack/ubuntu-debullshit
+Description: An automated script to set-up Ubuntu as it should be:
+ . 
+ * Removes snaps completely
+ * Disables the data reporting component
+ * Disables the annoying crash popup
+ * Removes terminal ads
+ * Installs Firefox from the Mozilla Repository
+ * Configure Firewall - ufw or iptables
+ * Disable extensions
+ * Disable animations
+ * Disable tracker (file indexes)
+ * Disable preloading of programs (Bluetooth, cups, Apache, Snap...)
+ * Disable checking for automatic updates
+ * Remove PPA (Personal Package Archive) from the system [IN TESTING FACE]
+ * Check which repository server is the fastest [IN TESTING FACE]
+ * Update the system manually
+ * Restore Gnome Interface
+ * Disables dynamic workspaces in place of static ones in GNOME (fixes only 2 workspaces)
+ * Remove "Software Stores" and updater (ubuntu-software, gnome-software, software-properties-gtk, update-manager)
+ * Uninstall GNOME Online Accounts (Integration with online accounts Ex: Google Drive, email, calendar)
+ * Opt out of Dash search data collection
+ * Disable Telemetry
+ . 
+ . ...
+ . 
+ Language support (English, Brazilian Portuguese).
+ . 
+ The program can use Yad or Dialog.
+ . 
+ Tested on Ubuntu 22.04, 23.04, 24.4.
+ . 

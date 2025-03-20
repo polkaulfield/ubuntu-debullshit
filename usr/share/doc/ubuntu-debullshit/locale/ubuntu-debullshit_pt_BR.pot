@@ -1,0 +1,1015 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+# 
+#: ubuntu-debullshit.sh:387
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: ubuntu-debullshit 0.2\n"
+"Report-Msgid-Bugs-To: Fernando Souza \n"
+"POT-Creation-Date: 2025-02-24 17:01-0300\n"
+"PO-Revision-Date: 2025-02-24 17:01-0300\n"
+"Last-Translator: Fernando Souza \n"
+"Language-Team: \n"
+"Language: pt_BR\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Description: Tradução para o português brasileiro do ubuntu-debullshit.\n"
+
+
+
+# Introdução ao Shell Script
+
+
+# msgid  ""
+# "Hardware where the optimization was performed:"
+# "Processor: Celeron 847 1.1GHz (2 cores)"
+# "RAM: 2GB DDR3"
+# "SSD: 128GB"
+# "Note: You don't need to do all the steps, choose the ones you think will help you with your needs."
+# "Slightly improved, but losing resources."
+# "The changes are intended to make the system more responsive, but may sacrifice some of the features that \nGNOME Shell brings by default. Use it if your machine really needs it, or if you don't really use the resources."
+# "The log file will be in %s at the end of the processes for checking errors or bugs."
+
+
+
+# msgstr ""
+# "Hardware onde foi feita a otimização:"
+# "Processador: Celeron 847 1.1GHz (2 núcleos)"
+# "RAM: 2GB DDR3"
+# "SSD: 128GB"
+# "Atenção: Você não precisa fazer todos os passos, escolha os que achar que ajudarão na sua necessidade."
+# "Melhorando um pouco, mas perdendo recursos."
+# "As mudanças servem para que o sistema fique mais responsivo, mas pode sacrificar algumas comodidades que o \nGNOME Shell traz por padrão. Use se sua máquina realmente precisar, ou se você realmente não usa os recursos."
+# "O arquivo de log ficará em %s ao final dos processos para consulta de erros ou bugs."
+
+
+
+# ----------------------------------------------------------------------------------------
+
+
+# Para identificar a distribuição
+
+msgid  "Distribution"
+msgstr "Distribuição"
+
+msgid  "Distribution unknown or not listed."
+msgstr "Distribuição desconhecida ou não listada."
+
+msgid  "Unable to identify distribution."
+msgstr "Não foi possível identificar a distribuição."
+
+# ----------------------------------------------------------------------------------------
+
+# Introdução ao Shell Script 
+
+
+msgid  "Hardware where the optimization was performed:"
+msgstr "Hardware onde foi feita a otimização:"
+
+msgid  "Processor: Celeron 847 1.1GHz (2 cores)"
+msgstr "Processador: Celeron 847 1.1GHz (2 núcleos)"
+
+msgid  "RAM: 2GB DDR3"
+msgstr "RAM: 2GB DDR3"
+
+msgid  "SSD: 128GB"
+msgstr "SSD: 128GB"
+
+msgid  "Note: You don't need to do all the steps, choose the ones you think will help you with your needs."
+msgstr "Atenção: Você não precisa fazer todos os passos, escolha os que achar que ajudarão na sua necessidade."
+
+msgid  "Slightly improved, but losing resources."
+msgstr "Melhorando um pouco, mas perdendo recursos."
+
+msgid  "The changes are intended to make the system more responsive, but may sacrifice some of the features that \nGNOME Shell brings by default. Use it if your machine really needs it, or if you don't really use the resources."
+msgstr "As mudanças servem para que o sistema fique mais responsivo, mas pode sacrificar algumas comodidades que o \nGNOME Shell traz por padrão. Use se sua máquina realmente precisar, ou se você realmente não usa os recursos."
+
+msgid  "The log file will be in %s at the end of the processes for checking errors or bugs."
+msgstr "O arquivo de log ficará em %s ao final dos processos para consulta de erros ou bugs."
+
+
+msgid  "You can access the Frequently Asked Questions (FAQ) file in PDF format at: %s"
+msgstr "Você pode acessar o arquivo Perguntas Frequentes (FAQ) no formato PDF em: %s"
+
+# ----------------------------------------------------------------------------------------
+
+# Para otimizar o Ubuntu com GNOME
+
+
+msgid  "Disabling login sound..."
+msgstr "Desabilitando o som de login..."
+
+msgid  "Disabling desktop icons..."
+msgstr "Desabilitando ícones na área de trabalho..."
+
+msgid  "Disabling heavy GNOME visual features..."
+msgstr "Desativando recursos visuais pesados do GNOME..."
+
+msgid  "Tweaking GNOME Shell features..."
+msgstr "Ajustando recursos do GNOME Shell..."
+
+msgid  "Disabling GNOME notifications..."
+msgstr "Desabilitando notificações do GNOME..."
+
+msgid  "Optimization is complete. Restart your computer to apply all changes."
+msgstr "A otimização foi concluída. Reinicie seu computador para aplicar todas as mudanças."
+
+msgid  "The gsettings command is not installed on your system."
+msgstr "O comando gsettings não está instalado no seu sistema."
+
+# ----------------------------------------------------------------------------------------
+
+msgid   "Command %s not found."
+msgstr "Comando %s não encontrado."
+
+msgid   "Command %s not found.\n\n\n# apt install -y %s"
+msgstr "Comando %s não encontrado.\n\n\n# apt install -y %s"
+
+
+msgid  "Option"
+msgstr "Opção"
+
+msgid  "Help"
+msgstr "Ajuda"
+
+msgid  "[ERROR] - Your system does not have an internet connection. Check your cables and modem."
+msgstr "[ERRO] - Seu sistema não tem conexão com à internet. Verifique os cabos e o modem."
+
+msgid  "[VERIFIED] - Internet connection working normally."
+msgstr "[VERIFICADO] - Conexão com à internet funcionando normalmente."
+
+msgid  "Yes"
+msgstr "Sim"
+
+msgid  "No"
+msgstr "Não"
+
+msgid  "Testing if internet connection is active..."
+msgstr "Testando se a conexão com a internet está ativa..."
+
+msgid  "Your Linux distribution is NOT Ubuntu."
+msgstr "Sua distribuição Linux NÃO é o Ubuntu."
+
+msgid  "Your Linux distribution is: %s"
+msgstr "A sua distribuição Linux é: %s"
+
+msgid  "The user is using GNOME."
+msgstr "O usuário está utilizando o GNOME."
+
+msgid  "The user is NOT using GNOME."
+msgstr "O usuário NÃO está utilizando o GNOME."
+
+msgid  "The folder /etc/apt/sources.list.d/ does not exist."
+msgstr "A pasta /etc/apt/sources.list.d/ não existe."
+
+msgid  "The /etc/apt/keyrings/ folder does not exist."
+msgstr "A pasta /etc/apt/keyrings/ não existe."
+
+msgid  "The /etc/apt/preferences.d/ folder does not exist."
+msgstr "A pasta /etc/apt/preferences.d/ não existe."
+
+
+msgid  "Unity GUI is NOT running."
+msgstr "A interface gráfica do Unity NÃO está em execução."
+
+msgid  "This version of Ubuntu does not need modifications or is out of range for disabling remote scopes."
+msgstr "Esta versão do Ubuntu não precisa de modificações ou está fora do intervalo para desativação de escopos remotos."
+
+msgid  "Remote scopes disabled successfully!"
+msgstr "Escopos remotos desativados com sucesso!"
+
+msgid  "Disabling remote scopes from online store suggestions..."
+msgstr "Desabilitando escopos remotos de sugestões de lojas online..."
+
+msgid  "Disabling Remote Content Search..."
+msgstr "Desabilitando Remote Content Search..."
+
+msgid  "Error: Canonical Unity lenses schema not found."
+msgstr "Erro: não foi encontrado o esquema Canonical Unity lenses."
+
+msgid  "Ubuntu version within range to disable remote scopes."
+msgstr "Versão do Ubuntu dentro do intervalo para desativar escopos remotos."
+
+
+msgid  "Disable Telemetry"
+msgstr "Desativar a Telemetria"
+
+msgid  "The website %s is down. Response code: %s"
+msgstr "O site %s está fora do ar. Código de resposta: %s"
+
+msgid  "The website %s is online."
+msgstr "O site %s está online."
+
+msgid  "An error occurred while disabling ubuntu-report telemetry collection."
+msgstr "Ocorreu um erro ao desativa a coleta de telemetria do ubuntu-report."
+
+msgid  "Pop-con service stopped and disabled."
+msgstr "Serviço pop-con parado e desabilitado."
+
+msgid  "Pop-con service is not running."
+msgstr "Serviço pop-con não está em execução."
+
+msgid  "An error occurred while disabling telemetry collection for Snap packages."
+msgstr "Ocorreu um erro ao desativa a coleta de telemetria para pacotes Snap."
+
+msgid  "An error occurred while removing whoopsie."
+msgstr "Ocorreu um erro ao remover o whoopsie."
+
+msgid  "An error occurred while removing canonical-livepatch."
+msgstr "Ocorreu um erro ao remover o canonical-livepatch."
+
+
+msgid  "This part of the script is designed to check for the unity-lens-shopping package on Ubuntu versions 12.10 through 16.04."
+msgstr "Essa parte do script foi projetada para verificar o pacote unity-lens-shopping nas versões de 12.10 até 16.04 do Ubuntu."
+
+msgid  "The unity-lens-shopping package is installed on Ubuntu %s."
+msgstr "O pacote unity-lens-shopping está instalado no Ubuntu %s."
+
+msgid  "The unity-lens-shopping package is NOT installed on Ubuntu %s."
+msgstr "O pacote unity-lens-shopping NÃO está instalado no Ubuntu %s."
+
+
+msgid  "An error occurred while disabling online search sources (eBay, Wikipedia, flickr, etc.)"
+msgstr "Ocorreu um erro ao desabilita as fontes de pesquisa online (eBay, Wikipedia, flickr, etc.)"
+
+msgid  "An error occurred while disabling Amazon online search in Dash"
+msgstr "Ocorreu um erro ao desabilita a pesquisa online da Amazon na Dash"
+
+msgid  "Dash's search data collection has been disabled."
+msgstr "A coleta de dados de pesquisa da Dash foi desativada."
+
+msgid  "Downloading the package"
+msgstr "Baixando o pacote"
+
+msgid  "Download Ubuntu"
+msgstr "Baixar Ubuntu"
+
+msgid  "Notice"
+msgstr "Aviso"
+
+msgid  "The file %s does not exist."
+msgstr "O arquivo %s não existe."
+
+msgid  "kernel"
+msgstr "kernel"
+
+msgid  "Processor architecture"
+msgstr "Arquitetura do processador"
+
+msgid  "Licensed under the"
+msgstr "Licenciado sob a"
+
+msgid  "Report problems for"
+msgstr "Reporte problemas para"
+
+msgid  "The log file was generated at: %s"
+msgstr "O arquivo de log foi gerado em: %s"
+
+msgid  "Uninstall GNOME Online Accounts - Online Accounts Integration"
+msgstr "Desinstale o GNOME Online Accounts - Integração com contas online"
+
+msgid  "Uninstall Software Stores"
+msgstr "Desinstale as Lojas de Software"
+
+msgid  "Disable location service"
+msgstr "Desativar o serviço de localização"
+
+msgid  "Disable File History"
+msgstr "Desativar o Histórico de Arquivos"
+
+msgid  "Disable GNOME GUI animations"
+msgstr "Desativar as animações da interface gráfica GNOME"
+
+msgid  "Disable animations when minimizing and restoring windows."
+msgstr "Desabilitar animações ao minimizar e restaurar janelas."
+
+msgid  "Disable location services\n\nDo this if you don't use programs that rely on location being enabled."
+msgstr "Desative o serviço de localização\n\nFaça isso se você não usa programas que dependam da localização ativada."
+
+msgid  "Stopping service..."
+msgstr "Parando o serviço..."
+
+msgid  "Disabling the service so that it does not start automatically..."
+msgstr "Desabilitando o serviço para que ele não seja iniciado automaticamente..."
+
+msgid  "Disabling automatic checking for new versions..."
+msgstr "Desabilitando a verificação automática de novas versões..."
+
+msgid  "Uninstalling package..."
+msgstr "Desinstalando o pacote..."
+
+msgid  "Removing residue from packages..."
+msgstr "Removendo os resíduos dos pacotes..."
+
+msgid  "Animations have been successfully disabled."
+msgstr "As animações foram desabilitadas com sucesso."
+
+msgid  "An error occurred while trying to disable animations. Check the log for more details.\n\nError logged in: %s"
+msgstr "Ocorreu um erro ao tentar desabilitar as animações. Verifique o log para mais detalhes.\n\nErro registrado em: %s"
+
+msgid  "Window minimize and restore animations have been successfully disabled."
+msgstr "As animações de minimizar e restaurar janelas foram desabilitadas com sucesso."
+
+msgid  "An error occurred while trying to disable window minimize and restore animations. Check the log for more details.\n\nError logged in: %s"
+msgstr "Ocorreu um erro ao tentar desabilitar as animações de minimizar e restaurar janelas. Verifique o log para mais detalhes.\n\nErro registrado em: %s"
+
+msgid  "Disabling extension: %s"
+msgstr "Desativando a extensão: %s"
+
+msgid  "Extensions that are active on your system:"
+msgstr "Extensões que estão ativas no seu sistema:"
+
+msgid  "Extensions that are active on your system now:"
+msgstr "Extensões que estão ativas no seu sistema agora:"
+
+msgid  "Disable all GNOME extensions at once"
+msgstr "Desativar todas as extensões de uma vez do GNOME"
+
+msgid  "Error disabling all GNOME extensions... Check if the gnome-extensions command is on the system."
+msgstr "Error ao desativar todas as extensões do GNOME... Verifique se o comando gnome-extensions esta no sistema."
+
+msgid  "Disable dynamic workspaces (make them static)"
+msgstr "Desabilitar espaços de trabalho dinâmicos (torná-los estáticos)"
+
+msgid  "Set the fixed number of workspaces to two."
+msgstr "Definir o número fixo de espaços de trabalho para dois."
+
+msgid  "This will ensure that the number of workspaces is fixed, and will not change \nautomatically based on the number of open windows."
+msgstr "Isso irão garantir que o número de espaços de trabalho seja fixo, e não será alterado \nautomaticamente com base no número de janelas abertas."
+
+msgid  "Disable programs that start with the system"
+msgstr "Desativar programas que iniciam com o sistema"
+
+msgid  "Programs that start automatically with the system:"
+msgstr "Programas iniciados automaticamente com o sistema:"
+
+msgid   "Disabling service: %s"
+msgstr "Desativando o serviço: %s"
+
+msgid  "Service %s has been stopped successfully."
+msgstr "O serviço %s foi parado com sucesso."
+
+msgid  "An error occurred while trying to stop service %s. Check the log for more details.\n\nError logged: %s"
+msgstr "Ocorreu um erro ao tentar parar o serviço %s. Verifique o log para mais detalhes.\n\nErro registrado: %s"
+
+msgid  "The %s service has been successfully disabled."
+msgstr "O serviço %s foi desabilitado com sucesso."
+
+msgid  "An error occurred while trying to disable service %s. Check the log for more details.\n\nError logged: %s"
+msgstr "Ocorreu um erro ao tentar desabilitar o serviço %s. Verifique o log para mais detalhes.\n\nErro registrado: %s"
+
+msgid  "Files in folder %s: "
+msgstr "Arquivos na pasta %s: "
+
+msgid  "The font %s is installed."
+msgstr "A fonte %s está instalada."
+
+msgid  "The font %s is not installed."
+msgstr "A fonte %s não está instalada."
+
+msgid  "The file %s exists."
+msgstr "O arquivo %s existe."
+
+msgid  "Package %s is already installed."
+msgstr "O pacote %s já está instalado."
+
+msgid  "Package %s is not installed. Installing..."
+msgstr "O pacote %s não está instalado. Instalando..."
+
+msgid  "Package %s installed successfully."
+msgstr "Pacote %s instalado com sucesso."
+
+msgid  "Failed to install package %s."
+msgstr "Falha ao instalar o pacote %s."
+
+# ----------------------------------------------------------------------------------------
+
+# PPAs
+
+msgid  "Starting to clean up packages installed via PPAs..."
+msgstr "Iniciando a limpeza de pacotes instalados via PPAs..."
+
+msgid  "Removing PPA: %s"
+msgstr "Removendo o PPA: %s"
+
+msgid  "Removing .list files from PPAs..."
+msgstr "Removendo arquivos .list dos PPAs..."
+
+msgid  "Checking packages installed via PPAs..."
+msgstr "Verificando pacotes instalados via PPAs..."
+
+msgid  "Removing package: %s"
+msgstr "Removendo o pacote: %s"
+
+msgid  "Removal of packages installed by PPAs has been completed."
+msgstr "A remoção de pacotes instalados por PPAs foi concluída."
+
+msgid  "Remove PPA (Personal Package Archive) from the system"
+msgstr "Remover PPA (Personal Package Archive) do sistema"
+
+# ----------------------------------------------------------------------------------------
+
+
+msgid  "Menu"
+msgstr "Menu"
+
+
+msgid  "Restore Gnome Interface"
+msgstr "Restaurar Interface Gnome"
+
+msgid  "Restart GNOME (or reboot your system) for the changes to take effect. You can restart GNOME with the command:\n\n# killall -3 gnome-shell"
+msgstr "Reinicie o GNOME (ou reinicie o sistema) para que as mudanças tenham efeito. Você pode reiniciar o GNOME com o comando:\n\n# killall -3 gnome-shell"
+
+
+msgid  "The user has sudo permissions."
+msgstr "O usuário tem permissões de sudo."
+
+msgid  "The user is common and does not have Root or sudo permissions."
+msgstr "O usuário é comum e não tem permissões de Root nem sudo."
+
+msgid  "The user is Root."
+msgstr "O usuário é o Root."
+
+
+
+msgid  "Disables Canonical partner repositories"
+msgstr "Desabilita repositórios de parceiros da Canonical"
+
+msgid  "What is the best repository?"
+msgstr "Qual o melhor repositorio?"
+
+# ----------------------------------------------------------------------------------------
+
+# Firewall
+
+
+msgid  "Configure the Firewall"
+msgstr "Configura o Firewall"
+
+msgid  "Activating UFW..."
+msgstr "Ativando o UFW..."
+
+msgid  "Cleaning up existing rules..."
+msgstr "Limpando as regras existentes..."
+
+msgid  "Setting default policies: block inbound, allow outbound..."
+msgstr "Definindo políticas padrão: bloquear entrada, permitir saída..."
+
+msgid  "Blocking ad servers and tracking..."
+msgstr "Bloqueando servidores de anúncios e rastreamento..."
+
+msgid  "Blocking incoming connections, allowing only the local interface (loopback)..."
+msgstr "Bloqueando conexões de entrada, permitindo apenas a interface local (loopback)..."
+
+msgid  "Enabling essential system services..."
+msgstr "Permitindo serviços essenciais para o sistema..."
+
+msgid  "Checking Firewall status..."
+msgstr "Verificando status do Firewall..."
+
+msgid  "Firewall configured for maximum privacy!"
+msgstr "Firewall configurado para máxima privacidade!"
+
+msgid  "Firewall for Total Privacy Protection"
+msgstr "Firewall para Proteção Total de Privacidade"
+
+msgid  "iptables is already installed."
+msgstr "O iptables já está instalado."
+
+msgid  "iptables is not installed. Installing now..."
+msgstr "O iptables não está instalado. Instalando agora..."
+
+msgid  "iptables installed successfully!"
+msgstr "iptables instalado com sucesso!"
+
+msgid  "Setting up basic iptables rules to protect your privacy..."
+msgstr "Configurando regras básicas do iptables para proteger sua privacidade..."
+
+msgid  "Setting default policies: block all and allow local connections..."
+msgstr "Definindo políticas padrão: bloquear tudo e permitir conexões locais..."
+
+msgid  "Allow local traffic (loopback)..."
+msgstr "Permitir tráfego local (loopback)..."
+
+msgid  "Allow essential outbound traffic..."
+msgstr "Permitir tráfego de saída essencial..."
+
+msgid  "Saving rules..."
+msgstr "Salvando regras..."
+
+msgid  "Iptables rules configured successfully!"
+msgstr "Regras do iptables configuradas com sucesso!"
+
+msgid  "Blocking tracking IP: %s"
+msgstr "Bloqueando IP de rastreamento: %s"
+
+msgid  "UFW is not installed. Installing now..."
+msgstr "O UFW não está instalado. Instalando agora..."
+
+msgid  "UFW installed successfully!"
+msgstr "UFW instalado com sucesso!"
+
+msgid  "UFW is already installed."
+msgstr "UFW já está instalado."
+
+msgid  "Warning: UFW is down!"
+msgstr "Aviso: UFW está inativo!"
+
+msgid  "Firewall is disabled. Please check the configuration."
+msgstr "O firewall está desativado. Por favor, verifique a configuração."
+
+# ----------------------------------------------------------------------------------------
+
+#  Desmarcar Parceiros da Canonical (Código fonte) do repositório
+
+msgid  "Updating repositories..."
+msgstr "Atualizando os repositórios..."
+
+msgid  "Canonical Partners Repository"
+msgstr "Repositório Parceiros da Canonical"
+
+msgid  "Canonical repositories successfully unchecked."
+msgstr "Repositórios da Canonical desmarcados com sucesso."
+
+# ----------------------------------------------------------------------------------------
+
+# Verificar qual o servidor de repositório mais rápido
+
+msgid  "Testing server latency..."
+msgstr "Testando latência dos servidores..."
+
+msgid  "Testing latency of %s..."
+msgstr "Testando latência de %s..."
+
+msgid  "The fastest repository server is: %s with latency of %s ms."
+msgstr "O servidor de repositório mais rápido é: %s com latência de %s ms."
+
+msgid  "Repositories configured in the system:"
+msgstr "Repositórios configurados no sistema:"
+
+msgid  "The fastest repository server for your connection is:\n\n%s\n\nWith latency of: %s ms."
+msgstr "O servidor de repositório mais rápido para sua conexão é:\n\n%s\n\nCom latência de: %s ms."
+
+msgid  "Best repository server"
+msgstr "Melhor servidor de repositório"
+
+# ----------------------------------------------------------------------------------------
+
+# Atualizar o sistema
+
+
+msgid  "Update the system"
+msgstr "Atualizar o sistema"
+
+msgid  "Updating package list..."
+msgstr "Atualizando a lista de pacotes..."
+
+msgid  "Updating installed packages..."
+msgstr "Atualizando os pacotes instalados..."
+
+msgid  "Cleaning up unnecessary packages..."
+msgstr "Limpando pacotes desnecessários..."
+
+msgid  "Cleaning up downloaded packages..."
+msgstr "Limpando pacotes baixados..."
+
+
+# ----------------------------------------------------------------------------------------
+
+# Reduza o acesso ao swap
+
+msgid  "Reduce swap access (Ubuntu defaults to 60.)"
+msgstr "Reduza o acesso ao swap (o padrão do Ubuntu é 60.)"
+
+msgid  "The file does not exist."
+msgstr "O arquivo não existe."
+
+msgid  "vm.swappiness found, updating value..."
+msgstr "vm.swappiness encontrado, atualizando valor..."
+
+msgid  "vm.swappiness not found, adding to file..."
+msgstr "vm.swappiness não encontrado, adicionando ao arquivo..."
+
+msgid  "vm.vfs_cache_pressure found, updating value..."
+msgstr "vm.vfs_cache_pressure encontrado, atualizando valor..."
+
+msgid  "vm.vfs_cache_pressure not found, adding to file..."
+msgstr "vm.vfs_cache_pressure não encontrado, adicionando ao arquivo..."
+
+msgid  "Swap settings adjusted successfully!"
+msgstr "Configurações de swap ajustadas com sucesso!"
+
+
+# ----------------------------------------------------------------------------------------
+
+# Desativar o Histórico de Arquivos
+
+msgid  "Disabling file tracking service (tracker3)..."
+msgstr "Desabilitando o serviço de rastreamento de arquivos (tracker3)..."
+
+msgid  "Disable File History in GNOME"
+msgstr "Desabilitar o histórico de arquivos no GNOME"
+
+msgid  "Clear recent file history"
+msgstr "Limpar o histórico de arquivos recentes"
+
+
+# ----------------------------------------------------------------------------------------
+
+msgid  "RAM consumption"
+msgstr "Consumo de memória RAM"
+
+
+msgid  "Processes running on the system"
+msgstr "Processos em execução no sistema"
+
+
+msgid  "Disk space occupied"
+msgstr "Espaço em disco ocupado"
+
+
+msgid  "No repositories or folders were found..."
+msgstr "Repositórios ou pasta não foram localizados..."
+
+
+msgid  "Select a user"
+msgstr "Selecione um usuário"
+
+msgid  "Users"
+msgstr "Usuários"
+
+msgid  "Select"
+msgstr "Selecionar"
+
+
+msgid  "GNOME settings reset successfully performed..."
+msgstr "As redefinições das configurações do GNOME foram executadas com sucesso..."
+
+msgid  "Errors occurred while resetting GNOME settings..."
+msgstr "Ocorreram erros ao redefinir as configurações do GNOME..."
+
+msgid  "Exit code:"
+msgstr "Código de saída:"
+
+msgid  "No user selected...."
+msgstr "Nenhum usuário selecionado...."
+
+
+msgid  "\nIf you remember to update your system from time to time, disable automatic updates.\n\nAutomatic updates will be disabled, including disabling the unattended-upgrades service and checking for new Ubuntu versions.\n"
+msgstr "\nSe você se lembra de atualizar o sistema de vez em quando, desative a atualização automática.\n\nAs atualizações automáticas serão desativadas, incluindo a desativação do serviço unattended-upgrades e a verificação de novas versões do Ubuntu.\n"
+
+msgid  "Disabling automatic package and security updates...\n\nUbuntu manages automatic updates through unattended-upgrades, which is\nresponsible for automatically installing security and other important \nupdates."
+msgstr "Desativando atualizações automáticas de pacotes e segurança...\n\nO Ubuntu gerencia as atualizações automáticas por meio do unattended-upgrades, que é\nresponsável por instalar automaticamente atualizações de segurança e outras atualizações\nimportantes."
+
+
+
+msgid  "Disable the unattended-upgrades service:\n\nIn addition to disabling the configuration for automatic updates, we can ensure that the \nservice that manages these automatic updates is not running."
+msgstr "Desabilitar o serviço unattended-upgrades:\n\nAlém de desabilitar a configuração para atualizações automáticas, podemos garantir que o \nserviço que gerencia essas atualizações automáticas não seja executado."
+
+msgid  "Automatic updates successfully disabled.\n\nThese steps will ensure that Ubuntu does not perform automatic updates, giving you full control over when updates are made."
+msgstr "Atualizações automáticas desativadas com sucesso.\n\nEsses passos garantirão que o Ubuntu não realize atualizações automáticas, dando a você controle total sobre quando as atualizações serão feitas."
+
+
+
+msgid  "Disable search\n\nGNOME Shell searches for files, calendar events, programs in \nGNOME Software (or Ubuntu Software), in the terminal, in addition to the standard search for installed programs.\n\n\nDisabling search will make the system much lighter, responding more quickly. \nEvaluate your needs and decide if it is worth it (ideal for very weak machines).\n\n\nDisable File History\n\nGNOME Shell stores the history of files used to place in recent items, in searches. If it is not important, disable it."
+
+msgstr "Desative a pesquisa\n\nO GNOME Shell faz pesquisas por arquivos, eventos no calendário, programas na \nGNOME Software (ou Ubuntu Software), no terminal, além da busca padrão pelos \nprogramas instalados.\n\n\nDesativar a pesquisa vai deixar o sistema bem mais leve, respondendo mais rapidamente. \nAvalie suas necessidades e decida se vale a pena (ideal para máquina muito fraca).\n\n\nDesative o Histórico de Arquivos\n\nO GNOME Shell armazena o histórico dos arquivos utilizados para colocar nos itens \nrecentes, em buscas. Se não for importante, desative."
+
+
+
+msgid  "After performing these steps, you will have disabled search in Ubuntu, \nincluding file indexing, recent file history, and GNOME Shell search. This \nmay improve performance, but it also means that you will no longer be \nable to use the system's quick search to find files or applications."
+
+msgstr "Após realizar esses passos, você terá desativado a pesquisa no Ubuntu, incluindo a indexação \nde arquivos, o histórico de arquivos recentes e a pesquisa no GNOME Shell. Isso pode melhorar \no desempenho, mas também significa que você não poderá mais usar a pesquisa rápida do sistema \npara encontrar arquivos ou aplicativos."
+
+
+
+msgid  "Removing software stores and updaters\n\nUninstall the Software Stores (only if you know how to use APT).\n\nIf you usually manage your software through the command line, uninstall the \nmanager programs that also keep services (daemons) running all the time \non the system (not recommended).\n\n\nThis action will remove the store(s), the repository manager, the \nupdate manager and the update notifier."
+
+msgstr "Removendo lojas de software e atualizador\n\nDesinstale as Lojas de Software (somente se você souber lidar com o APT).\n\nSe você costuma gerenciar seus softwares pela linha de comando, desinstale os \nprogramas gerenciadores que também mantêm serviços (daemons) rodando o tempo todo \nno sistema (não recomendado).\n\n\nEssa ação irá remover as lojinha(s), o gerenciador de repositórios, o \ngerenciador de atualizações e o notificador de atualizações."
+
+
+
+msgid  "Uninstall GNOME Online Accounts\n\nIntegration with online accounts (mounting Google Drive folders, email, calendar).\n\nThis will remove support for Online Accounts and also the service (daemon) that is running on the system."
+
+msgstr "Desinstale o GNOME Online Accounts\n\nIntegração com contas online (montagem de pastas do Google Drive, e-mail, calendário).\n\nIsso vai remover o suporte às Contas Online e também o serviço (daemon) que fica rodando no sistema."
+
+
+msgid  "Revert packages installed via PPAs\n\n\nWarning\n\nIf you are a winuser who is addicted to Baixaki and installs all kinds of \nthird-party junk on your Linux, such as PPAs, .deb packages, \nruns scripts and compilations without knowing whether it is for food or \ndrink, don't even try to use this option. Your system will most likely break."
+
+msgstr "Reverter pacotes instalados via PPAs\n\n\nAviso\n\nSe você é do tipo winuser dependente químico do Baixaki e instala tudo que é lixo de \nterceiros no seu Linux, como PPAs, pacotes .deb, roda scripts e compilações sem saber se \né para comer ou beber, nem tente usar esta opção. Seu sistema muito provavelmente irá quebrar."
+
+
+
+msgid  "The folder /etc/apt/sources.list.d does not exist..."
+msgstr "A pasta /etc/apt/sources.list.d não existe..."
+
+
+
+msgid  "The folder /usr/share/icons/gnome/ does not exist."
+msgstr "A pasta /usr/share/icons/gnome/ não existe."
+
+
+msgid  "Snap is not installed on your system.\n\nTo install Snap, use the command: # apt install -y snapd"
+msgstr "O Snap não está instalado no seu sistema.\n\nPara instalar o Snap, use o comando: # apt install -y snapd"
+
+msgid  "Snap is installed. Version:"
+msgstr "O Snap está instalado. Versão:"
+
+
+msgid  "Version"
+msgstr "Versão"
+
+
+msgid  "* Static Workspaces (Fix the number of workspaces and leave them static.)\n\nTo set up Static Workspaces in Ubuntu (i.e. fix the number of \nworkspaces and make them static), you will need to change the \nGNOME Shell settings.\n\nBy default, GNOME Shell allows workspaces to adjust dynamically — that \nis, the number of workspaces increases as you open more windows and decreases \nas you close some of them. To set this to a fixed number of workspaces, \nclick on the GNOME Shell icon."
+
+msgstr "* Espaços de trabalho estáticos (fixar o número de espaços de trabalho e deixar como estáticos.)\n\nPara configurar os Espaços de Trabalho Estáticos no Ubuntu (ou seja, fixar o número de \nespaços de trabalho e torná-los estáticos), você precisará alterar as configurações do \nGNOME Shell.\n\nPor padrão, o GNOME Shell permite que os espaços de trabalho se ajustem dinamicamente — ou \nseja, o número de espaços de trabalho aumenta conforme você abre mais janelas e diminui \nquando você fecha algumas delas. Para configurar isso para um número fixo de espaços de \ntrabalho."
+
+
+
+msgid  "Removing Ubuntu default apps"
+msgstr "Removendo aplicativos padrão do Ubuntu"
+
+
+# ----------------------------------------------------------------------------------------
+
+# Configurar a ordem dos botões da janela (minimizar, maximizar e fechar)
+
+
+msgid  "Configure the order of window buttons (minimize, maximize, and close)"
+msgstr "Configurar a ordem dos botões da janela (minimizar, maximizar e fechar)"
+
+msgid  "This version of Ubuntu supports the gconftool-2 command."
+msgstr "Esta versão do Ubuntu é compatível com o comando gconftool-2."
+
+msgid  "Adjusted button layout."
+msgstr "Layout dos botões ajustado."
+
+msgid  "gconftool-2 is not installed. Install it using: sudo apt-get install -y gconftool-2"
+msgstr "gconftool-2 não está instalado. Instale-o utilizando: sudo apt-get install -y gconftool-2"
+
+msgid  "This version of Ubuntu does not support the gconftool-2 command."
+msgstr "Esta versão do Ubuntu não é compatível com o comando gconftool-2."
+
+
+# ----------------------------------------------------------------------------------------
+
+
+# Para criar um perfil do AppArmor para o Firefox
+
+
+msgid  "AppArmor is loaded into the kernel."
+msgstr "AppArmor está carregado no kernel."
+
+msgid  "AppArmor is not loaded in the kernel."
+msgstr "AppArmor não está carregado no kernel."
+
+msgid  "AppArmor is active."
+msgstr "AppArmor está ativo."
+
+msgid  "Error: Firefox not found on the system."
+msgstr "Erro: Firefox não encontrado no sistema."
+
+msgid  "Error: AppArmor profiles directory not found!"
+msgstr "Erro: Diretório de perfis do AppArmor não encontrado!"
+
+msgid  "Firefox profile successfully created and uploaded to AppArmor!"
+msgstr "Perfil do Firefox criado e carregado no AppArmor com sucesso!"
+
+msgid  "Error: Failed to load Firefox profile in AppArmor."
+msgstr "Erro: Falha ao carregar o perfil do Firefox no AppArmor."
+
+msgid  "AppArmor is not active."
+msgstr "AppArmor não está ativo."
+
+msgid  "Profile %s already exists on %s."
+msgstr "O perfil %s já existe em %s."
+
+msgid  "Profile %s does not exist on %s."
+msgstr "O perfil %s não existe em %s."
+
+# ----------------------------------------------------------------------------------------
+
+
+# Para remover pacotes inseguros no Ubuntu
+
+
+msgid  "Starting to remove insecure packages on the system..."
+msgstr "Iniciando a remoção de pacotes inseguros no sistema..."
+
+msgid  "The following packages will be removed:"
+msgstr "Os seguintes pacotes serão removidos:"
+
+msgid  "Do you want to continue with removing these packages? (y/n):"
+msgstr "Deseja continuar com a remoção desses pacotes? (s/n):"
+
+msgid  "Operation cancelled."
+msgstr "Operação cancelada."
+
+msgid  "Removing the package"
+msgstr "Removendo o pacote"
+
+msgid  "Package %s is not installed."
+msgstr "O pacote %s não está instalado."
+
+msgid  "Package removal completed."
+msgstr "Remoção de pacotes completada."
+
+msgid  "Restarting UFW Firewall..."
+msgstr "Reiniciando o Firewall UFW..."
+
+msgid  "Removal of insecure packages on the system completed successfully."
+msgstr "Remoção de pacotes inseguros no sistema finalizada com sucesso."
+
+
+# ----------------------------------------------------------------------------------------
+
+# Para o tema Adwaita
+
+msgid  "Adwaita theme is already installed on the system."
+msgstr "O tema Adwaita já está instalado no sistema."
+
+msgid  "Adwaita theme is NOT installed on the system."
+msgstr "O tema Adwaita NÃO está instalado no sistema."
+
+msgid  "Trying to install the Adwaita theme via APT..."
+msgstr "Tentando instalar o tema Adwaita via APT..."
+
+msgid  "Adwaita theme has been successfully installed via APT!"
+msgstr "O tema Adwaita foi instalado com sucesso via APT!"
+
+msgid  "Failed to install theme via APT. Trying alternatives..."
+msgstr "Falha ao instalar o tema via APT. Tentando alternativas..."
+
+
+# ----------------------------------------------------------------------------------------
+
+
+# ----------------------------------------------------------------------------------------
+
+
+msgid  "Setting up Gnome desktop"
+msgstr "Configurando o ambiente de trabalho Gnome"
+
+
+msgid  "Installing Gnome apps from flathub"
+msgstr "Instalando aplicativos Gnome do flathub"
+
+
+msgid  "None of the system files (/etc/os-release or /etc/lsb-release) were found."
+msgstr "Nenhum dos arquivos (/etc/os-release ou /etc/lsb-release) de sistema foi encontrados."
+
+
+msgid  "Error executing command to adjust window buttons. See log file %s for details."
+msgstr "Erro ao executar o comando para ajustar os botões da janela. Veja o arquivo de log %s para detalhes."
+
+
+msgid  "Package manager not found!"
+msgstr "Gerenciador de pacotes não encontrado!"
+
+
+msgid  "List of services currently loaded at boot:"
+msgstr "Lista de serviços carregados durante a inicialização atualmente:"
+
+
+#: ubuntu-debullshit.sh:45 ubuntu-debullshit.sh:47
+msgid  "Error"
+msgstr "Erro"
+
+#: ubuntu-debullshit.sh:146
+msgid  "The file /etc/default/motd-news exists."
+msgstr "O arquivo /etc/default/motd-news existe."
+
+#: ubuntu-debullshit.sh:154
+msgid  "The file /etc/default/motd-news does not exist."
+msgstr "O arquivo /etc/default/motd-news não existe."
+
+#: ubuntu-debullshit.sh:312
+msgid  "Reboot"
+msgstr "Reinicializar"
+
+#: ubuntu-debullshit.sh:312
+msgid  "Reboot now?"
+msgstr "Reinicializar agora?"
+
+#: ubuntu-debullshit.sh:359
+msgid  "Please run the script as Root!\\nWe need to do administrative tasks"
+msgstr "Por favor, execute o script como Root!\\nPrecisamos fazer tarefas administrativas"
+
+#: ubuntu-debullshit.sh:386
+msgid  "ubuntu-debullshit!"
+msgstr "ubuntu-debullshit!"
+
+#: ubuntu-debullshit.sh:387
+msgid  "Choose what to do:"
+msgstr "Selecione o que fazer:"
+
+#: ubuntu-debullshit.sh:388
+msgid  "Apply everything (RECOMMENDED)"
+msgstr "Aplicar tudo (RECOMENDADO)"
+
+#: ubuntu-debullshit.sh:389
+msgid  "Disable Ubuntu report"
+msgstr "Desabilitar relatório do Ubuntu"
+
+#: ubuntu-debullshit.sh:390
+msgid  "Remove app crash popup"
+msgstr "Remover pop-up de travamento do aplicativo"
+
+#: ubuntu-debullshit.sh:391
+msgid  "Remove snaps and snapd"
+msgstr "Remover snaps e snapd"
+
+#: ubuntu-debullshit.sh:392
+msgid  "Disable terminal ads (LTS versions)"
+msgstr "Desabilitar anúncios de terminal (versões LTS)"
+
+#: ubuntu-debullshit.sh:393
+msgid  "Install flathub and gnome-software"
+msgstr "Instalar flathub e gnome-software"
+
+#: ubuntu-debullshit.sh:394
+msgid  "Install firefox from the Mozilla repo"
+msgstr "Instalar firefox do repositório Mozilla"
+
+#: ubuntu-debullshit.sh:395
+msgid  "Install vanilla GNOME session"
+msgstr "Instalar sessão vanilla GNOME"
+
+#: ubuntu-debullshit.sh:396
+msgid  "Install adw-gtk3, morewaita and latest adwaita icons"
+msgstr "Instalar adw-gtk3, morewaita e os ícones mais recentes do adwaita"
+
+#: ubuntu-debullshit.sh:397
+msgid  "Exit"
+msgstr "Sair"
+
+#: ubuntu-debullshit.sh:398
+msgid  "Cancel"
+msgstr "Cancelar"
+
+#: ubuntu-debullshit.sh:398
+msgid  "OK"
+msgstr "OK"
+
+#: ubuntu-debullshit.sh:438 ubuntu-debullshit.sh:446 ubuntu-debullshit.sh:452
+#: ubuntu-debullshit.sh:458 ubuntu-debullshit.sh:466 ubuntu-debullshit.sh:474
+#: ubuntu-debullshit.sh:482 ubuntu-debullshit.sh:490 ubuntu-debullshit.sh:505
+msgid  "Done!"
+msgstr "Feito!"
+
+#: ubuntu-debullshit.sh:517
+msgid  "Wrong input!"
+msgstr "Entrada errada!"
+
+#: ubuntu-debullshit.sh:533
+msgid  "Updating system"
+msgstr "Atualizando o sistema"
+
+#: ubuntu-debullshit.sh:538
+msgid  "Disabling ubuntu report"
+msgstr "Desabilitando o relatório do Ubuntu"
+
+#: ubuntu-debullshit.sh:543
+msgid  "Removing annoying appcrash popup"
+msgstr "Removendo o pop-up irritante do AppCrash"
+
+#: ubuntu-debullshit.sh:548
+msgid  "Removing terminal ads (if they are enabled)"
+msgstr "Removendo anúncios do terminal (se estiverem habilitados)"
+
+#: ubuntu-debullshit.sh:553
+msgid  "Deleting everything snap related"
+msgstr "Excluindo tudo relacionado ao Snap"
+
+#: ubuntu-debullshit.sh:558
+msgid  "Setting up flathub"
+msgstr "Configurando o Flathub"
+
+#: ubuntu-debullshit.sh:563
+msgid  "Restoring Firefox from mozilla repository"
+msgstr "Restaurando o Firefox do repositório Mozilla"
+
+#: ubuntu-debullshit.sh:568
+msgid  "Installing vanilla Gnome session"
+msgstr "Instalando a sessão do Gnome vanilla"
+
+#: ubuntu-debullshit.sh:573
+msgid  "Adding julianfairfax repo"
+msgstr "Adicionando o repositório Julianfairfax"
+
+#: ubuntu-debullshit.sh:578
+msgid  "Install adw-gtk3 and set dark theme"
+msgstr "Instalando o adw-gtk3 e definindo o tema escuro"
+
+#: ubuntu-debullshit.sh:583
+msgid  "Installing GNOME 46 and morewaita icons"
+msgstr "Instalando o GNOME 46 e ícones Morewaita"
+
+#: ubuntu-debullshit.sh:588
+msgid  "Cleaning up"
+msgstr "Limpando"
+
