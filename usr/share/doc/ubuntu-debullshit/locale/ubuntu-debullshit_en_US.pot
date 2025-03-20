@@ -238,6 +238,12 @@ msgstr ""
 msgid  "Processor architecture"
 msgstr ""
 
+msgid  "Licensed under the"
+msgstr ""
+
+msgid  "Report problems for"
+msgstr ""
+
 msgid  "The log file was generated at: %s"
 msgstr ""
 
@@ -798,9 +804,29 @@ msgstr ""
 
 # ----------------------------------------------------------------------------------------
 
+# Para o tema Adwaita
+
+msgid  "Adwaita theme is already installed on the system."
+msgstr ""
+
+msgid  "Adwaita theme is NOT installed on the system."
+msgstr ""
+
+msgid  "Trying to install the Adwaita theme via APT..."
+msgstr ""
+
+msgid  "Adwaita theme has been successfully installed via APT!"
+msgstr ""
+
+msgid  "Failed to install theme via APT. Trying alternatives..."
+msgstr ""
 
 
 # ----------------------------------------------------------------------------------------
+
+
+# ----------------------------------------------------------------------------------------
+
 
 msgid  "Setting up Gnome desktop"
 msgstr ""

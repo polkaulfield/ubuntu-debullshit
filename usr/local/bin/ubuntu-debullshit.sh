@@ -2608,13 +2608,14 @@ function check_adwaita() {
 
     if dpkg -l | grep -q "adwaita-icon-theme"; then
 
-        echo "$(gettext 'O tema Adwaita já está instalado no sistema.')"
+        echo "$(gettext 'Adwaita theme is already installed on the system.')"
 
         # exit 0
 
+
         else
 
-        echo "$(gettext 'O tema Adwaita NÃO está instalado no sistema.')"
+        echo "$(gettext 'Adwaita theme is NOT installed on the system.')"
 
     fi
 
@@ -2627,7 +2628,7 @@ function check_adwaita() {
 
 function install_via_apt() {
 
-    echo "$(gettext 'Tentando instalar o tema Adwaita via APT...')"
+    echo "$(gettext 'Trying to install the Adwaita theme via APT...')"
 
 
     # Atualiza os repositórios
@@ -2639,13 +2640,13 @@ function install_via_apt() {
 
     if $package_manager install -y adwaita-icon-theme; then
 
-        echo "$(gettext 'O tema Adwaita foi instalado com sucesso via APT!')"
+        echo "$(gettext 'Adwaita theme has been successfully installed via APT!')"
 
         # exit 0
 
     else
 
-        echo "$(gettext 'Falha ao instalar o tema via APT. Tentando alternativas...')"
+        echo "$(gettext 'Failed to install theme via APT. Trying alternatives...')"
 
     fi
 
@@ -8526,7 +8527,8 @@ function print_banner() {
 
 clear
 
-    echo "                                                                                                                                   
+
+echo "                                                                                                                                   
     ▐            ▗            ▐     ▐       ▝▜  ▝▜      ▐    ▝   ▗   ▗  
 ▗ ▗ ▐▄▖ ▗ ▗ ▗▗▖ ▗▟▄ ▗ ▗      ▄▟  ▄▖ ▐▄▖ ▗ ▗  ▐   ▐   ▄▖ ▐▗▖ ▗▄  ▗▟▄  ▐  
 ▐ ▐ ▐▘▜ ▐ ▐ ▐▘▐  ▐  ▐ ▐     ▐▘▜ ▐▘▐ ▐▘▜ ▐ ▐  ▐   ▐  ▐ ▝ ▐▘▐  ▐   ▐   ▐  
@@ -8548,11 +8550,18 @@ $(gettext 'RAM consumption'): `free -h 2>/dev/null | grep Mem | awk '{print $3}'
 
 $(gettext 'Processes running on the system'): `ps -aux | wc -l`
 
- "
+
+$(gettext 'Licensed under the') GNU GPL.
+
+$(gettext 'Report problems for') <https://github.com/tuxslack/ubuntu-debullshit>.
+
+
+"
 
 $time
 
 }
+
 
 # ----------------------------------------------------------------------------------------
 
@@ -8773,7 +8782,11 @@ function main() {
 echo "
 ubuntu-debullshit
 
+
 $(gettext 'Version'): $version
+
+
+$(gettext 'Download Ubuntu'): https://ubuntu.com/download
 
 $(gettext 'kernel'): `uname -r`
 
@@ -8782,6 +8795,11 @@ $(gettext 'Processor architecture'): `uname -m`
 $(gettext 'RAM consumption'): `free -h 2>/dev/null | grep Mem | awk '{print $3}'`
 
 $(gettext 'Processes running on the system'): `ps -aux | wc -l`
+
+
+$(gettext 'Licensed under the') GNU GPL.
+
+$(gettext 'Report problems for') <https://github.com/tuxslack/ubuntu-debullshit>.
 
 
 # ----------------------------------------------------------------------------------------

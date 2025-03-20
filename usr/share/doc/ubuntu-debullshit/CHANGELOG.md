@@ -23,6 +23,7 @@
 - Problema com a tradução do idioma Inglês para o Português do Brasil.
 - UFW - O firewall está desativado. Por favor, verifique a configuração [Firewall_UFW]. Começava o processo como ativado só que não final ficava como desativado. O "ufw enable" estava antes do "ufw reset"
 - Corrigido bug na função [layout_buttons_window] que não deixava alterar as posições dos botões na janela do usuário comum no Ubuntu 10.04 LTS.
+- Alterada a função [install_icons] para criar opções de instalação do pacote "adwaita-icon-theme" via APT no Ubuntu ou via repositório Debian em caso de erro.
 
 
 ### Adicionado

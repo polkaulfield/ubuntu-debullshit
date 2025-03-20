@@ -260,6 +260,12 @@ msgstr "kernel"
 msgid  "Processor architecture"
 msgstr "Arquitetura do processador"
 
+msgid  "Licensed under the"
+msgstr "Licenciado sob a"
+
+msgid  "Report problems for"
+msgstr "Reporte problemas para"
+
 msgid  "The log file was generated at: %s"
 msgstr "O arquivo de log foi gerado em: %s"
 
@@ -821,9 +827,29 @@ msgstr "Remoção de pacotes inseguros no sistema finalizada com sucesso."
 
 # ----------------------------------------------------------------------------------------
 
+# Para o tema Adwaita
+
+msgid  "Adwaita theme is already installed on the system."
+msgstr "O tema Adwaita já está instalado no sistema."
+
+msgid  "Adwaita theme is NOT installed on the system."
+msgstr "O tema Adwaita NÃO está instalado no sistema."
+
+msgid  "Trying to install the Adwaita theme via APT..."
+msgstr "Tentando instalar o tema Adwaita via APT..."
+
+msgid  "Adwaita theme has been successfully installed via APT!"
+msgstr "O tema Adwaita foi instalado com sucesso via APT!"
+
+msgid  "Failed to install theme via APT. Trying alternatives..."
+msgstr "Falha ao instalar o tema via APT. Tentando alternativas..."
 
 
 # ----------------------------------------------------------------------------------------
+
+
+# ----------------------------------------------------------------------------------------
+
 
 msgid  "Setting up Gnome desktop"
 msgstr "Configurando o ambiente de trabalho Gnome"
