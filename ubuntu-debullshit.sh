@@ -96,8 +96,8 @@ install_adwgtk3() {
 
 install_icons() {
     apt install adwaita-icon-theme morewaita -y
-    gsettings set org.gnome.desktop.interface icon-theme MoreWaita
-    gsettings set org.gnome.desktop.interface accent-color blue
+    gsettings_wrapper set org.gnome.desktop.interface icon-theme MoreWaita
+    gsettings_wrapper set org.gnome.desktop.interface accent-color blue
 }
 
 restore_firefox() {
