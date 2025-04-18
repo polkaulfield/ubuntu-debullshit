@@ -12,7 +12,7 @@ remove_appcrash_popup() {
 remove_snaps() {
     while [ "$(snap list | wc -l)" -gt 0 ]; do
         for snap in $(snap list | tail -n +2 | cut -d ' ' -f 1); do
-            snap remove --purge "$snap"
+            snap remove --purge "$snap" 2> /dev/null
         done
     done
 
@@ -32,7 +32,7 @@ remove_snaps() {
 }
 
 disable_terminal_ads() {
-    sed -i 's/ENABLED=1/ENABLED=0/g' /etc/default/motd-news
+    sed -i 's/ENABLED=1/ENABLED=0/g' /etc/default/motd-news 2>/dev/null
     pro config set apt_news=false
 }
 
@@ -73,15 +73,9 @@ restore_background() {
     gsettings_wrapper set org.gnome.desktop.background picture-uri-dark 'file:///usr/share/backgrounds/gnome/blobs-l.svg'
 }
 
-setup_julianfairfax_repo() {
-    command -v curl || apt install curl -y
-    curl -s https://julianfairfax.gitlab.io/package-repo/pub.gpg | gpg --dearmor | sudo dd of=/usr/share/keyrings/julians-package-repo.gpg
-    echo 'deb [ signed-by=/usr/share/keyrings/julians-package-repo.gpg ] https://julianfairfax.gitlab.io/package-repo/debs packages main' | sudo tee /etc/apt/sources.list.d/julians-package-repo.list
-    apt update
-}
-
 install_adwgtk3() {    
-    apt install adw-gtk3 -y
+    wget -O /tmp/adw-gtk3.tar.xz https://github.com/lassekongo83/adw-gtk3/releases/download/v5.10/adw-gtk3v5.10.tar.xz
+    tar -xf /tmp/adw-gtk3.tar.xz -C /usr/share/themes/
     if command -v flatpak; then
         flatpak install -y runtime/org.gtk.Gtk3theme.adw-gtk3-dark
         flatpak install -y runtime/org.gtk.Gtk3theme.adw-gtk3
@@ -95,14 +89,15 @@ install_adwgtk3() {
 }
 
 install_icons() {
-    apt install adwaita-icon-theme morewaita -y
+    apt install adwaita-icon-theme -y
+    git clone https://github.com/somepaulo/MoreWaita.git /tmp/MoreWaita
+    /tmp/MoreWaita/install.sh
+    apt install adwaita-icon-theme -y
     gsettings_wrapper set org.gnome.desktop.interface icon-theme MoreWaita
     gsettings_wrapper set org.gnome.desktop.interface accent-color blue
 }
 
 restore_firefox() {
-    apt purge firefox -y
-    snap remove --purge firefox
     wget -q https://packages.mozilla.org/apt/repo-signing-key.gpg -O- > /etc/apt/keyrings/packages.mozilla.org.asc
     echo "deb [signed-by=/etc/apt/keyrings/packages.mozilla.org.asc] https://packages.mozilla.org/apt mozilla main" > /etc/apt/sources.list.d/mozilla.list 
     echo '
@@ -170,7 +165,7 @@ show_menu() {
     echo '6 - Install flathub and gnome-software'
     echo '7 - Install firefox from the Mozilla repo'
     echo '8 - Install vanilla GNOME session'
-    echo '9 - Install adw-gtk3 and morewaita (from @julianfairfax repo)'
+    echo '9 - Install adw-gtk3 and morewaita'
     echo 'q - Exit'
     echo
 }
@@ -259,11 +254,9 @@ auto() {
     restore_firefox
     msg 'Installing vanilla Gnome session'
     setup_vanilla_gnome
-    msg 'Adding julianfairfax repo'
-    setup_julianfairfax_repo
-    msg 'Install adw-gtk3 and set dark theme'
+    msg 'Install adw-gtk3'
     install_adwgtk3
-    msg 'Installing GNOME 46 and morewaita icons'
+    msg 'Installing MoreWaita icons'
     install_icons
     msg 'Cleaning up'
     cleanup
