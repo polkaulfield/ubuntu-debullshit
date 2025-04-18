@@ -258,6 +258,7 @@ auto() {
     restore_firefox
     msg 'Installing vanilla Gnome session'
     setup_vanilla_gnome
+    enable_appindicator
     msg 'Install adw-gtk3'
     install_adwgtk3
     msg 'Installing MoreWaita icons'
