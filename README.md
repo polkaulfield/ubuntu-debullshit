@@ -12,10 +12,9 @@
 * Installs gnome-tweaks
 * Installs [Extension Manager](https://github.com/mjakeman/extension-manager)
 * Disables the Ubuntu theming
-* Adds the [julianfairfax](https://gitlab.com/julianfairfax/package-repo) repository for adw-gtk and morewaita.
 * Enables the libadwaita theme in gtk3 apps using [adw-gtk3](https://github.com/lassekongo83/adw-gtk3).
-* Installs the morewaita icon theme for extended icon support.
-* Enables gnome integration with QT apps
+* Installs the [MoreWaita](https://github.com/somepaulo/MoreWaita) icon theme for extended icon support.
+* Enables Gnome integration with QT apps
 * Installs Firefox from the Mozilla Repository
 * Disables the data reporting component
 * Disables the annoying crash popup
