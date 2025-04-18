@@ -95,9 +95,9 @@ install_adwgtk3() {
 }
 
 install_icons() {
-    wget https://deb.debian.org/debian/pool/main/a/adwaita-icon-theme/adwaita-icon-theme_46.0-1_all.deb -O /tmp/adwaita-icon-theme.deb
-    apt install /tmp/adwaita-icon-theme.deb -y
-    apt install morewaita -y    
+    apt install adwaita-icon-theme morewaita -y
+    gsettings set org.gnome.desktop.interface icon-theme MoreWaita
+    gsettings set org.gnome.desktop.interface accent-color blue
 }
 
 restore_firefox() {
@@ -170,7 +170,7 @@ show_menu() {
     echo '6 - Install flathub and gnome-software'
     echo '7 - Install firefox from the Mozilla repo'
     echo '8 - Install vanilla GNOME session'
-    echo '9 - Install adw-gtk3, morewaita and latest adwaita icons'
+    echo '9 - Install adw-gtk3 and morewaita (from @julianfairfax repo)'
     echo 'q - Exit'
     echo
 }
