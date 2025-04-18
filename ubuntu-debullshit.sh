@@ -143,6 +143,10 @@ check_root_user() {
     fi
 }
 
+enable_appindicator() {
+    gsettings_wrapper set org.gnome.shell enabled-extensions "['ubuntu-appindicators@ubuntu.com']"
+}
+
 print_banner() {
     echo '                                                                                                                                   
     ▐            ▗            ▐     ▐       ▝▜  ▝▜      ▐    ▝   ▗   ▗  
@@ -212,13 +216,13 @@ main() {
         8)
             update_system
             setup_vanilla_gnome
+	    enable_appindicator
             msg 'Done!'
             ask_reboot
             ;;
 
         9)
             update_system
-            setup_julianfairfax_repo
             install_adwgtk3
             install_icons
             msg 'Done!'
