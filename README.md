@@ -29,7 +29,7 @@ TL;DR, you will end up with a clean GNOME desktop with flatpaks, similar to a fr
 
 #### Installation
 
-I recommend a minimal install of Ubuntu 23.04 to run this. 
+I recommend a minimal install of Ubuntu to run this. 
 
 You can download the script from the repo or use this oneliner command, there are no dependencies required.
 
