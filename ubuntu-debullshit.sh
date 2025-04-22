@@ -62,7 +62,7 @@ set_fonts() {
 }
 
 setup_vanilla_gnome() {
-    apt install qgnomeplatform-qt5 -y
+    apt install qgnomeplatform-qt5 qgnomeplatform-qt6 -y
     apt install gnome-session fonts-cantarell adwaita-icon-theme gnome-backgrounds gnome-tweaks vanilla-gnome-default-settings gnome-shell-extension-manager -y && apt remove ubuntu-session yaru-theme-gnome-shell yaru-theme-gtk yaru-theme-icon yaru-theme-sound -y
     set_fonts
     restore_background
