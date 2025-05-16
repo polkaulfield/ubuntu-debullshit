@@ -3,6 +3,9 @@
 remove_ubuntu_default_apps() {
     ubuntu-report send no
     apt remove ubuntu-report apport apport-gtk gnome-clocks gnome-calculator gnome-characters gnome-font-viewer gnome-keyring gnome-keyring-pkcs11 gnome-logs gnome-text-editor gnome-power-manager eog baobab evince -y
+    # Removing random desktop shortcuts.
+    rm /usr/share/applications/info.desktop
+    rm /usr/share/applications/display-im7.q16.desktop
 }
 
 remove_snaps() {
@@ -54,7 +57,7 @@ setup_vanilla_gnome() {
 
 setup_gnome_apps() {
      # Please create a PR with missing gnome apps
-     flatpak install flathub org.gnome.TextEditor org.gnome.clocks org.gnome.Logs org.gnome.Calculator org.gnome.Calendar org.gnome.Contacts org.gnome.Epiphany org.gnome.Loupe org.gnome.Music org.gnome.Papers org.gnome.Photos org.gnome.Showtime org.gnome.Snapshot org.gnome.Weather org.gnome.Maps org.gnome.seahorse.Application org.gnome.baobab org.gnome.SimpleScan org.gnome.Contacts -y
+     flatpak install flathub org.gnome.TextEditor org.gnome.clocks org.gnome.Logs org.gnome.Calculator org.gnome.Calendar org.gnome.Contacts org.gnome.Epiphany org.gnome.Loupe org.gnome.Music org.gnome.Papers org.gnome.Photos org.gnome.Showtime org.gnome.Snapshot org.gnome.Weather org.gnome.Maps org.gnome.seahorse.Application org.gnome.baobab org.gnome.SimpleScan org.gnome.Contacts org.gnome.Decibels -y
  }
 
 setup_julianfairfax_repo() {
@@ -71,6 +74,9 @@ install_adwgtk3() {
 }
 
 setup_desktop() { 
+    gsettings_wrapper set org.gnome.shell.extensions.ding show-home false
+    gsettings_wrapper set org.gnome.shell.extensions.ding show-trash false
+    
     gsettings_wrapper set org.gnome.desktop.interface gtk-theme adw-gtk3-dark
     gsettings_wrapper set org.gnome.desktop.interface color-scheme prefer-dark
     gsettings_wrapper set org.gnome.desktop.interface icon-theme Papirus
@@ -163,7 +169,7 @@ print_banner() {
  ██    ██ ██  ██ ██ ██    ██ ██  ██  ██ ██ ██         ██        ██   ██ ██      ██    ██    ██   ██ ██    ██ 
   ██████  ██   ████  ██████  ██      ██ ██ ██         ██        ██████  ██ ███████    ██    ██   ██  ██████  
                                                                                                             
- By: @SirBisgaard | Forked from: @polkaulfield | v 0.1.2         
+ By: @SirBisgaard | Forked from: @polkaulfield | v 0.1.3         
     '                                                                                                       
 }
 
