@@ -35,7 +35,7 @@ To use the script, open a terminal and run the following command:
 
 `sudo bash -c "$(wget -qO- https://raw.githubusercontent.com/SirBisgaard/Gnomify-Distro/main/gnomify-distro.sh)"`
 
-Check that the version number is equal to: **0.1.2**
+Check that the version number is equal to: **0.1.3**
 
 After the the script has finished, you will need to reboot your computer.
 
@@ -67,6 +67,7 @@ Here is a list of tested Distros and versions.
 
 | Distro           | Tested |
 | ---------------- | :----: | 
+| **Ubuntu 25.04** | ✅     |
 | **Ubuntu 24.04** | ✅     |
 | **Ubuntu 23.10** | ⛔     |
 | **Ubuntu 23.04** | ⛔     |
